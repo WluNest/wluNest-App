@@ -77,7 +77,7 @@ CREATE TABLE amentites (
 #Connects the property and amentites table to save the amentites to a specific property
 CREATE TABLE property_amenities
 (
-    property_amenities_id SERIAL UNIQUE,
+    property_amenities_id INT UNIQUE,
     property_id INT NOT NULL,
     amentites_id    INT NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property (property_id) ON DELETE CASCADE,
@@ -87,7 +87,7 @@ CREATE TABLE property_amenities
 #Connects the user and listing table to save users favorite listings
 CREATE TABLE user_saves
 (
-    user_saves_id SERIAL UNIQUE,
+    user_saves_id INT UNIQUE,
     user_id INT NOT NULL,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -98,7 +98,7 @@ CREATE TABLE user_saves
 #Connects the user and review table to show users reviews
 CREATE TABLE user_reviews
 (
-    user_reviews_id SERIAL UNIQUE,
+    user_reviews_id INT UNIQUE,
     user_id INT NOT NULL,
     review_id   INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -109,7 +109,7 @@ CREATE TABLE user_reviews
 #Connects the user and listing tables to show users listings
 CREATE TABLE user_listings
 (
-    user_listings_id SERIAL UNIQUE,
+    user_listings_id INT UNIQUE,
     user_id INT NOT NULL,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
