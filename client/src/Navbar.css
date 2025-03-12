@@ -1,0 +1,25 @@
+.navbar {
+    position: fixed; /* Sticks to the top */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    background: #5b088f; /* Purple background */
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns logo to the left */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Keeps it above all content */
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .logo:hover {
+    color: #f9a825; /* Yellow hover effect */
+  }
+  
