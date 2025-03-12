@@ -41,7 +41,6 @@ CREATE TABLE property {
     city VARCHAR(255) NOT NULL,
     state VARCHAR(255) NOT NULL,
     zip_code VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
 }
 
@@ -49,7 +48,6 @@ CREATE TABLE floor_plan {
     floor_plan_id SERIAL PRIMARY KEY UNIQUE auto_increment,
     property_id INT NOT NULL,
     floor_plan_name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (property_id) REFERENCES property(property_id)
 }
 
@@ -57,14 +55,53 @@ CREATE TABLE amentites {
     amentites_id SERIAL PRIMARY KEY UNIQUE auto_increment,
     property_id INT NOT NULL,
     amentites_name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (property_id) REFERENCES property(property_id)
 }
-CREATE TABLE propertyamenities {
-    propertyamenities_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+
+
+#juntions tables 
+
+
+CREATE TABLE property_amenities {
+    property_amenities_id SERIAL PRIMARY KEY UNIQUE auto_increment,
     property_id INT NOT NULL,
     amentites_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (property_id) REFERENCES property(property_id),
     FOREIGN KEY (amentites_id) REFERENCES amentites(amentites_id)
 }
+
+CREATE TABLE property_floorplan {
+    property_floorplan_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    property_id INT NOT NULL,
+    floor_plan_id INT NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES property(property_id),
+    FOREIGN KEY (floor_plan_id) REFERENCES floor_plan(floor_plan_id)
+}
+
+CREATE TABLE user_saves {
+    user_saves_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_id INT NOT NULL,
+    listing_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+}
+
+CREATE TABLE user_reviews {
+    user_reviews_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_id INT NOT NULL,
+    review_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (review_id) REFERENCES review(review_id)
+}
+
+CREATE TABLE user_listings {
+    user_listings_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_id INT NOT NULL,
+    listing_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+}
+
