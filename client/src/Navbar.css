@@ -1,25 +1,36 @@
 .navbar {
-    position: fixed; /* Sticks to the top */
+    width: 100%;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Full width */
-    background: #5b088f; /* Purple background */
-    padding: 1rem 2rem;
+    background-color: #5b088f;
+    color: white;
+    padding: 15px 5%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start; /* Aligns logo to the left */
+    font-size: 1.2rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Keeps it above all content */
   }
   
   .logo {
-    font-size: 1.5rem;
     font-weight: bold;
-    color: white;
-    text-decoration: none;
+    cursor: pointer;
+    margin-right: 2px;
   }
   
-  .logo:hover {
-    color: #f9a825; /* Yellow hover effect */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    margin: auto;
+  }
+  
+  .nav-item {
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-item:hover {
+    color: #f9a825;
   }
   
