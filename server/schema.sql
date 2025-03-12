@@ -21,6 +21,10 @@ CREATE TABLE listings{
     description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by_admin BOOLEAN DEFAULT FALSE,
+    listing_image VARCHAR(255) NOT NULL,
+    bed INT NOT NULL,
+    bath INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 };
 
@@ -30,7 +34,7 @@ CREATE TABLE review{
     user_id INT NOT NULL,
     listing_id INT NOT NULL,
     rating INT NOT NULL,
-    review TEXT NOT NULL,
+    description TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
@@ -40,10 +44,12 @@ CREATE TABLE review{
 CREATE TABLE property {
     property_id SERIAL PRIMARY KEY UNIQUE auto_increment,
     listing_id INT NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    unit_number VARCHAR(255) NULL,
+    street_name VARCHAR(255) NOT NULL,
+    street_number VARCHAR(255) NOT NULL,
     city VARCHAR(255) NOT NULL,
-    state VARCHAR(255) NOT NULL,
-    zip_code VARCHAR(255) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    postal_code VARCHAR(255) NOT NULL,
     FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
 }
 
@@ -52,6 +58,7 @@ CREATE TABLE floor_plan {
     floor_plan_id SERIAL PRIMARY KEY UNIQUE auto_increment,
     property_id INT NOT NULL,
     floor_plan_name VARCHAR(255) NOT NULL,
+    floor_plan_image VARCHAR(255) NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property(property_id)
 }
 
@@ -68,26 +75,16 @@ CREATE TABLE amentites {
 
 #Connects the property and amentites table to save the amentites to a specific property
 CREATE TABLE property_amenities {
-    property_amenities_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    property_amenities_id SERIAL PRIMARY KEY UNIQUE,
     property_id INT NOT NULL,
     amentites_id INT NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property(property_id),
     FOREIGN KEY (amentites_id) REFERENCES amentites(amentites_id)
 }
 
-#Connects the property and floor_plan table to save the floor plans to a specific property
-CREATE TABLE property_floorplan {
-    property_floorplan_id SERIAL PRIMARY KEY UNIQUE auto_increment,
-    property_id INT NOT NULL,
-    floor_plan_id INT NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES property(property_id),
-    FOREIGN KEY (floor_plan_id) REFERENCES floor_plan(floor_plan_id)
-}
-
 #Connects the user and listing table to save users favorite listings
-
 CREATE TABLE user_saves {
-    user_saves_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_saves_id SERIAL PRIMARY KEY UNIQUE,
     user_id INT NOT NULL,
     listing_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +94,7 @@ CREATE TABLE user_saves {
 
 #Connects the user and review table to show users reviews
 CREATE TABLE user_reviews {
-    user_reviews_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_reviews_id SERIAL PRIMARY KEY UNIQUE,
     user_id INT NOT NULL,
     review_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
