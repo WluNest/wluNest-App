@@ -29,14 +29,15 @@ CREATE TABLE listings(
 
 #Creates the review table
 CREATE TABLE review(
-    review_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    user_id INT NOT NULL UNIQUE,
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     listing_id INT NOT NULL,
     rating INT NOT NULL,
     description TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (listing_id) REFERENCES listings(listing_id)
+    FOREIGN KEY (listing_id) REFERENCES listings(listing_id),
+    UNIQUE(user_id, listing_id) #Ensures one user can only review a listing once.
 );
 
 #Creates the property table
@@ -63,11 +64,11 @@ CREATE TABLE floor_plan
     FOREIGN KEY (property_id) REFERENCES property (property_id)
 );
 
-#Creates the amentites
-CREATE TABLE amentites (
-    amentites_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
+#Creates the amenities
+CREATE TABLE amenities (
+    amenities_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     property_id INT NOT NULL,
-    amentites_name VARCHAR(255) NOT NULL,
+    amenities_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property(property_id)
     );
 
@@ -78,19 +79,18 @@ CREATE TABLE amentites (
 #(uses a composite primary key to prevent duplicates)
 CREATE TABLE property_amenities
 (
-    property_amenities_id INT UNIQUE,
     property_id INT NOT NULL,
-    amentites_id    INT NOT NULL,
-    PRIMARY KEY (property_id, amentites_id),
+    amenities_id    INT NOT NULL,
+    PRIMARY KEY (property_id, amenities_id),
     FOREIGN KEY (property_id) REFERENCES property (property_id) ON DELETE CASCADE,
-    FOREIGN KEY (amentites_id) REFERENCES amentites (amentites_id) ON DELETE CASCADE
+    FOREIGN KEY (amenities_id) REFERENCES amenities (amenities_id) ON DELETE CASCADE
 );
 
 #Connects the user and listing table to save users favorite listings
 # (Users can save multiple listings)
 CREATE TABLE user_saves
 (
-    user_saves_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    user_saves_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
