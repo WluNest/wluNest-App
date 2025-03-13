@@ -21,7 +21,7 @@ CREATE TABLE listings(
     price DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by_admin BOOLEAN DEFAULT FALSE,
-    listing_image VARCHAR(255) NOT NULL,
+    listing_image BLOB NOT NULL,
     bed INT NOT NULL,
     bath INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -60,7 +60,7 @@ CREATE TABLE floor_plan
     floor_plan_id    INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     property_id      INT          NOT NULL,
     floor_plan_name  VARCHAR(255) NOT NULL,
-    floor_plan_image VARCHAR(255) NOT NULL,
+    floor_plan_image BLOB NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property (property_id)
 );
 
@@ -72,10 +72,9 @@ CREATE TABLE amenities (
     FOREIGN KEY (property_id) REFERENCES property(property_id)
     );
 
-
 #juntions tables 
 
-#Connects the property and amentites table to save the amentites to a specific property
+#Connects the property and amenities table to save the amenities to a specific property
 #(uses a composite primary key to prevent duplicates)
 CREATE TABLE property_amenities
 (
