@@ -30,7 +30,7 @@ CREATE TABLE listings(
 #Creates the review table
 CREATE TABLE review(
     review_id SERIAL PRIMARY KEY UNIQUE auto_increment,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     listing_id INT NOT NULL,
     rating INT NOT NULL,
     description TEXT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE property_amenities
 CREATE TABLE user_saves
 (
     user_saves_id INT UNIQUE,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
@@ -99,7 +99,7 @@ CREATE TABLE user_saves
 CREATE TABLE user_reviews
 (
     user_reviews_id INT UNIQUE,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     review_id   INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
@@ -110,7 +110,7 @@ CREATE TABLE user_reviews
 CREATE TABLE user_listings
 (
     user_listings_id INT UNIQUE,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
