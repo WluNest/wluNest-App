@@ -3,7 +3,7 @@ USE wluNest;
 
 # Creates the users table
 CREATE TABLE users(
-    user_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    user_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     username VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE users(
 );
 #Creates the listings table
 CREATE TABLE listings(
-    listing_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    listing_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE listings(
 
 #Creates the review table
 CREATE TABLE review(
-    review_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    review_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     user_id INT NOT NULL UNIQUE,
     listing_id INT NOT NULL,
     rating INT NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE review(
 #Creates the property table
 CREATE TABLE property
 (
-    property_id   SERIAL PRIMARY KEY UNIQUE auto_increment,
+    property_id   INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     listing_id    INT          NOT NULL,
     unit_number   VARCHAR(255) NULL,
     street_name   VARCHAR(255) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE property
 #Creates the floor_plan table
 CREATE TABLE floor_plan
 (
-    floor_plan_id    SERIAL PRIMARY KEY UNIQUE auto_increment,
+    floor_plan_id    INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     property_id      INT          NOT NULL,
     floor_plan_name  VARCHAR(255) NOT NULL,
     floor_plan_image VARCHAR(255) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE floor_plan
 
 #Creates the amentites
 CREATE TABLE amentites (
-    amentites_id SERIAL PRIMARY KEY UNIQUE auto_increment,
+    amentites_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     property_id INT NOT NULL,
     amentites_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (property_id) REFERENCES property(property_id)
@@ -75,42 +75,47 @@ CREATE TABLE amentites (
 #juntions tables 
 
 #Connects the property and amentites table to save the amentites to a specific property
+#(uses a composite primary key to prevent duplicates)
 CREATE TABLE property_amenities
 (
     property_amenities_id INT UNIQUE,
     property_id INT NOT NULL,
     amentites_id    INT NOT NULL,
+    PRIMARY KEY (property_id, amentites_id),
     FOREIGN KEY (property_id) REFERENCES property (property_id) ON DELETE CASCADE,
     FOREIGN KEY (amentites_id) REFERENCES amentites (amentites_id) ON DELETE CASCADE
 );
 
 #Connects the user and listing table to save users favorite listings
+# (Users can save multiple listings)
 CREATE TABLE user_saves
 (
-    user_saves_id INT UNIQUE,
-    user_id INT NOT NULL UNIQUE,
+    user_saves_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    user_id INT NOT NULL,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES listings (listing_id) ON DELETE CASCADE
 );
 
 #Connects the user and review table to show users reviews
+#(Users can create multiple reviews)
 CREATE TABLE user_reviews
 (
-    user_reviews_id INT UNIQUE,
-    user_id INT NOT NULL UNIQUE,
+    user_reviews_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    user_id INT NOT NULL,
     review_id   INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (review_id) REFERENCES review (review_id) ON DELETE CASCADE
 );
 
-#Connects the user and listing tables to show users listings
+#Connects the user and listing tables to show users listings(Users can create multiple listings)
 CREATE TABLE user_listings
 (
-    user_listings_id INT UNIQUE,
-    user_id INT NOT NULL UNIQUE,
+    user_listings_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     listing_id  INT NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
