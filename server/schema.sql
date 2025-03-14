@@ -121,3 +121,9 @@ CREATE TABLE users_listings
     FOREIGN KEY (listing_id) REFERENCES listings (listing_id) ON DELETE CASCADE
 );
 
+# Indexes for performance
+CREATE INDEX idx_username ON users(username);
+CREATE INDEX idx_email ON users(email);
+CREATE INDEX idx_listing_user_id ON listings(users_id);
+CREATE INDEX idx_review_user_id ON review(users_id);
+CREATE INDEX idx_review_listing_id ON review(listing_id);
