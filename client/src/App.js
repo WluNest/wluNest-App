@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useState } from "react";
-import Navbar from "./Navbar";
-import Listings from "./Listings";
+import Navbar from "./components/Navbar";
+import Listings from "./components/Listings";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
