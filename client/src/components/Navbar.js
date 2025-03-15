@@ -7,6 +7,7 @@ function Navbar({ setCurrentPage }) {
       <span className="logo" onClick={() => setCurrentPage("home")}>wluNest</span>
       <div className="nav-links">
         <span className="nav-item" onClick={() => setCurrentPage("listings")}>Browse Listings</span>
+        <span className="nav-item" onClick={() => setCurrentPage("account")}>Account</span>
       </div>
     </nav>
   );
