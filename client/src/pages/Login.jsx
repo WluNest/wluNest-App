@@ -21,7 +21,7 @@ const Login = () => {
 
   return (
     <div className="login-signup-container">
-        <h1>{isSignUp ? "Sign Up" : "Login"} to wluNest</h1>
+        <h1>{isSignUp ? "Sign up" : "Login"} to wluNest</h1>
 
         <form onSubmit={handleSubmit} className='login-signup-form'>
             {isSignUp && (
@@ -41,14 +41,14 @@ const Login = () => {
                 <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
 
-            <button type="submit">{isSignUp ? "Sign Up" : "Login"}</button>
+            <button type="submit">{isSignUp ? "Sign up" : "Login"}</button>
         </form>
 
         <div className="toggle=form">
             <p>
                 {isSignUp ? "Already have an Account?" : "Don't have an account?"}
                 <button onClick={() => setIsSignUp(!isSignUp)}>
-                    {isSignUp ? "Login" : "Sign UP"}
+                    {isSignUp ? "Login" : "Sign up"}
                 </button>
             </p>
         </div>
