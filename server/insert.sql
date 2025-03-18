@@ -7,16 +7,16 @@ VALUES
 ('user2', 'Arya', 'Singh', 'aryaspassword', 'arya@gmail.com', 'user'),
 ('user3', 'Aaron', 'Kim', 'aaronspass', 'aaron@wlunest.com', 'admin');
 
-INSERT INTO listings (users_id, unit_number, title, description, price, bed, bath)
+INSERT INTO listings (users_id, unit_number, title, description, price, listing_image, bed, bath)
 VALUES
-(1, '302', '1 Bedroom Apartment', 'Cozy apartment close to university.', 1200.00, 1, 1),
-(1, '102', '2 Bedroom House', 'Spacious house with backyard.', 2200.00, 2, 2),
-(2, '102', 'Studio Near Campus', 'Spacious Studio', 800.00, 0, 1);
+(1, '302', '1 Bedroom Apartment', 'Cozy apartment close to university.', 1200.00, 'listing1.jpg',1, 1),
+(1, '102', '2 Bedroom House', 'Spacious house with backyard.', 2200.00,'listing1.jpg', 2, 2),
+(2, '102', 'Studio Near Campus', 'Spacious Studio', 800.00, 'listing1.jpg', 0, 1);
 
-INSERT INTO property (listing_id, street_name, street_number, city)
+INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code)
 VALUES
-(1, 'King Street North', '167', 'Waterloo'),
-(2, 'Albert Street', '202', 'Waterloo');
+(1, 'King Street North', '167', 'Waterloo','ON','N2J 0B6'),
+(2, 'Albert Street', '202', 'Waterloo','ON','N2L 0B6');
 
 INSERT INTO floor_plan (property_id, floor_plan_name, floor_plan_image)
 VALUES
