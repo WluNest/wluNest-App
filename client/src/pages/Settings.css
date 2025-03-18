@@ -1,0 +1,126 @@
+.settings-page {
+    position: absolute;
+    top: 60px; /* or your navbar height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+  
+  .settings-container {
+    width: 80%;
+    max-width: 1000px;
+    background: white;
+    display: flex;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Tabs on the left */
+  .settings-tabs {
+    width: 220px;
+    background: #f8f8f8;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tab-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+  }
+  
+  .tab-item:hover {
+    background: #eee;
+  }
+  
+  .tab-item.active {
+    background: #5b088f;
+    color: white;
+  }
+  
+  /* Right panel for form content */
+  .settings-content {
+    flex: 1;
+    padding: 20px 30px;
+  }
+  
+  .settings-content h2 {
+    margin-bottom: 20px;
+    color: #5b088f;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  /* Form rows */
+  .form-row {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-row label {
+    width: 150px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .form-row input,
+  .form-row textarea {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  /* For checkboxes specifically */
+  .checkbox-row {
+    align-items: center;
+  }
+  
+  .checkbox-row label {
+    margin-left: 5px;
+    width: auto;
+  }
+  
+  /* Danger zone buttons */
+  .danger-zone {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+  }
+  
+  .deactivate-btn,
+  .delete-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: left;
+  }
+  
+  .deactivate-btn {
+    background: #ffe5b4;
+    color: #aa4d00;
+  }
+  
+  .delete-btn {
+    background: #ffd5d5;
+    color: #b30000;
+  }
+  

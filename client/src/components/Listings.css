@@ -1,29 +1,128 @@
-.listings-container {
-    padding: 80px 5%;
-    text-align: center;
-    margin-top: 60px; /* Prevent overlap with navbar */
-  }
-  
-  h2 {
-    font-size: 2rem;
-    color: #5b088f;
-    margin-bottom: 1.5rem;
-  }
-  
-  .listings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .listing-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #5b088f;
-  }
-  
+/* 
+   NAV BAR NOTE:
+   Your navbar is presumably in another component with:
+     position: fixed;
+     top: 0;
+     left: 0;
+     right: 0;
+     height: 60px;  (or whatever your navbar height is)
+     z-index: 999;
+*/
+
+/* The entire page, offset by the navbar height. Adjust 60px if your navbar is bigger. */
+.listings-page {
+  position: absolute;
+  top: 60px;  /* Same as navbar height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: transparent;
+  overflow: hidden; /* No extra scroll here */
+}
+
+/* LEFT PANEL: 33% width, 100% height */
+.left-panel {
+  width: 33%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Filter bar at the top of left panel */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filter-bar select,
+.filter-bar .sort-button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.sort-button {
+  background: #5b088f;
+  color: white;
+}
+
+/* Scrollable area for listings */
+.listings-scroll {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* RIGHT PANEL: 67% width, 100% height */
+.right-panel {
+  width: 67%;
+  height: 100%;
+  background: transparent;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* MAP placeholder takes entire right panel */
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #d3d3d3;
+  border-radius: 10px;
+}
+
+/* Listing cards */
+.listing-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.listing-card:hover {
+  transform: scale(1.02);
+}
+
+.listing-card img {
+  width: 70px;
+  height: 60px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.listing-info {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.listing-info h3 {
+  font-size: 1rem;
+  margin: 0 0 4px;
+  color: #333;
+}
+
+.listing-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Favorite Star: hollow by default, gold when active */
+.favorite-star {
+  font-size: 1.4rem;
+  color: gray;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.favorite-star.active {
+  color: gold;
+}

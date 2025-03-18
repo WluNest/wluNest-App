@@ -1,36 +1,72 @@
 .navbar {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #5b088f;
-    color: white;
-    padding: 15px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.2rem;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .logo {
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 2px;
-  }
-  
-  .nav-links {
-    display: flex;
-    gap: 20px;
-    margin: auto;
-  }
-  
-  .nav-item {
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .nav-item:hover {
-    color: #f9a825;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Adjust if you want a taller or shorter navbar */
+  background-color: #5b088f;
+  color: white;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999; /* Ensures navbar stays on top */
+}
+
+/* Left, center, right sections */
+.nav-left,
+.nav-center,
+.nav-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* The brand (logo) on the left */
+.nav-left {
+  margin-left: 2rem;
+  cursor: pointer;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #f9a825;
+}
+
+/* Center items are spaced out */
+.nav-center {
+  flex: 1;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-item {
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.nav-item:hover {
+  color: #f9a825;
+}
+
+/* Right side: logout link */
+.nav-right {
+  margin-right: 2rem;
+}
+
+.logout-item {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* Ensures text doesn't wrap and stays horizontally aligned */
+.nav-item,
+.logout-item {
+  white-space: nowrap;
+}

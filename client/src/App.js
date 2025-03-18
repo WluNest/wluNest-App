@@ -7,6 +7,7 @@ import IndivListingView from "./pages/IndivListingView";
 import Landing from "./pages/Landing";
 import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
+import Settings from "./pages/Settings";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -36,8 +37,9 @@ function App() {
         <Landing />
       ) : currentPage === "ListingCreate" ? (
         <ListingCreate />
+      ) : currentPage === "settings" ? (
+        <Settings />
       ) : null}
-      )}
     </div>
   );
 }
