@@ -16,6 +16,7 @@ CREATE TABLE users(
 CREATE TABLE listings(
     listing_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     users_id INT NOT NULL,
+    unit_number VARCHAR(255) NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL CHECK (price >= 0),
@@ -45,7 +46,6 @@ CREATE TABLE property
 (
     property_id   INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
     listing_id    INT          NOT NULL,
-    unit_number   VARCHAR(255) NULL,
     street_name   VARCHAR(255) NOT NULL,
     street_number VARCHAR(255) NOT NULL,
     city          VARCHAR(255) NOT NULL,
