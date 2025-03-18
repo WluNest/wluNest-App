@@ -1,4 +1,4 @@
-CREATE DATABASE wluNest;
+CREATE DATABASE IF NOT EXISTS wluNest;
 USE wluNest;
 
 # Creates the users table
