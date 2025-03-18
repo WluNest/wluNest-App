@@ -8,6 +8,7 @@ import Landing from "./pages/Landing";
 import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
+import Buildings from "./pages/Buildings";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -39,6 +40,8 @@ function App() {
         <ListingCreate />
       ) : currentPage === "settings" ? (
         <Settings />
+      ) : currentPage === "buildings" ? (
+        <Buildings />
       ) : null}
     </div>
   );
