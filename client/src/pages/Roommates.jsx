@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 
 const Roommates = () => {
   const [roommates, setRoommates] = useState([
-
+    { id: 1, name: "Alice", interests: "Cooking, Traveling", location: "Waterloo" },
+    { id: 2, name: "Bob", interests: "Music, Sports", location: "Waterloo" },
+    { id: 3, name: "Charlie", interests: "Photography, Traveling", location: "Waterloo" },
   ]);
 
   return (
