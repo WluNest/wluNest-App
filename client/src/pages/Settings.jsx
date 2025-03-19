@@ -75,6 +75,15 @@ function Settings() {
               </div>
 
               <div className="form-row">
+                <label>Interests:</label>
+                <input
+                  type="text"
+                  value={interests}
+                  onChange={(e) => setInterests(e.target.value)}
+                />
+              </div>
+
+              <div className="form-row">
                 <label>University:</label>
                 <input
                   type="text"
