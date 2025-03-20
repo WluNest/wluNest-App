@@ -42,6 +42,7 @@ const Roommates = () => {
       <div>
         <label>Religion:</label>
         <select value={religion} onChange={(e) => setReligion(e.target.value)}>
+          <option value="">Any</option>
           <option value="Christian">Christian</option>
           <option value="Muslim">Muslim</option>
           <option value="Atheist">Atheist</option>
