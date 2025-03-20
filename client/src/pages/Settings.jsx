@@ -5,16 +5,14 @@ function Settings() {
   const [activeTab, setActiveTab] = useState("personal");
 
   // Sample data for demonstration
-  const [religion, setReligion] = useState("Christian");
-  const [gender, setGender] = useState("Male");
-  const [university, setUniversity] = useState("Wilfrid Laurier University");
-  const [year, setYear] = useState("3");
-  const [program, setProgram] = useState("Computer Science");
-  const [contact, setContact] = useState("Instagram");
-  const [handle, setHandle] = useState("@johnappleseed");
-  const [description, setDescription] = useState(
-    "Computer Science student looking for a roommate..."
-  );
+  const [religion, setReligion] = useState("");
+  const [gender, setGender] = useState("");
+  const [university, setUniversity] = useState("");
+  const [year, setYear] = useState("");
+  const [program, setProgram] = useState("");
+  const [contact, setContact] = useState("");
+  const [handle, setHandle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [email, setEmail] = useState("JohnAppleseed@gmail.com");
   const [password, setPassword] = useState("");
@@ -137,7 +135,7 @@ function Settings() {
               </div>
 
               <div className="form-row">
-                <label>Description:</label>
+                <label>About you:</label>
                 <textarea
                   rows="4"
                   value={description}
@@ -155,6 +153,7 @@ function Settings() {
                 <input
                   type="email"
                   value={email}
+                  placeholder="JohnAppleseed@gmail.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
