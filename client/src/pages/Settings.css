@@ -22,6 +22,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   border-radius: 8px;
   overflow: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 /* Tabs on the left */
@@ -39,16 +40,18 @@
   font-weight: 500;
   color: #333;
   border-bottom: 1px solid #eee;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
 .tab-item:hover {
-  background: #eee;
+  background: #ddd;
 }
 
 .tab-item.active {
-  background: #5b088f;
+  background: linear-gradient(to right, #5b088f, #a029b5);
   color: white;
+  font-weight: bold;
+  transition: background 0.4s ease-in-out;
 }
 
 /* Right panel for form content */
@@ -79,17 +82,29 @@
 }
 
 .form-row input,
-.form-row textarea {
+.form-row textarea
+.form-row select {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.95rem;
   color: #333;
+  background: #f9f9f9;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+  border-color: #5b088f;
+  box-shadow: 0 0 5px rgba(91, 8, 143, 0.3);
+  background: white;
 }
 
 /* For checkboxes specifically */
 .checkbox-row {
+  display: flex;
   align-items: center;
 }
 
@@ -109,12 +124,13 @@
 
 .deactivate-btn,
 .delete-btn {
-  padding: 10px;
+  padding: 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
-  text-align: left;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
 }
 
 .deactivate-btn {
@@ -125,4 +141,9 @@
 .delete-btn {
   background: #ffd5d5;
   color: #b30000;
+}
+
+.delete-btn:hover {
+  background: #ff9999;
+  color: #800000;
 }
