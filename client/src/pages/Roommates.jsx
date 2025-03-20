@@ -12,7 +12,6 @@ const Roommates = () => {
   const [university, setUniversity] = useState("");
   const [year, setYear] = useState("");
   const [program, setProgram] = useState("");  
-  const [interests, setInterests] = useState("");
 
   const filteredRoommates = roommatesData.filter((roommate) => {
     return (
@@ -21,8 +20,7 @@ const Roommates = () => {
       (location === "" || roommate.location === location) &&
       (university === "" || roommate.university === university) &&
       (year === "" || roommate.year === year) &&
-      (program === "" || roommate.program === program) &&
-      (interests === "" || roommate.interests.toLowerCase().includes(interests.toLowerCase()))
+      (program === "" || roommate.program === program)
     );
   });
 
@@ -94,16 +92,6 @@ const Roommates = () => {
       </select>
     </div>
 
-    <div>
-      <label>Interests:</label>
-      <input 
-        type="text"
-        value={interests}
-        onChange={(e) => setInterests(e.target.value)}
-        placeholder="Reading, Movies"
-      />
-    </div>
-
     <button className="clear-filters-btn" 
       onClick={() => {
       setGender("");
@@ -112,7 +100,6 @@ const Roommates = () => {
       setUniversity("");
       setYear("");
       setProgram("");
-      setInterests("");
       }}>
       Clear Filters
     </button>
@@ -127,7 +114,6 @@ const Roommates = () => {
           <p><strong>University:</strong> {roommate.university}</p>
           <p><strong>Year:</strong> {roommate.year}</p>
           <p><strong>Program:</strong> {roommate.program}</p>
-          <p><strong>Interests:</strong> {roommate.interests}</p>
           <p><strong>Location:</strong> {roommate.location}</p>
           <button>View Profile</button>
           <button>Connect</button>
