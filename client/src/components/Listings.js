@@ -18,7 +18,7 @@ const listingsData = [
     price: "$2,132.00 - $3,444.00",
     beds: "3 Beds",
     baths: "2 Baths",
-    img: "apartment.jpg",
+    img: "apartment.jpg", // Replace
   },
   {
     id: 3,
