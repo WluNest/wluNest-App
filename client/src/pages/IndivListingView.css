@@ -1,0 +1,388 @@
+.indiv-listing-view {
+  position: absolute;
+  top: 60px;
+  /* Adjust based on your navbar height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #5b088f, #f9a825);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.listing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  padding-bottom: 30px;
+}
+
+/* Back button */
+.back-button {
+  background: rgba(91, 8, 143, 0.8);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.back-button:hover {
+  background: #5b088f;
+}
+
+/* Image carousel */
+.image-carousel {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.listing-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 2;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-btn.prev {
+  left: 15px;
+}
+
+.carousel-btn.next {
+  right: 15px;
+}
+
+.image-counter {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+/* Listing header */
+.listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 30px;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.listing-title-section h1 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.listing-address {
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.listing-price-section {
+  text-align: right;
+}
+
+.listing-price {
+  font-size: 1.8rem;
+  color: #5b088f;
+  margin: 0 0 10px 0;
+}
+
+.favorite-btn {
+  background: white;
+  color: #5b088f;
+  border: 2px solid #5b088f;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.favorite-btn:hover {
+  background: #5b088f;
+  color: white;
+}
+
+//
+Add styling for the active favorite button .favorite-btn.favorite-active {
+  background: #5b088f;
+  color: white;
+}
+
+.favorite-btn.favorite-active:hover {
+  background: #4a0072;
+  border-color: #4a0072;
+}
+
+/* Listing details */
+.listing-details {
+  padding: 20px 30px;
+}
+
+.listing-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-icon {
+  font-size: 1.5rem;
+}
+
+.spec-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.listing-description,
+.listing-features,
+.listing-nearby,
+.listing-additional-info {
+  margin-bottom: 30px;
+}
+
+.listing-description h3,
+.listing-features h3,
+.listing-nearby h3,
+.listing-additional-info h3 {
+  color: #5b088f;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.listing-description p {
+  line-height: 1.6;
+  color: #444;
+}
+
+.features-list,
+.nearby-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+  padding-left: 20px;
+}
+
+.features-list li,
+.nearby-list li {
+  color: #444;
+  line-height: 1.6;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.info-value {
+  color: #333;
+}
+
+/* Contact section */
+.contact-section {
+  padding: 0 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-btn {
+  background: #f9a825;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-btn:hover {
+  background: #e69500;
+}
+
+.contact-form-container {
+  width: 100%;
+  max-width: 600px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form-container h3 {
+  color: #5b088f;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.contact-form {
+  display: grid;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.submit-btn {
+  background: #5b088f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #4a0072;
+}
+
+.cancel-btn {
+  background: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .listing-header {
+    flex-direction: column;
+  }
+
+  .listing-price-section {
+    text-align: left;
+    margin-top: 15px;
+  }
+
+  .image-carousel {
+    height: 300px;
+  }
+
+  .features-list,
+  .nearby-list {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .listing-container {
+    border-radius: 0;
+  }
+
+  .image-carousel {
+    height: 250px;
+  }
+
+  .listing-header {
+    padding: 15px;
+  }
+
+  .listing-details {
+    padding: 15px;
+  }
+
+  .contact-section {
+    padding: 0 15px;
+  }
+}
+
