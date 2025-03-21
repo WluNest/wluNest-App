@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import "./Listings.css";
+"use client"
+
+import { useState } from "react"
+import "./Listings.css"
 
 const listingsData = [
   {
@@ -34,43 +36,63 @@ const listingsData = [
     baths: "2 Baths",
     img: "apartment.jpg",
   },
-];
+]
 
-function Listings() {
-  const [favorites, setFavorites] = useState({});
+function Listings({ setCurrentPage }) {
+  const [favorites, setFavorites] = useState({})
 
   const toggleFavorite = (id) => {
     setFavorites((prev) => ({
       ...prev,
       [id]: !prev[id],
-    }));
-  };
+    }))
+  }
+
+  const handleListingClick = (id) => {
+    // Navigate to individual listing view
+    setCurrentPage("IndivListingView")
+  }
 
   return (
     <div className="listings-page">
       {/* LEFT PANEL (33%) */}
       <div className="left-panel">
         <div className="filter-bar">
-          <select><option>All Buildings</option></select>
-          <select><option>Rooms</option></select>
-          <select><option>Bathrooms</option></select>
-          <select><option>Price</option></select>
-          <select><option>Favorites</option></select>
+          <select>
+            <option>All Buildings</option>
+          </select>
+          <select>
+            <option>Rooms</option>
+          </select>
+          <select>
+            <option>Bathrooms</option>
+          </select>
+          <select>
+            <option>Price</option>
+          </select>
+          <select>
+            <option>Favorites</option>
+          </select>
           <button className="sort-button">Sort ⬇</button>
         </div>
 
         <div className="listings-scroll">
           {listingsData.map((listing) => (
-            <div key={listing.id} className="listing-card">
-              <img src={listing.img} alt="Apartment" />
+            <div key={listing.id} className="listing-card" onClick={() => handleListingClick(listing.id)}>
+              <img src={listing.img || "/placeholder.svg"} alt="Apartment" />
               <div className="listing-info">
                 <h3>{listing.name}</h3>
                 <p>{listing.price}</p>
-                <p>🛏 {listing.beds} | 🛁 {listing.baths}</p>
+                <p>
+                  🛏 {listing.beds} | 🛁 {listing.baths}
+                </p>
               </div>
               <span
                 className={`favorite-star ${favorites[listing.id] ? "active" : ""}`}
-                onClick={() => toggleFavorite(listing.id)}
+                onClick={(e) => {
+                  e.stopPropagation() // Prevent triggering the card click
+                  toggleFavorite(listing.id)
+                }}
               >
                 ★
               </span>
@@ -84,7 +106,8 @@ function Listings() {
         <div className="map-placeholder"></div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Listings;
+export default Listings
+
