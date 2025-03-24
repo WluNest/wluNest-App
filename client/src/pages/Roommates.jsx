@@ -16,7 +16,7 @@ const Roommates = () => {
   })
 
   const filteredRoommates = roommatesData.filter((roommate) => 
-    Object.entries(filters).every(([key, value]) => value = "" || roommate[key] === value)
+    Object.entries(filters).every(([key, value]) => value === "" || roommate[key] === value)
   );
 
   const updateFilter = (key, value) => {
@@ -30,13 +30,24 @@ const Roommates = () => {
     <div>
       <label>{label}:</label>
       <select value={value} onChange={onChange}>
-        <option value="">Any</option>
+        <option value="">Any {label}</option>
         {options.map((option) => (
           <option key={option} value={option}>{option}</option>
         ))}
       </select>
     </div>
   );
+
+  const clearFilters = () => {
+    setFilters({
+      gender: "",
+      religion: "",
+      location: "",
+      university: "",
+      year: "",
+      program: "",
+    });
+  };
 
   return (
     <div className="roommate-finder">
@@ -93,14 +104,7 @@ const Roommates = () => {
     </div>
 
     <button className="clear-filters-btn" 
-      onClick={() => setFilters({
-      gender: "",
-      religion: "",
-      location: "",
-      university: "",
-      year: "",
-      program: "",
-      })}>
+      onClick={clearFilters}>
       Clear Filters
     </button>
     
