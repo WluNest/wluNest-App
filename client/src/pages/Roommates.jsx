@@ -3,27 +3,40 @@ import "./Roommates.css";
 
 const Roommates = () => {
   const roommatesData = [
-    {/* Dummy Accounts*/},
-    {/*...*/},
+    {/*...*/}, 
   ];
 
-  const [gender, setGender] = useState("");
-  const [religion, setReligion] = useState("");
-  const [location, setLocation] = useState("");
-  const [university, setUniversity] = useState("");
-  const [year, setYear] = useState("");
-  const [program, setProgram] = useState("");  
+  const [filters, setFilters] = useState({
+    gender: "",
+    religion: "",
+    location: "",
+    university: "",
+    year: "",
+    program: "",
+  })
 
-  const filteredRoommates = roommatesData.filter((roommate) => {
-    return (
-      (gender === "" || roommate.gender === gender) &&
-      (religion === "" || roommate.religion === religion) &&
-      (location === "" || roommate.location === location) &&
-      (university === "" || roommate.university === university) &&
-      (year === "" || roommate.year === year) &&
-      (program === "" || roommate.program === program)
-    );
-  });
+  const filteredRoommates = roommatesData.filter((roommate) => 
+    Object.entries(filters).every(([key, value]) => value = "" || roommate[key] === value)
+  );
+
+  const updateFilter = (key, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [key]: value, 
+    }));
+  };
+
+  const FilterDropdown = ({ label, options, value, onChange }) => (
+    <div>
+      <label>{label}:</label>
+      <select value={value} onChange={onChange}>
+        <option value="">Any</option>
+        {options.map((option) => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
     <div className="roommate-finder">
@@ -31,78 +44,63 @@ const Roommates = () => {
 
     <div className="filter-section">
       <div>
-        <label>Gender:</label>
-        <select value={gender} onChange={(e) => setGender(e.target.value)}>
-          <option value="">Any</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="other">Other</option>
-        </select>
+        <FilterDropdown 
+          label="Gender" 
+          options={["Male", "Female", "Other"]}
+          value={filters.gender} 
+          onChange={(e) => updateFilter("gender", e.target.value)}/>
       </div>
 
       <div>
-        <label>Religion:</label>
-        <select value={religion} onChange={(e) => setReligion(e.target.value)}>
-          <option value="">Any</option>
-          <option value="Christian">Christian</option>
-          <option value="Muslim">Muslim</option>
-          <option value="Atheist">Atheist</option>
-          <option value="Jewish">Jewish</option>
-          <option value="Sikh">Sikh</option>
-          <option value="Buddhist">Buddhist</option>
-        </select>
+        <FilterDropdown 
+          label = "Religion" 
+          options={["Christian", "Muslim", "Jewish", "Sikh", "Buddhist"]} 
+          value={filters.religion} 
+          onChange={(e) => updateFilter("religion", e.target.value)}/>
       </div>
     </div>
 
     <div>
-      <label>Location:</label>
-      <select value={location} onChange={(e) => setLocation(e.target.value)}>
-        <option value="">Any</option>
-        <option value="Waterloo">Waterloo</option>
-        <option value="Kitchener">Kitchener</option>
-      </select>
+        <FilterDropdown 
+          label = "Location" 
+          options={["Waterloo", "Kitchener"]} 
+          value={filters.location} 
+          onChange={(e) => updateFilter("location", e.target.value)}/>
     </div>
 
     <div>
-      <label>University:</label>
-      <select value={university} onChange={(e) => setUniversity(e.target.value)}>
-        <option value="">Any</option>
-        <option value="University of Waterloo">University of Waterloo</option>
-        <option value="Wilfrid Laurier University">Wilfrid Laurier University</option>
-      </select>
+      <FilterDropdown 
+          label = "University" 
+          options={["University of Waterloo", "Wilfrid Laurier University"]} 
+          value={filters.university} 
+          onChange={(e) => updateFilter("university", e.target.value)}/>
     </div>
 
     <div>
-      <label>Year:</label>
-      <select value={year} onChange={(e) => setYear(e.target.value)}>
-        <option value="">Any</option>
-        <option value="1st">1st</option>
-        <option value="2nd">2nd</option>
-        <option value="3rd">3rd</option>
-        <option value="4th">4th</option>
-      </select>
+      <FilterDropdown 
+          label = "Year" 
+          options={["1st", "2nd", "3rd", "4th"]} 
+          value={filters.year} 
+          onChange={(e) => updateFilter("year", e.target.value)}/>
     </div>
 
     <div>
-      <label>Program:</label>
-      <select value={program} onChange={(e) => setProgram(e.target.value)}>
-        <option value="">Any</option>
-        <option value="Computer Science">Computer Science</option>
-        <option value="Business Administration">Business Administration</option>      
-        <option value="Biology">Biology</option>
-        <option value="Engineering">Engineering</option>
-      </select>
+      <FilterDropdown 
+          label = "Program" 
+          options={["Computer Science", "Business Administration", "Biology", "Engineering"]} 
+          value={filters.program} 
+          onChange={(e) => updateFilter("program", e.target.value)}/>
     </div>
 
     <button className="clear-filters-btn" 
-      onClick={() => {
-      setGender("");
-      setReligion("");
-      setLocation("");
-      setUniversity("");
-      setYear("");
-      setProgram("");
-      }}>
+      onClick={() => setFilters({
+      gender: "",
+      religion: "",
+      location: "",
+      university: "",
+      year: "",
+      program: "",
+      })}>
       Clear Filters
     </button>
     
