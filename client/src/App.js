@@ -56,7 +56,7 @@ export const MapView = () => {
   return (
     <MapContainer 
     center={[43.4723, -80.5449]} 
-    zoom={13}
+    zoom={15}
     style = {{height: "100vh", width: "100%"}}
     >
       <TileLayer

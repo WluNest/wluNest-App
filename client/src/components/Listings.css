@@ -19,6 +19,7 @@
   display: flex;
   background: transparent;
   overflow: hidden; /* No extra scroll here */
+  padding-bottom: 15px;
 }
 
 /* LEFT PANEL: 33% width, 100% height */
@@ -56,6 +57,7 @@
 .listings-scroll {
   flex-grow: 1;
   overflow-y: auto;
+  
 }
 
 /* RIGHT PANEL: 67% width, 100% height */
@@ -125,4 +127,10 @@
 
 .favorite-star.active {
   color: gold;
+}
+.right-panel .leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  
 }
