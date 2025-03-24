@@ -68,16 +68,7 @@ function Settings() {
               </div>
 
               <div className="form-row">
-                <label>Gender:</label>
-                <input
-                  type="text"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                />
-              </div>
-
-              <div className="form-row">
-                <label>Interests:</label>
+                <label> Gender:</label>
                 <select value={gender} onChange={(e) => setGender(e.target.value)}>
                   <option value="other">Other</option>
                   <option value="Male">Male</option>
