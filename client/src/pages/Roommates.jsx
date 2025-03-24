@@ -3,7 +3,9 @@ import "./Roommates.css";
 
 const Roommates = () => {
   const roommatesData = [
-    {/*...*/}, 
+    { name: "Alice Johnson", age: 21, university: "University of Waterloo", img: "https://via.placeholder.com/200" },
+    { name: "Mark Smith", age: 22, university: "Wilfrid Laurier University", img: "https://via.placeholder.com/200" },
+    { name: "Sophia Lee", age: 20, university: "University of Waterloo", img: "https://via.placeholder.com/200" }
   ];
 
   const [filters, setFilters] = useState({
