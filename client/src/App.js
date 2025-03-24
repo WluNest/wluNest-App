@@ -9,6 +9,9 @@ import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Buildings from "./pages/Buildings";
+import { MapContainer, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -48,3 +51,18 @@ function App() {
 }
 
 export default App;
+
+export const MapView = () => {
+  return (
+    <MapContainer 
+    center={[43.4723, -80.5449]} 
+    zoom={13}
+    style = {{height: "100vh", width: "100%"}}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      />
+    </MapContainer>
+  );
+}

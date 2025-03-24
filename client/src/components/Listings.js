@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Listings.css";
+import { MapView } from "../App";
+
 
 const listingsData = [
   {
@@ -81,7 +83,7 @@ function Listings() {
 
       {/* RIGHT PANEL (67%) */}
       <div className="right-panel">
-        <div className="map-placeholder"></div>
+        <MapView />
       </div>
     </div>
   );
