@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./Roommates.css";
 
 const Roommates = () => {
   const roommatesData = [
