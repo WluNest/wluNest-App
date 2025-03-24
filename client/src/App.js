@@ -9,7 +9,8 @@ import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Buildings from "./pages/Buildings";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, Marker} from "react-leaflet";
+import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 
@@ -53,6 +54,29 @@ function App() {
 export default App;
 
 export const MapView = () => {
+  
+  const markers = [
+    {
+      geocode: [43.4723, -80.5449],
+      popup: "1"
+    },
+    {
+      geocode: [43.4723, -80.5449],
+      popup: "2"
+    },
+    {
+      geocode: [43.4723, -80.5449],
+      popup: "3"
+    }
+  ];
+  const customIcon = new Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/128/684/684908.png",
+    iconSize: [28, 28],
+
+  });
+
+  
+
   return (
     <MapContainer 
     center={[43.4723, -80.5449]} 
@@ -62,7 +86,12 @@ export const MapView = () => {
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+
       />
+      {markers.map(marker => (
+        <Marker position={marker.geocode} icon={customIcon} >
+        </Marker>
+      ))}
     </MapContainer>
   );
 }
