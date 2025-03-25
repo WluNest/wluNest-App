@@ -85,6 +85,6 @@ function Listings() {
       </div>
     </div>
   );
-}
+};
 
 export default Listings;

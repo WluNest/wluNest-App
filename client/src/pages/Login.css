@@ -94,3 +94,32 @@
     text-decoration: underline;
   }
   
+  /* first & last name styling */
+  .name-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .first-last-name {
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+  }
+  .first-last-name label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .first-last-name input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
