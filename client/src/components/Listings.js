@@ -7,6 +7,7 @@ const listingsData = [
   {
     id: 1,
     name: "228 Albert St",
+    address: "228 Albert St, Waterloo, ON N2L 3T6",
     price: "$2,132.00 - $3,444.00",
     beds: "3 Beds",
     baths: "2 Baths",
@@ -14,7 +15,8 @@ const listingsData = [
   },
   {
     id: 2,
-    name: "228 Albert St",
+    name: "345 King St N",
+    address: "345 King St N, Waterloo, ON",
     price: "$2,132.00 - $3,444.00",
     beds: "3 Beds",
     baths: "2 Baths",
@@ -22,7 +24,8 @@ const listingsData = [
   },
   {
     id: 3,
-    name: "228 Albert St",
+    name: "81 University Ave",
+    address: "81 University Ave, Waterloo, ON",
     price: "$2,132.00 - $3,444.00",
     beds: "3 Beds",
     baths: "2 Baths",
@@ -30,7 +33,8 @@ const listingsData = [
   },
   {
     id: 4,
-    name: "228 Albert St",
+    name: "250 Lester st",
+    address: "250 Lester st, Waterloo, ON",
     price: "$2,132.00 - $3,444.00",
     beds: "3 Beds",
     baths: "2 Baths",
