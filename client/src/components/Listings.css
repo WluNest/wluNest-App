@@ -18,12 +18,14 @@
   bottom: 0;
   display: flex;
   background: transparent;
-  overflow: hidden; /* No extra scroll here */
+  overflow: auto; /* No extra scroll here */
   padding-bottom: 15px;
+
 }
 
 /* LEFT PANEL: 33% width, 100% height */
 .left-panel {
+  flex: 1;
   width: 33%;
   height: 100%;
   background: transparent;
@@ -62,11 +64,15 @@
 
 /* RIGHT PANEL: 67% width, 100% height */
 .right-panel {
+  flex: 2;
   width: 67%;
-  height: 100%;
-  background: transparent;
-  padding: 10px;
-  box-sizing: border-box;
+  margin-right: 15px;
+  margin-left: 5px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  height: 98%;
+  background: #d3d3d3;
+  border-radius: 15px;
 }
 
 /* MAP placeholder takes entire right panel */
@@ -75,6 +81,7 @@
   height: 100%;
   background: #d3d3d3;
   border-radius: 10px;
+  border-radius: 15px;
 }
 
 /* Listing cards */
