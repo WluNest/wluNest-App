@@ -57,16 +57,20 @@ export const MapView = () => {
   
   const markers = [
     {
-      geocode: [43.4723, -80.5449],
+      geocode: [43.474610511963334, -80.53183857043955], // 228 Albert St
       popup: "1"
     },
     {
-      geocode: [43.4723, -80.5449],
+      geocode: [43.48141252997309, -80.52619422703037], // 345 King St N
       popup: "2"
     },
     {
-      geocode: [43.4723, -80.5449],
+      geocode: [43.478498655583635, -80.51576776395635], // 81 University Ave
       popup: "3"
+    },
+    { 
+      geocode: [43.47435142261021, -80.53429058139156], // 250 Lester St
+      popup: "4"
     }
   ];
   const customIcon = new Icon({
@@ -79,7 +83,7 @@ export const MapView = () => {
 
   return (
     <MapContainer 
-    center={[43.4723, -80.5449]} 
+    center={[43.4738128656814, -80.53171014902999]} 
     zoom={15}
     style = {{height: "100%", width: "100%"}}
     >
