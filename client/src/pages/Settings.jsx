@@ -70,7 +70,7 @@ function Settings() {
               <div className="form-row">
                 <label> Gender:</label>
                 <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                  <option value="" disabled hidden>Select Religion</option>
+                  <option value="" disabled hidden>Select Gender</option>
                   <option value="other">Other</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
