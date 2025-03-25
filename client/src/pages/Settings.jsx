@@ -14,7 +14,7 @@ function Settings() {
   const [handle, setHandle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [email, setEmail] = useState("JohnAppleseed@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailNotifications, setEmailNotifications] = useState(true);
 
