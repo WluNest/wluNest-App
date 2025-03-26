@@ -29,6 +29,10 @@ VALUES
 (1, 'Laundry Room'),
 (2, 'Pool'),
 (2, 'Parking Garage');
+INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code, latitude, longitude)
+VALUES
+(1, 'King Street North', '167', 'Waterloo','ON','N2J 0B6', 43.475503, -80.528091),
+(2, 'Albert Street', '202', 'Waterloo','ON','N2L 0B6', 43.474610, -80.531839);
 
 INSERT INTO property_amenities (property_id, amenities_id)
 VALUES

@@ -5,15 +5,19 @@ const path = require("path");
 const fs = require("fs");
 const { createDirectoryFromListingID } = require("./imagehandler.js");
 
+
 const app = express();
 const port = 5001;
 
-// Database connection
+const authRoutes = require("./routes/auth");
+app.use("/api", authRoutes);
+
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "omar",
-  database: "wlunest",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    multipleStatements: true 
 });
 
 db.connect((err) => {
@@ -124,6 +128,13 @@ const storage = multer.diskStorage({
   
   
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.get("/", (req, res) => {
+    res.send("API is running...");
 });
+const listingsRoute = require("./routes/listings");
+app.use("/api/listings", listingsRoute);
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+

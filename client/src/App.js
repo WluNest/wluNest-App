@@ -9,6 +9,9 @@ import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Buildings from "./pages/Buildings";
+import Roommates from "./pages/Roommates";
+
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -42,9 +45,12 @@ function App() {
         <Settings />
       ) : currentPage === "buildings" ? (
         <Buildings />
+      ) : currentPage === "roommates" ? (
+        <Roommates />
       ) : null}
     </div>
   );
 }
 
 export default App;
+

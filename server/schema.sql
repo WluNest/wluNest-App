@@ -27,6 +27,9 @@ CREATE TABLE listings(
     bath INT NOT NULL,
     FOREIGN KEY (users_id) REFERENCES users(users_id) ON DELETE CASCADE
 );
+ALTER TABLE property
+ADD COLUMN latitude DECIMAL(10, 8),
+ADD COLUMN longitude DECIMAL(11, 8);
 
 #Creates the review table
 CREATE TABLE review(

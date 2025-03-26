@@ -19,8 +19,8 @@ function Navbar({ setCurrentPage, user }) {
         <span className="nav-item" onClick={() => setCurrentPage("listings")}>
           Listings
         </span>
-        <span className="nav-item" onClick={() => setCurrentPage("roommate")}>
-          Roommate
+        <span className="nav-item" onClick={() => setCurrentPage("roommates")}>
+          Roommates
         </span>
         <span className="nav-item" onClick={() => setCurrentPage("buildings")}>
           Buildings

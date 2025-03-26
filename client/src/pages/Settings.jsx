@@ -5,16 +5,14 @@ function Settings() {
   const [activeTab, setActiveTab] = useState("personal");
 
   // Sample data for demonstration
-  const [religion, setReligion] = useState("Christian");
-  const [gender, setGender] = useState("Male");
-  const [university, setUniversity] = useState("Wilfrid Laurier University");
-  const [year, setYear] = useState("3");
-  const [program, setProgram] = useState("Computer Science");
-  const [contact, setContact] = useState("Instagram");
-  const [handle, setHandle] = useState("@johnappleseed");
-  const [description, setDescription] = useState(
-    "Computer Science student looking for a roommate..."
-  );
+  const [religion, setReligion] = useState("");
+  const [gender, setGender] = useState("");
+  const [university, setUniversity] = useState("");
+  const [year, setYear] = useState("");
+  const [program, setProgram] = useState("");
+  const [contact, setContact] = useState("");
+  const [handle, setHandle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [email, setEmail] = useState("JohnAppleseed@gmail.com");
   const [password, setPassword] = useState("");
@@ -58,47 +56,56 @@ function Settings() {
               <h2>Personal Information</h2>
               <div className="form-row">
                 <label>Religion:</label>
-                <input
-                  type="text"
-                  value={religion}
-                  onChange={(e) => setReligion(e.target.value)}
-                />
+                <select value={religion} onChange={(e) => setReligion(e.target.value)}>
+                  <option value="" disabled hidden>Select Religion</option>
+                  <option value="Christian">Christian</option>
+                  <option value="Muslim">Muslim</option>
+                  <option value="Atheist">Atheist</option>
+                  <option value="Jewish">Jewish</option>
+                  <option value="Sikh">Sikh</option>
+                  <option value="Buddhist">Buddhist</option>
+                </select>
               </div>
 
               <div className="form-row">
-                <label>Gender:</label>
-                <input
-                  type="text"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                />
+                <label> Gender:</label>
+                <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                  <option value="" disabled hidden>Select Religion</option>
+                  <option value="other">Other</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
               </div>
 
               <div className="form-row">
                 <label>University:</label>
-                <input
-                  type="text"
-                  value={university}
-                  onChange={(e) => setUniversity(e.target.value)}
-                />
+                <select value={university} onChange={(e) => setUniversity(e.target.value)}>
+                  <option value="" disabled hidden>Select University</option>
+                  <option value="University of Waterloo">University of Waterloo</option>
+                  <option value="Wilfrid Laurier University">Wilfrid Laurier University</option>
+                </select>
               </div>
 
               <div className="form-row">
                 <label>Year:</label>
-                <input
-                  type="text"
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                />
+                <select value={year} onChange={(e) => setYear(e.target.value)}>
+                  <option value="" disabled hidden>Select Year</option>
+                  <option value="1st">1st</option>
+                  <option value="2nd">2nd</option>
+                  <option value="3rd">3rd</option>
+                  <option value="4th">4th</option>
+                </select>
               </div>
 
               <div className="form-row">
                 <label>Program:</label>
-                <input
-                  type="text"
-                  value={program}
-                  onChange={(e) => setProgram(e.target.value)}
-                />
+                <select value={program} onChange={(e) => setProgram(e.target.value)}>
+                  <option value="" disabled hidden>Select Program</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Business Administration">Business Administration</option>      
+                  <option value="Biology">Biology</option>
+                  <option value="Engineering">Engineering</option>
+                </select>
               </div>
 
               <div className="form-row">
@@ -120,7 +127,7 @@ function Settings() {
               </div>
 
               <div className="form-row">
-                <label>Description:</label>
+                <label>About you:</label>
                 <textarea
                   rows="4"
                   value={description}
@@ -138,6 +145,7 @@ function Settings() {
                 <input
                   type="email"
                   value={email}
+                  placeholder="JohnAppleseed@gmail.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
