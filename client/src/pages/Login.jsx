@@ -32,11 +32,14 @@ const Login = () => {
     try {
       if (isSignUp) {
         if (!username || !firstname || !lastname || !email || !password) {
+        if (!username || !firstname || !lastname || !email || !password) {
           return setError("Please fill in all fields.");
         }
   
         const res = await axios.post("http://localhost:5001/api/signup", {
           username,
+          firstname,
+          lastname,
           firstname,
           lastname,
           email,
@@ -56,6 +59,8 @@ const Login = () => {
         });
         alert(res.data.message);
         localStorage.setItem("token", res.data.token); // this shoudl save the token
+  
+
       }
     }
     catch (err) {
