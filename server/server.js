@@ -16,7 +16,7 @@ const db = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    multipleStatements: true // Allows multiple querys at once
+    multipleStatements: true 
 });
 
 db.connect(err => {
@@ -30,6 +30,8 @@ db.connect(err => {
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
+const listingsRoute = require("./routes/listings");
+app.use("/api/listings", listingsRoute);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

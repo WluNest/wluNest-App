@@ -11,6 +11,8 @@ import Settings from "./pages/Settings";
 import Buildings from "./pages/Buildings";
 import Roommates from "./pages/Roommates";
 
+
+
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
 
@@ -51,3 +53,4 @@ function App() {
 }
 
 export default App;
+
