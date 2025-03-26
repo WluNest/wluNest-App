@@ -13,11 +13,6 @@ VALUES
 (1, '102', '2 Bedroom House', 'Spacious house with backyard.', 2200.00,'listing1.jpg', 2, 2),
 (2, '102', 'Studio Near Campus', 'Spacious Studio', 800.00, 'listing1.jpg', 0, 1);
 
-INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code)
-VALUES
-(1, 'King Street North', '167', 'Waterloo','ON','N2J 0B6'),
-(2, 'Albert Street', '202', 'Waterloo','ON','N2L 0B6');
-
 INSERT INTO floor_plan (property_id, floor_plan_name, floor_plan_image)
 VALUES
 (1, 'Standard One Bedroom', 'floor_plan1.jpg'),
@@ -29,6 +24,7 @@ VALUES
 (1, 'Laundry Room'),
 (2, 'Pool'),
 (2, 'Parking Garage');
+
 INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code, latitude, longitude)
 VALUES
 (1, 'Columbia Street West', '1', 'Waterloo','ON','N2L 0C8', 43.48164, -80.52640),
