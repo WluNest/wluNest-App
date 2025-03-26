@@ -18,7 +18,7 @@
   bottom: 0;
   display: flex;
   background: transparent;
-  overflow: auto; /* No extra scroll here */
+  overflow: hidden; /* No extra scroll here */
   padding-bottom: 15px;
 
 }
