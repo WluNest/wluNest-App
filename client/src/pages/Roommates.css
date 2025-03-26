@@ -1,0 +1,116 @@
+/* ROOMMATES PAGE STYLES */
+.roommates-page {
+    position: absolute;
+    top: 60px; /* Adjust based on navbar height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #5b088f, #f38f21);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+  
+  /* MAIN CONTAINER */
+  .roommates-container {
+    width: 90%;
+    max-width: 900px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* HEADER */
+  .roommates-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #5b088f;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  /* ROOMMATE LIST */
+  .roommate-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  /* INDIVIDUAL ROOMMATE CARD */
+  .roommate-card {
+    width: 280px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .roommate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* ROOMMATE PROFILE IMAGE */
+  .roommate-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #5b088f;
+    margin-bottom: 10px;
+  }
+  
+  /* ROOMMATE NAME */
+  .roommate-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* ROOMMATE DETAILS */
+  .roommate-details {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+  }
+  
+  /* MESSAGE BUTTON */
+  .message-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #5b088f;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .message-btn:hover {
+    background: #a029b5;
+  }
+  
+  /* RESPONSIVENESS */
+  @media (max-width: 768px) {
+    .roommates-container {
+      width: 95%;
+    }
+  
+    .roommate-card {
+      width: 100%;
+    }
+  }
+  
