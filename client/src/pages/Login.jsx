@@ -27,6 +27,7 @@ const Login = () => {
       } else {
         setError("Please enter email and password.");
     setError("");
+    }
 
     try {
       if (isSignUp) {
@@ -55,8 +56,6 @@ const Login = () => {
         });
         alert(res.data.message);
         localStorage.setItem("token", res.data.token); // this shoudl save the token
-  
-
       }
     }
     catch (err) {
@@ -86,24 +85,25 @@ const Login = () => {
           {isSignUp ? (
             <>
               <div className="name-container">
-              <div className="form-group first-last-name">
-                <label htmlFor="firstname">First</label>
-                <input
-                  type="text"
-                  id="firstname"
-                  value={firstname}
-                  onChange={(e) => setFirstname(e.target.value)}
+                <div className="form-group first-last-name">
+                  <label htmlFor="firstname">First</label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    value={firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
                   />
-              </div>
-              <div className="form-group first-last-name">              
-              <label htmlFor="lastname">Last</label>
-              <input
-                type="text"
-                id="lastname"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required
-                />
+                </div>
+                <div className="form-group first-last-name">              
+                  <label htmlFor="lastname">Last</label>
+                  <input
+                    type="text"
+                    id="lastname"
+                    value={lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
@@ -136,19 +136,8 @@ const Login = () => {
                 required
               />
             </div>
-          )};
+          )}
           
-          <div className="form-group">
-          <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-            </div>
-
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
