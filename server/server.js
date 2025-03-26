@@ -2,10 +2,13 @@ const express = require("express");
 const multer = require("multer");
 const mysql = require("mysql2");
 const path = require("path");
+const cors = require("cors");
 const fs = require("fs");
 const { getCoordinates } = require("./coordinateLookup");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);
