@@ -26,20 +26,16 @@ const Login = () => {
         alert("Login successful");
       } else {
         setError("Please enter email and password.");
-    setError("");
-    }
+      }
 
     try {
       if (isSignUp) {
-        if (!username || !firstname || !lastname || !email || !password) {
         if (!username || !firstname || !lastname || !email || !password) {
           return setError("Please fill in all fields.");
         }
   
         const res = await axios.post("http://localhost:5001/api/signup", {
           username,
-          firstname,
-          lastname,
           firstname,
           lastname,
           email,
@@ -168,7 +164,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+    );
   }
 };
 
