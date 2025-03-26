@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const multer = require("multer");
 
 // Input a listing ID as an integer (number), a listing directory will be created that provides a folder in /images/listings/{number}
 // used for new listing creation
@@ -98,6 +99,72 @@ function getImageFromFloorplanID(number) {
     }
 }
 
+// Function to handle image uploads and move files to the listing folder
+function handleImageUpload(req, listingId) {
+  return new Promise((resolve, reject) => {
+    // Check if files are received
+    if (!req.files || req.files.length === 0) {
+      return reject(new Error("No files uploaded"));
+    }
+
+    // Log the files received
+    console.log("Files received:", req.files);
+
+    const listingDir = `images/listings/${listingId}`;
+
+    // Ensure the listing directory exists
+    if (!fs.existsSync(listingDir)) {
+      fs.mkdirSync(listingDir, { recursive: true });
+    }
+
+    // Move images to the listing folder with new unique filenames
+    req.files.forEach((file, index) => {
+      const newFileName = `${index + 1}${path.extname(file.originalname)}`; // Ensure filename is a number starting from 1
+      const newPath = path.join(listingDir, newFileName); // Construct the new file path
+
+      console.log(`Renaming file: ${file.path} -> ${newPath}`); // Log the renaming action
+
+      // Ensure the file exists before renaming
+      if (fs.existsSync(file.path)) {
+        fs.renameSync(file.path, newPath); // Rename and move the file
+      } else {
+        console.error(`File not found: ${file.path}`);
+      }
+    });
+
+    // Return the directory where the images are saved
+    resolve(listingDir);
+  });
+}
+
+// Multer storage config (temp storage before moving to listing-specific folder)
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Log to see if the files are reaching this step
+    console.log("File destination:", file.originalname);
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    // Ensure unique filenames by using the original file's timestamp or generating a random number
+    const timestamp = Date.now();
+    const uniqueName = `${timestamp}-${Math.random().toString(36).substr(2, 9)}${path.extname(file.originalname)}`;
+    console.log("Generated filename:", uniqueName);
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpg images are allowed!"), false);
+    }
+  },
+  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
+});
+
 // // Example usage:
 // for (i = 0; i < 5; i++) {
 //     createDirectoryFromListingID(i);
@@ -106,3 +173,5 @@ function getImageFromFloorplanID(number) {
 // createDirectoryFromListingID(2);
 // console.log(getImagesFromListingID(1));
 // console.log(getImageFromFloorplanID(1));
+
+module.exports = { handleImageUpload, upload};
