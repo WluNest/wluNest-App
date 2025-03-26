@@ -27,6 +27,8 @@ function App() {
             <button className="browse-btn" onClick={() => setCurrentPage("listings")}>Browse</button>
             <span className="or-text">or</span>
             <button className="login-btn" onClick={() => setCurrentPage("login")}>Login/Signup</button>
+            <span className="or-text">(temp Button)</span>
+            <button className="login-btn" onClick={() => setCurrentPage("ListingCreate")}>CreateListing</button>
           </div>
         </div>
       ) : currentPage === "listings" ? (
