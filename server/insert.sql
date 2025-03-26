@@ -31,8 +31,21 @@ VALUES
 (2, 'Parking Garage');
 INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code, latitude, longitude)
 VALUES
-(1, 'King Street North', '167', 'Waterloo','ON','N2J 0B6', 43.475503, -80.528091),
-(2, 'Albert Street', '202', 'Waterloo','ON','N2L 0B6', 43.474610, -80.531839);
+(1, 'Columbia Street West', '1', 'Waterloo','ON','N2L 0C8', 43.48164, -80.52640),
+(2, 'King Street North', '155', 'Waterloo','ON','N2J 0EB', 43.47150, -80.52431),
+(3, 'King Street North', '158', 'Waterloo', 'ON', 'N2J 0E5', 43.47183, -80.52375),
+(4, 'Regina Street North', '328', 'Waterloo', 'ON', 'N2J 3A5', 43.48001, -80.52419),
+(5, 'Phillip Street', '252', 'Waterloo', 'ON', 'N2L 0E1', 43.47374, -80.53566),
+(6, 'Phillip Street', '254', 'Waterloo', 'ON', 'N2L 0E1', 43.47391, -80.53647),
+(7, 'Phillip Street,' , '256','Waterloo', 'ON', 'N2L 6B6', 43.47374, -80.53703),
+(8, 'Larch Street', '275', 'Waterloo', 'ON','N2L 0J5', 43.47637, -80.53103),
+(9, 'King Street North', '333', 'Waterloo', 'ON', 'N2J 2Z1', 43.47985, -80.52608),
+(10, 'King Street North', '308', 'Waterloo', 'ON', 'N2J 0G4', 43.47884, -80.52518),
+(11, 'Lester Street', '203', 'Waterloo', 'ON', 'N2L 0B5', 43.47239, -80.53362),
+(12, 'Hemlock Street', '251', 'Waterloo', 'ON', 'N2L 0H2', 43.47514, -80.53162),
+(13, 'Columbia Street West', '145', 'Waterloo', 'ON', 'N2L 0K7', 43.47730, -80.53874),
+(14, 'Lester Street', '181', 'Waterloo', 'ON', 'N2L 0C2', 43.47148, -80.53251),
+(15, 'Phillip Street', '250', 'Waterloo', 'ON', 'N2L 3E9', 43.47332, -80.53660);
 
 INSERT INTO property_amenities (property_id, amenities_id)
 VALUES
