@@ -93,7 +93,7 @@ app.post("/upload", upload.array("images", 10), async (req, res) => {
 
         const [result] = await db.promise().query(sql_insert_to_listing, [1, title, description, price, "", bed, bath]);
         const listingId = result.insertId;
-        const listingDir = path.join('images', 'listings', listingId.toString());
+        const listingDir = path.join(__dirname, 'images', 'listings', listingId.toString());
 
         if (!fs.existsSync(listingDir)) {
         fs.mkdirSync(listingDir, { recursive: true });
