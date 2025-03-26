@@ -68,7 +68,8 @@ const Login = () => {
         setError("Cannot reach server. Please make sure the backend is running.");
       } else {
         setError("An unexpected error occurred.");
-      }     
+        }     
+      }
     }
   };
 
