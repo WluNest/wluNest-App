@@ -8,19 +8,12 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-<<<<<<< HEAD
-  const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-=======
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
->>>>>>> 2e76b3a301cb4599552d225c8d5de2d7cd2d590c
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     if (isSignUp) {
       if (username && firstname && lastname && email && password) {
         alert("Sign-up successful");
@@ -33,19 +26,18 @@ const Login = () => {
         alert("Login successful");
       } else {
         setError("Please enter email and password.");
-=======
     setError("");
 
     try {
       if (isSignUp) {
-        if (!username || !first_name || !last_name || !email || !password) {
+        if (!username || !firstname || !lastname || !email || !password) {
           return setError("Please fill in all fields.");
         }
   
         const res = await axios.post("http://localhost:5001/api/signup", {
           username,
-          first_name,
-          last_name,
+          firstname,
+          lastname,
           email,
           password,
         });
@@ -65,7 +57,6 @@ const Login = () => {
         localStorage.setItem("token", res.data.token); // this shoudl save the token
   
 
->>>>>>> 2e76b3a301cb4599552d225c8d5de2d7cd2d590c
       }
     }
     catch (err) {
@@ -91,44 +82,35 @@ const Login = () => {
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="login-signup-form">
-<<<<<<< HEAD
-          {isSignUp && (
-          <div className="name-container">
-            <div className="form-group first-last-name">
-              <label htmlFor="firstname">First</label>
-              <input
-                type="text"
-                id="firstname"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
-=======
+        <form onSubmit={handleSubmit} className="login-signup-form">    
           {isSignUp ? (
             <>
+              <div className="name-container">
+              <div className="form-group first-last-name">
+                <label htmlFor="firstname">First</label>
+                <input
+                  type="text"
+                  id="firstname"
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  />
+              </div>
+              <div className="form-group first-last-name">              
+              <label htmlFor="lastname">Last</label>
+              <input
+                type="text"
+                id="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+                />
+              </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="first_name">First Name</label>
-                <input
-                  id="first_name"
-                  value={first_name}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="last_name">Last Name</label>
-                <input
-                  id="last_name"
-                  value={last_name}
-                  onChange={(e) => setLastName(e.target.value)}
                   required
                 />
               </div>
@@ -151,22 +133,10 @@ const Login = () => {
                 id="identifier"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
->>>>>>> 2e76b3a301cb4599552d225c8d5de2d7cd2d590c
                 required
               />
             </div>
-            <div className="form-group first-last-name">              
-              <label htmlFor="lastname">Last</label>
-              <input
-                type="text"
-                id="lastname"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
-                required
-              />
-              </div>
-          </div>
-          )}
+          )};
           
           <div className="form-group">
           <label htmlFor="username">Username</label>
@@ -207,4 +177,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
