@@ -25,14 +25,22 @@
 
 /* LEFT PANEL: 33% width, 100% height */
 .left-panel {
-  flex: 1;
-  width: 33%;
-  height: 100%;
+  flex: 1.2;
+  min-width: 300px;
+  max-width: 580px;
   background: transparent;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-sizing: border-box;
+  z-index: 2;
+}
+
+.right-panel {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 1;
 }
 
 /* Filter bar at the top of left panel */
@@ -62,17 +70,6 @@
   
 }
 
-/* RIGHT PANEL: 67% width, 100% height */
-.right-panel {
-  width: 67%;
-  margin-right: 15px;
-  margin-left: 10px;
-  margin-bottom: 2px;
-  margin-top: 20px;
-  height: 98%;
-  background: #d3d3d3;
-  border-radius: 25px;
-}
 
 /* Listing cards */
 .listing-card {
