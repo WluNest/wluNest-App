@@ -14,6 +14,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     if (isSignUp) {
       if (username && firstname && lastname && email && password) {
         alert("Sign-up successful");
