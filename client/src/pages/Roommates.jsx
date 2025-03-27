@@ -67,7 +67,7 @@ const Roommates = () => {
       <div>
         <FilterDropdown 
           label = "Religion" 
-          options={["Christian", "Muslim", "Jewish", "Sikh", "Buddhist"]} 
+          options={["Christian", "Muslim", "Athiest","Jewish", "Sikh", "Buddhist"]} 
           value={filters.religion} 
           onChange={(e) => updateFilter("religion", e.target.value)}/>
       </div>

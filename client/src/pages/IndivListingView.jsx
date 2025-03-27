@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const IndivListingView = () => {
   return (
@@ -6,4 +6,4 @@ const IndivListingView = () => {
   )
 }
 
-export default IndivListingView
+export default IndivListingView;
