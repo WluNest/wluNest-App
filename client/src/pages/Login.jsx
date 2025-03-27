@@ -43,6 +43,7 @@ const Login = () => {
         });
         alert(res.data.message);
         localStorage.setItem("token", res.data.token); // this shoudl save the token
+        localStorage.setItem("user", JSON.stringify(res.data.user));
   
 
       }

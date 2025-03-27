@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const authRoutes = require("./routes/auth");
+const { router: authRoutes, authenticateToken } = require("./routes/auth");
 app.use("/api", authRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -67,7 +67,9 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
 });
 
-app.post("/upload", upload.array("images", 10), async (req, res) => {
+app.post("/upload", authenticateToken, upload.array("images", 10), async (req, res) => {
+
+
     try {
         if (!req.files || req.files.length === 0) {
             console.log("No files uploaded");
@@ -91,21 +93,13 @@ app.post("/upload", upload.array("images", 10), async (req, res) => {
 
         const sql_insert_to_listing = `INSERT INTO listings (users_id, title, description, price, listing_image, bed, bath) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-        const [result] = await db.promise().query(sql_insert_to_listing, [1, title, description, price, "", bed, bath]);
-        const listingId = result.insertId;
+const userId = req.user.id; 
+const [result] = await db.promise().query(sql_insert_to_listing, [userId, title, description, price, "", bed, bath]);        const listingId = result.insertId;
         const listingDir = path.join('images', 'listings', listingId.toString());
 
         if (!fs.existsSync(listingDir)) {
         fs.mkdirSync(listingDir, { recursive: true });
         }
-
-        req.files.forEach((file, index) => {
-        const ext = path.extname(file.originalname).toLowerCase();
-        const newFileName = `${index + 1}${ext}`; // Ensures correct extension
-        const newPath = path.join(listingDir, newFileName);
-
-        fs.renameSync(file.path, newPath);
-        });
 
         // Update the database with the correct relative path
         const relativeImagePath = `images/listings/${listingId}`;
