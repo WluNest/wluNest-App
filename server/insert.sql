@@ -18,13 +18,6 @@ VALUES
 (1, 'Standard One Bedroom', 'floor_plan1.jpg'),
 (2, 'Deluxe Suite', 'floorplan2.jpg');
 
-INSERT INTO amenities (property_id, amenities_name)
-VALUES
-(1, 'Gym'),
-(1, 'Laundry Room'),
-(2, 'Pool'),
-(2, 'Parking Garage');
-
 INSERT INTO property (listing_id, street_name, street_number, city, province, postal_code, latitude, longitude)
 VALUES
 (1, 'Columbia Street West', '1', 'Waterloo','ON','N2L 0C8', 43.48164, -80.52640),

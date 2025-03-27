@@ -68,26 +68,7 @@ CREATE TABLE floor_plan
     FOREIGN KEY (property_id) REFERENCES property (property_id) ON DELETE CASCADE
 );
 
-#Creates the amenities
-CREATE TABLE amenities (
-    amenities_id INT AUTO_INCREMENT PRIMARY KEY UNIQUE,
-    property_id INT NOT NULL,
-    amenities_name VARCHAR(255) NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES property(property_id) ON DELETE CASCADE
-    );
-
 #juntions tables 
-
-#Connects the property and amenities table to save the amenities to a specific property
-#(uses a composite primary key to prevent duplicates)
-CREATE TABLE property_amenities
-(
-    property_id INT NOT NULL,
-    amenities_id    INT NOT NULL,
-    PRIMARY KEY (property_id, amenities_id),
-    FOREIGN KEY (property_id) REFERENCES property (property_id) ON DELETE CASCADE,
-    FOREIGN KEY (amenities_id) REFERENCES amenities (amenities_id) ON DELETE CASCADE
-);
 
 #Connects the user and listing table to save users favorite listings
 # (Users can save multiple listings)
