@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Listings.css";
 import MapView from "./MapView";
+import { Link } from "react-router-dom";
 
 function Listings() {
   const [favorites, setFavorites] = useState({});
@@ -59,6 +60,16 @@ function Listings() {
               alt={listing.title}
               onError={(e) => handleImageError(e, listing)}
             />
+
+    {/* linking to listing details page */}
+    <Link to={`/listing-details/${listing.listing_id}`} className="listing-card">
+          <img 
+          src={getFirstImageUrl(listing)}
+          alt={listing.title}
+          onError={(e) => handleImageError(e, listing)}
+          />
+    </Link>
+
       <div className="listing-info">
         <h3>{listing.title}</h3>
         <p>${listing.price}</p>

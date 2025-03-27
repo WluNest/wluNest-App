@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Buildings.css";
-import { Link } from "react-router-dom";
 
 const buildingData = [
   {
@@ -115,12 +114,6 @@ function Buildings() {
         <h3 className="building-name">{selectedBuilding.name}</h3>
         <p className="building-price">{selectedBuilding.price}</p>
         <p className="building-desc">{selectedBuilding.description}</p>
-
-        <span className="nav-item">
-          <Link to={`/listing-details/${selectedBuilding.id}`}>
-            <button>See more</button>
-          </Link>
-        </span>
       </div>
     </div>
   );
