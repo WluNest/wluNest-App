@@ -1,5 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Listings from "./components/Listings";
 import Account from "./pages/Account";
@@ -10,8 +11,7 @@ import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Buildings from "./pages/Buildings";
 import Roommates from "./pages/Roommates";
-
-
+import ListingDetails from "./pages/ListingDetails";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -49,6 +49,8 @@ function App() {
         <Buildings />
       ) : currentPage === "roommates" ? (
         <Roommates />
+      ) : currentPage === "listing-details" ? (
+        <ListingDetails />
       ) : null}
     </div>
   );
