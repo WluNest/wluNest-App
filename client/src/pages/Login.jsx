@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import axios from "axios";
 
-const Login = () => {
+const Login = ({ setCurrentPage }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [username, setUsername] = useState("");
@@ -32,6 +32,7 @@ const Login = () => {
   
         alert(res.data.message);
         setIsSignUp(false);
+        setCurrentPage("listings");
       } else {
         if (!identifier || !password) {
           return setError("Please enter your username/email and password.");
@@ -44,6 +45,7 @@ const Login = () => {
         alert(res.data.message);
         localStorage.setItem("token", res.data.token); // this shoudl save the token
         localStorage.setItem("user", JSON.stringify(res.data.user));
+        setCurrentPage("listings");
   
 
       }

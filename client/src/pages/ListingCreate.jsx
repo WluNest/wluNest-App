@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 
-const ListingCreate = () => {
-  const navigate = useNavigate();
+const ListingCreate = ({ setCurrentPage }) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -25,16 +23,22 @@ const ListingCreate = () => {
   });
 
   const hasRedirected = useRef(false);
+
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (!user && !hasRedirected.current) {
-      hasRedirected.current = true;
-      alert("Please login to create a listing.");
-      navigate("/login");
+    const token = localStorage.getItem("token");
+
+      if (!user || !token) {
+      if (!hasRedirected.current) {
+        hasRedirected.current = true;
+        alert("Login required");
+        setCurrentPage("login");
+      }
     } else {
       setIsAuthorized(true);
     }
-  }, [navigate]);
+  }, [setCurrentPage]);
+  
 
   if (!isAuthorized) return null;
 
@@ -66,7 +70,7 @@ const ListingCreate = () => {
     const token = localStorage.getItem("token");
     if (!user || !token) {
       alert("Login required");
-      navigate("/login");
+      setCurrentPage("login"); 
       return;
     }
 
@@ -81,6 +85,7 @@ const ListingCreate = () => {
     uploadData.append("users_id", user.users_id);
 
     try {
+      setIsUploading(true);
       await axios.post("http://localhost:5001/upload", uploadData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -88,9 +93,12 @@ const ListingCreate = () => {
         },
       });
       alert("Upload successful");
-    } catch (error) {
+      setCurrentPage("listings");
+    }  catch (error) {
       console.error("Upload failed", error);
       alert("Upload failed");
+    } finally {
+      setIsUploading(false);
     }
   };
 
