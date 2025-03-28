@@ -20,6 +20,15 @@ const ListingCreate = ({ setCurrentPage }) => {
     city: "",
     province: "",
     postal_code: "",
+    url: "",
+    has_laundry: false,
+    has_parking: false,
+    has_gym: false,
+    has_hvac: false,
+    has_wifi: false,
+    has_game_room: false,
+    is_pet_friendly: false,
+    is_accessible: false,
   });
 
   const hasRedirected = useRef(false);
@@ -46,11 +55,11 @@ const ListingCreate = ({ setCurrentPage }) => {
     const selectedFiles = Array.from(event.target.files);
     
     const validFiles = selectedFiles.filter(file => 
-      file.type === "image/jpeg" && file.size <= 10 * 1024 * 1024
+      file.type === "image/jpeg" && file.size <= 1 * 1024 * 1024
     );
 
-    if (files.length + validFiles.length > 10) {
-      alert("Maximum of 10 images allowed.");
+    if (files.length + validFiles.length > 1) {
+      alert("Maximum of 1 images allowed.");
       return;
     }
 
@@ -63,6 +72,11 @@ const ListingCreate = ({ setCurrentPage }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setFormData({ ...formData, [name]: checked });
+  };
+  
   const handleUpload = async () => {
 
     if (files.length === 0) return;
@@ -73,11 +87,13 @@ const ListingCreate = ({ setCurrentPage }) => {
       setCurrentPage("login"); 
       return;
     }
+    
 
     const uploadData = new FormData();
     files.forEach((file) => {
       uploadData.append("images", file);
     });
+
     Object.keys(formData).forEach((key) => {
       uploadData.append(key, formData[key]);
     });
@@ -173,7 +189,49 @@ const ListingCreate = ({ setCurrentPage }) => {
         value={formData.postal_code}
         onChange={handleInputChange}
       />
-      {files.length < 10 && (
+      <input
+        type="text"
+        name="url"
+        placeholder="Listing URL"
+        value={formData.url}
+        onChange={handleInputChange}
+      />
+
+      <label>
+        <input type="checkbox" name="has_laundry" checked={formData.has_laundry} onChange={handleCheckboxChange} />
+        Laundry
+      </label>
+      <label>
+        <input type="checkbox" name="has_parking" checked={formData.has_parking} onChange={handleCheckboxChange} />
+        Parking
+      </label>
+      <label>
+        <input type="checkbox" name="has_gym" checked={formData.has_gym} onChange={handleCheckboxChange} />
+        Gym
+      </label>
+      <label>
+        <input type="checkbox" name="has_hvac" checked={formData.has_hvac} onChange={handleCheckboxChange} />
+        HVAC
+      </label>
+      <label>
+        <input type="checkbox" name="has_wifi" checked={formData.has_wifi} onChange={handleCheckboxChange} />
+        WiFi
+      </label>
+      <label>
+        <input type="checkbox" name="has_game_room" checked={formData.has_game_room} onChange={handleCheckboxChange} />
+        Game Room
+      </label>
+      <label>
+        <input type="checkbox" name="is_pet_friendly" checked={formData.is_pet_friendly} onChange={handleCheckboxChange} />
+        Pet Friendly
+      </label>
+      <label>
+        <input type="checkbox" name="is_accessible" checked={formData.is_accessible} onChange={handleCheckboxChange} />
+        Accessible
+      </label>
+
+
+      {files.length < 1 && (
         <input type="file" accept="image/jpeg" onChange={handleFileChange} />
       )}
       <div>

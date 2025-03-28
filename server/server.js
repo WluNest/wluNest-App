@@ -99,11 +99,28 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
             province,
             postal_code,
         } = req.body;
-
+        const toBool = (val) => val === 'true' || val === true ? 1 : 0;
         const sql_insert_to_listing = `INSERT INTO listings (users_id, title, description, price, listing_image, bed, bath, url, has_laundry, has_parking, has_gym, has_hvac, has_wifi, has_game_room, is_pet_friendly, is_accessible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-const userId = req.user.id; 
-const [result] = await db.promise().query(sql_insert_to_listing, [userId, title, description, price, "", bed, bath, url, has_laundry, has_parking, has_gym, has_hvac, has_wifi, has_game_room, is_pet_friendly, is_accessible]);        const listingId = result.insertId;
+        const userId = req.user.id; 
+        const [result] = await db.promise().query(sql_insert_to_listing, [
+            userId,
+            title,
+            description,
+            price,
+            "", // placeholder for image path, updated later
+            bed,
+            bath,
+            url,
+            toBool(has_laundry),
+            toBool(has_parking),
+            toBool(has_gym),
+            toBool(has_hvac),
+            toBool(has_wifi),
+            toBool(has_game_room),
+            toBool(is_pet_friendly),
+            toBool(is_accessible),
+          ]);        const listingId = result.insertId;
         const listingDir = path.join('images', 'listings', listingId.toString());
 
         if (!fs.existsSync(listingDir)) {
