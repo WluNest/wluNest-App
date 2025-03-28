@@ -84,6 +84,7 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
             price,
             bed,
             bath,
+            url,
             has_laundry,
             has_parking,
             has_gym,
@@ -102,7 +103,7 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
         const sql_insert_to_listing = `INSERT INTO listings (users_id, title, description, price, listing_image, bed, bath, url, has_laundry, has_parking, has_gym, has_hvac, has_wifi, has_game_room, is_pet_friendly, is_accessible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
 const userId = req.user.id; 
-const [result] = await db.promise().query(sql_insert_to_listing, [userId, title, description, price, "", bed, bath]);        const listingId = result.insertId;
+const [result] = await db.promise().query(sql_insert_to_listing, [userId, title, description, price, "", bed, bath, url, has_laundry, has_parking, has_gym, has_hvac, has_wifi, has_game_room, is_pet_friendly, is_accessible]);        const listingId = result.insertId;
         const listingDir = path.join('images', 'listings', listingId.toString());
 
         if (!fs.existsSync(listingDir)) {
