@@ -47,7 +47,7 @@ function App() {
       ) : currentPage === "listings" ? (
         <Listings />
       )  : currentPage === "login" ? (
-          <Login />
+        <Login setCurrentPage={setCurrentPage} />
       ) : currentPage === "account" ? (
         <Account />
       ) : currentPage === "IndivListingView" ? (
@@ -55,7 +55,7 @@ function App() {
       ) : currentPage === "Landing" ? (
         <Landing />
       ) : currentPage === "ListingCreate" ? (
-        <ListingCreate />
+        <ListingCreate setCurrentPage={setCurrentPage} />
       ) : currentPage === "settings" ? (
         <Settings />
       ) : currentPage === "buildings" ? (
