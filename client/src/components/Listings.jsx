@@ -86,7 +86,7 @@ function Listings() {
             filteredListings.map((listing) => (
               <div key={listing.listing_id} className="listing-card">
                 <img
-                  src={`http://localhost:5001/${listing.listing_image}`}
+                  src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
                   alt={listing.title}
                   onError={(e) => (e.target.src = "/placeholder.jpg")}
                 />
