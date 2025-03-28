@@ -8,37 +8,24 @@ const Login = ({ setCurrentPage }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (isSignUp) {
-      if (username && firstname && lastname && email && password) {
-        alert("Sign-up successful");
-      } else {
-        setError("Please fill in all fields.");
-      }
-    } else {
-      // Handle login logic here
-      if ((email || username) && password) {
-        alert("Login successful");
-      } else {
-        setError("Please enter email and password.");
-      }
 
     try {
       if (isSignUp) {
-        if (!username || !firstname || !lastname || !email || !password) {
+        if (!username || !first_name || !last_name || !email || !password) {
           return setError("Please fill in all fields.");
         }
   
         const res = await axios.post("http://localhost:5001/api/signup", {
           username,
-          firstname,
-          lastname,
+          first_name,
+          last_name,
           email,
           password,
         });
@@ -73,9 +60,10 @@ const Login = ({ setCurrentPage }) => {
         setError("Cannot reach server. Please make sure the backend is running.");
       } else {
         setError("An unexpected error occurred.");
-        }     
       }
+      
     }
+
   };
 
   return (
@@ -85,36 +73,33 @@ const Login = ({ setCurrentPage }) => {
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="login-signup-form">    
+        <form onSubmit={handleSubmit} className="login-signup-form">
           {isSignUp ? (
             <>
-              <div className="name-container">
-                <div className="form-group first-last-name">
-                  <label htmlFor="firstname">First</label>
-                  <input
-                    type="text"
-                    id="firstname"
-                    value={firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
-                  />
-                </div>
-                <div className="form-group first-last-name">              
-                  <label htmlFor="lastname">Last</label>
-                  <input
-                    type="text"
-                    id="lastname"
-                    value={lastname}
-                    onChange={(e) => setLastname(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="first_name">First Name</label>
+                <input
+                  id="first_name"
+                  value={first_name}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="last_name">Last Name</label>
+                <input
+                  id="last_name"
+                  value={last_name}
+                  onChange={(e) => setLastName(e.target.value)}
                   required
                 />
               </div>
@@ -141,7 +126,7 @@ const Login = ({ setCurrentPage }) => {
               />
             </div>
           )}
-          
+
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -168,7 +153,6 @@ const Login = ({ setCurrentPage }) => {
         </div>
       </div>
     </div>
-    );
+  );
 };
-
 export default Login;
