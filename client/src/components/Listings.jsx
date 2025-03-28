@@ -68,8 +68,6 @@ function Listings() {
           alt={listing.title}
           onError={(e) => handleImageError(e, listing)}
           />
-    </Link>
-
       <div className="listing-info">
         <h3>{listing.title}</h3>
         <p>${listing.price}</p>
@@ -84,6 +82,7 @@ function Listings() {
       >
         ★
       </span>
+    </Link>
     </div>
   ))}
 </div>
