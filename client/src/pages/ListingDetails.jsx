@@ -12,10 +12,14 @@ function ListingDetails() {
     axios
     .get(`http://localhost:5001/api/listings/${id}`)
     .then((res) => setListing(res.data))
-    .catch((err) => console.error("Failed to fetch listing:", err));
+    .catch((err) => {
+      console.error("Failed to fetch listing:", err) 
+      setListing(null)
+    });
   }, [id]);
 
-  if (!listing) return <p>Loading...</p>
+  if (!listing) return <p>Loading...</p>;
+  if (listing === null) return <p>Failed to load listing details.</p>;
 
   return (
     <div className="listing-details">
