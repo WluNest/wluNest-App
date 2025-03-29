@@ -14,16 +14,14 @@ function Settings() {
     university: "",
     year: "",
     program: "",
-    description: "",
-    lookingForRoommate: false,
+    about_you: "", // Changed from 'description' to 'about_you'
+    looking_for_roommate: false,
     email: "",
     emailNotifications: true,
     currentPassword: "",
     newPassword: "",
     confirmPassword: ""
   });
-
-
 
   // Fetch user data on mount
   useEffect(() => {
@@ -42,8 +40,8 @@ function Settings() {
           university: data.university || "",
           year: data.year || "",
           program: data.program || "",
-          description: data.description || "",
-          lookingForRoommate: data.lookingForRoommate || false,
+          about_you: data.about_you || "", // Changed from 'description' to 'about_you'
+          looking_for_roommate: data.looking_for_roommate || false,
           email: data.email || "",
           emailNotifications: data.emailNotifications || true
         }));
@@ -78,23 +76,24 @@ function Settings() {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
+      const baseUrl = "http://localhost:5001/api/settings";
       
       if (type === "personal") {
-        await axios.put("/api/settings", {
+        await axios.put(baseUrl, {
           religion: formData.religion,
           gender: formData.gender,
           university: formData.university,
           year: formData.year,
           program: formData.program,
-          description: formData.description,
-          lookingForRoommate: formData.lookingForRoommate
+          about_you: formData.about_you, // Changed from 'description' to 'about_you'
+          looking_for_roommate: formData.looking_for_roommate
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
         showMessage("Personal info updated successfully", "success");
       }
       else if (type === "email") {
-        await axios.put("/api/settings", { 
+        await axios.put(baseUrl, { 
           email: formData.email 
         }, {
           headers: { Authorization: `Bearer ${token}` }
@@ -105,7 +104,7 @@ function Settings() {
         if (formData.newPassword !== formData.confirmPassword) {
           throw new Error("Passwords don't match");
         }
-        await axios.put("/api/settings/password", {
+        await axios.put(`${baseUrl}/password`, {
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword
         }, {
@@ -227,8 +226,8 @@ function Settings() {
                 <label>About you:</label>
                 <textarea
                   rows="4"
-                  name="description"
-                  value={formData.description}
+                  name="about_you" // Changed from 'description' to 'about_you'
+                  value={formData.about_you} // Changed from 'description' to 'about_you'
                   onChange={handleChange}
                 />
               </div>

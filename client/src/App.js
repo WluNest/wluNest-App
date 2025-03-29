@@ -26,21 +26,6 @@ function App() {
             <button className="browse-btn" onClick={() => setCurrentPage("listings")}>Browse</button>
             <span className="or-text">or</span>
             <button className="login-btn" onClick={() => setCurrentPage("login")}>Login/Signup</button>
-            <span className="or-text">(temp Button)</span>
-            <button 
-            className="login-btn" 
-            onClick={() => {
-              const user = localStorage.getItem("user");
-              if (!user) {
-                alert("Please login to create a listing.");
-                setCurrentPage("login");
-              } else {
-                setCurrentPage("ListingCreate");
-              }
-              }}
-              >
-                CreateListing
-                </button>          
           </div>
         </div>
       ) : currentPage === "listings" ? (

@@ -17,7 +17,6 @@ module.exports = {
     }
   },
   
-
   updateUserSettings: async (req, res) => {
     try {
       const { religion, gender, university, year, program, about_you, looking_for_roommate } = req.body;

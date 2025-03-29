@@ -4,9 +4,8 @@ const router = express.Router();
 const { authenticateToken } = require('./auth');
 const settingsController = require('../controllers/userSettingsController');
 
-router.get('/settings', authenticateToken, settingsController.getUserSettings);
-router.put('/settings', authenticateToken, settingsController.updateUserSettings);
-router.put('/settings/password', authenticateToken, settingsController.updatePassword);
-
+router.get('/', authenticateToken, settingsController.getUserSettings);
+router.put('/', authenticateToken, settingsController.updateUserSettings);
+router.put('/password', authenticateToken, settingsController.updatePassword);
 
 module.exports = router;

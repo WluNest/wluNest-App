@@ -9,6 +9,7 @@ function Navbar({ setCurrentPage }) {
     localStorage.removeItem("token");
     setCurrentPage("home");
     alert("Logged out successfully!");
+    window.location.reload(); // Add this line to refresh the page
   };
 
   const handleLogin = () => {
@@ -33,12 +34,12 @@ function Navbar({ setCurrentPage }) {
         {user && (
           <span className="nav-item" onClick={() => setCurrentPage("settings")}>
             Settings
-        </span>
+          </span>
         )}
         {user && (
           <span className="nav-item" onClick={() => setCurrentPage("ListingCreate")}>
             Create Listing
-        </span>
+          </span>
         )}
       </div>
 
