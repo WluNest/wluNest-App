@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Listings.css";
-import placeholder from "./placeholder.jpg"
+import placeholder from "./placeholder.jpg";
 import MapView from "./MapView";
 
 function Listings() {
   const [listings, setListings] = useState([]);
   const [favorites, setFavorites] = useState({});
+  const [selectedListing, setSelectedListing] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const [filters, setFilters] = useState({
     bed: "",
     bath: "",
@@ -85,7 +88,14 @@ function Listings() {
             <p>No listings match your filters.</p>
           ) : (
             filteredListings.map((listing) => (
-              <div key={listing.listing_id} className="listing-card">
+              <div
+                key={listing.listing_id}
+                className="listing-card"
+                onClick={() => {
+                  setSelectedListing(listing);
+                  setShowModal(true);
+                }}
+              >
                 <img
                   src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
                   alt={listing.title}
@@ -103,7 +113,10 @@ function Listings() {
                 </div>
                 <span
                   className={`favorite-star ${favorites[listing.listing_id] ? "active" : ""}`}
-                  onClick={() => toggleFavorite(listing.listing_id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(listing.listing_id);
+                  }}
                 >
                   ★
                 </span>
@@ -116,8 +129,61 @@ function Listings() {
       <div className="right-panel">
         <MapView listings={filteredListings} />
       </div>
+
+      {showModal && (
+        <ListingModal
+          listing={selectedListing}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedListing(null);
+          }}
+        />
+      )}
     </div>
   );
 }
+
+const ListingModal = ({ listing, onClose }) => {
+  if (!listing) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <button className="close-button" onClick={onClose}>×</button>
+        
+        <img
+          src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
+          alt={listing.title}
+          onError={(e) => (e.target.src = placeholder)}
+        />
+
+        <h2 className="modal-title">{listing.title}</h2>
+        <p className="modal-price"><strong>Price:</strong> ${listing.price}</p>
+
+        <div className="modal-info">
+          <p><strong>Beds:</strong> {listing.bed}</p>
+          <p><strong>Baths:</strong> {listing.bath}</p>
+        </div>
+
+        <p className="modal-address">
+          <strong>Address:</strong> {listing.street_number} {listing.street_name}, {listing.city}, {listing.province}, {listing.postal_code}
+        </p>
+
+        <p className="modal-description">{listing.description}</p>
+
+        <button
+          className="inquire-button"
+          onClick={() => {
+            // Placeholder for future redirect
+            window.location.href = "#"; 
+          }}
+        >
+          Inquire
+        </button>
+      </div>
+    </div>
+  );
+};
+
 
 export default Listings;
