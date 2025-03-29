@@ -1,0 +1,141 @@
+/* SETTINGS PAGE STYLES */
+.page {
+    position: absolute;
+    top: 60px; /* Adjust if needed based on navbar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #5b088f, #f38f21);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+  
+  /* SETTINGS CONTAINER */
+  .container {
+    width: 90%;
+    max-width: 900px;
+    background: white;
+    display: flex;
+    flex-wrap: wrap; /* Allows stacking on smaller screens */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* LEFT PANEL - SETTINGS TABS */
+  .tabs {
+    width: 220px;
+    background: #f8f8f8;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tab-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s, color 0.3s, transform 0.2s ease-in-out;
+  }
+  
+  .tab-item:hover {
+    background: #ddd;
+    transform: scale(1.02);
+  }
+  
+  .tab-item.active {
+    background: linear-gradient(to right, #5b088f, #b94dff);
+    color: white;
+    font-weight: bold;
+    transition: background 0.4s ease-in-out;
+  }
+  
+  /* RIGHT PANEL - SETTINGS CONTENT */
+  .content {
+    flex: 1;
+    padding: 20px 30px;
+  }
+  
+  .content h2 {
+    margin-bottom: 20px;
+    color: #5b088f;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  /* FORM ROWS */
+  .form-row {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-row label {
+    width: 150px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .form-row input,
+  .form-row textarea,
+  .form-row select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    background: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+  }
+  
+  .form-row input:focus,
+  .form-row textarea:focus,
+  .form-row select:focus {
+    border-color: #5b088f;
+    box-shadow: 0 0 5px rgba(91, 8, 143, 0.3);
+    background: white;
+  }
+  
+  /* CHECKBOX ROW */
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-row label {
+    margin-left: 5px;
+    width: auto;
+  }
+  
+  /* RESPONSIVE DESIGN */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      width: 95%;
+    }
+  
+    .form-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .form-row label {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  
+    .form-row input,
+    .form-row textarea,
+    .form-row select {
+      width: 100%;
+    }
+  }
+  

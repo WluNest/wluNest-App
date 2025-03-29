@@ -10,7 +10,14 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    role ENUM('admin', 'user') DEFAULT 'user'
+    role ENUM('admin', 'user') DEFAULT 'user',
+    religion VARCHAR(255),
+    gender VARCHAR(255),
+    university VARCHAR(255),
+    year INT,
+    program VARCHAR(255),
+    about_you TEXT,
+    looking_for_roommate BOOLEAN DEFAULT FALSE
 );
 #Creates the listings table
 CREATE TABLE listings(

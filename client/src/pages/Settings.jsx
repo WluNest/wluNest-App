@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Settings.css";
 
 function Settings() {
+  const user = localStorage.getItem("user");
   const [activeTab, setActiveTab] = useState("personal");
 
   // Sample data for demonstration
@@ -10,10 +11,8 @@ function Settings() {
   const [university, setUniversity] = useState("");
   const [year, setYear] = useState("");
   const [program, setProgram] = useState("");
-  const [contact, setContact] = useState("");
-  const [handle, setHandle] = useState("");
+  const [lookingForRoommate, setLookingForRoommate] = useState("");
   const [description, setDescription] = useState("");
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -29,6 +28,14 @@ function Settings() {
   const handleDelete = () => {
     alert("Account deleted!");
   };
+
+  const handlePasswordChange = () => {
+    alert("Password Changed");
+  }
+
+  const handleEmailChange = () => {
+    alert("Email Changed");
+  }
 
   return (
     <div className="settings-page">
@@ -88,13 +95,12 @@ function Settings() {
 
               <div className="form-row">
                 <label>Year:</label>
-                <select value={year} onChange={(e) => setYear(e.target.value)}>
-                  <option value="" disabled hidden>Select Year</option>
-                  <option value="1st">1st</option>
-                  <option value="2nd">2nd</option>
-                  <option value="3rd">3rd</option>
-                  <option value="4th">4th</option>
-                </select>
+                <input
+                type="number"
+                name="year"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                />
               </div>
 
               <div className="form-row">
@@ -109,30 +115,23 @@ function Settings() {
               </div>
 
               <div className="form-row">
-                <label>Contact:</label>
-                <input
-                  type="text"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
-                />
-              </div>
-
-              <div className="form-row">
-                <label>Handle:</label>
-                <input
-                  type="text"
-                  value={handle}
-                  onChange={(e) => setHandle(e.target.value)}
-                />
-              </div>
-
-              <div className="form-row">
                 <label>About you:</label>
                 <textarea
                   rows="4"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+              </div>
+
+              <div className="form-row checkbox-row">
+              <label htmlFor="notifications">Are you looking for a roommate?</label>
+                <input
+                  type="checkbox"
+                  id="notifications"
+                  checked={lookingForRoommate}
+                  onChange={() => setLookingForRoommate(!lookingForRoommate)}
+                />
+                
               </div>
             </div>
           )}
@@ -145,9 +144,12 @@ function Settings() {
                 <input
                   type="email"
                   value={email}
-                  placeholder="JohnAppleseed@gmail.com"
+                  placeholder=""
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                <button className="deactivate-btn" onClick={handleEmailChange}>
+                  Change Email
+                </button>
               </div>
 
               <div className="form-row">
@@ -158,16 +160,20 @@ function Settings() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <button className="deactivate-btn" onClick={handlePasswordChange}>
+                  Change Password
+                </button>
               </div>
 
               <div className="form-row checkbox-row">
+                <label htmlFor="notifications">Email Notifications</label>
                 <input
                   type="checkbox"
                   id="notifications"
                   checked={emailNotifications}
                   onChange={() => setEmailNotifications(!emailNotifications)}
                 />
-                <label htmlFor="notifications">Email Notifications</label>
+                
               </div>
 
               <div className="danger-zone">

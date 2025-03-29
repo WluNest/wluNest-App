@@ -1,11 +1,11 @@
 -- Sample population script for wluNest database
 USE wluNest;
 
-INSERT INTO users (username, first_name, last_name, password, email, role)
+INSERT INTO users (username, first_name, last_name, password, email, role, religion, gender, university, year, program, about_you, looking_for_roommate)
 VALUES
-('user1', 'Johnny', 'Hohn', 'passwordpass', 'john@gmail.com', 'user'),
-('user2', 'Arya', 'Singh', 'aryaspassword', 'arya@gmail.com', 'user'),
-('user3', 'Aaron', 'Kim', 'aaronspass', 'aaron@wlunest.com', 'admin');
+('user1', 'Johnny', 'Hohn', 'passwordpass', 'john@gmail.com', 'user', 'Christian', 'Male', 'University of Waterloo', 3, 'Computer Science', "happy fella", true),
+('user2', 'Arya', 'Singh', 'aryaspassword', 'arya@gmail.com', 'user', 'Sikh', 'Female', 'Wilfrid Laurier University', 2, 'Business Administration', "happier fella", true),
+('user3', 'Aaron', 'Kim', 'aaronspass', 'aaron@wlunest.com', 'admin', 'Athiest', 'Other', 'University of Waterloo', 6, 'Biology', "happiest fella", true);
 
 INSERT INTO listings (users_id, unit_number, title, description, price, listing_image, bed, bath, url, has_laundry, has_parking, has_gym, has_hvac, has_wifi, has_game_room, is_pet_friendly, is_accessible)
 VALUES

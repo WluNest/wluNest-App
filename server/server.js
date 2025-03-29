@@ -73,7 +73,6 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
     try {
         if (!req.files || req.files.length === 0) {
             console.log("No files uploaded");
-            return res.status(400).json({ error: "No files uploaded" });
         }
 
         console.log("Files received:", req.files);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Listings.css";
+import placeholder from "./placeholder.jpg"
 import MapView from "./MapView";
 
 function Listings() {
@@ -88,7 +89,7 @@ function Listings() {
                 <img
                   src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
                   alt={listing.title}
-                  onError={(e) => (e.target.src = "/placeholder.jpg")}
+                  onError={(e) => (e.target.src = placeholder)}
                 />
                 <div className="listing-info">
                   <h3>{listing.title}</h3>

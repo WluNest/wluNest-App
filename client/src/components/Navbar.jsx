@@ -1,10 +1,18 @@
 import React from "react";
 import "./Navbar.css";
 
-function Navbar({ setCurrentPage, user }) {
+function Navbar({ setCurrentPage }) {
+  const user = localStorage.getItem("user");
+
   const handleLogout = () => {
-    // Insert your logout logic here
-    alert("Logged out!");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setCurrentPage("home");
+    alert("Logged out successfully!");
+  };
+
+  const handleLogin = () => {
+    setCurrentPage("login");
   };
 
   return (
@@ -22,19 +30,29 @@ function Navbar({ setCurrentPage, user }) {
         <span className="nav-item" onClick={() => setCurrentPage("roommates")}>
           Roommates
         </span>
-        <span className="nav-item" onClick={() => setCurrentPage("buildings")}>
-          Buildings
+        {user && (
+          <span className="nav-item" onClick={() => setCurrentPage("settings")}>
+            Settings
         </span>
-        <span className="nav-item" onClick={() => setCurrentPage("settings")}>
-          Settings
+        )}
+        {user && (
+          <span className="nav-item" onClick={() => setCurrentPage("ListingCreate")}>
+            Create Listing
         </span>
+        )}
       </div>
 
-      {/* Right Section: Logout */}
+      {/* Right Section: Auth */}
       <div className="nav-right">
-        <span className="nav-item logout-item" onClick={handleLogout}>
-          Logout ➜
-        </span>
+        {user ? (
+          <span className="nav-item logout-item" onClick={handleLogout}>
+            Logout ➜
+          </span>
+        ) : (
+          <span className="nav-item login-item" onClick={handleLogin}>
+            ➜ Log in
+          </span>
+        )}
       </div>
     </div>
   );
