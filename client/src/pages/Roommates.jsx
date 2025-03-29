@@ -3,9 +3,42 @@ import "./Roommates.css";
 
 const Roommates = () => {
   const roommatesData = [
-    { name: "Alice Johnson", age: 21, university: "University of Waterloo", img: "https://via.placeholder.com/200" },
-    { name: "Mark Smith", age: 22, university: "Wilfrid Laurier University", img: "https://via.placeholder.com/200" },
-    { name: "Sophia Lee", age: 20, university: "University of Waterloo", img: "https://via.placeholder.com/200" }
+    { 
+      id: 1,
+      name: "Alice Johnson", 
+      age: 21, 
+      gender: "Female",
+      religion: "Christian",
+      university: "University of Waterloo", 
+      year: "3rd",
+      program: "Computer Science",
+      location: "Waterloo",
+      img: "https://via.placeholder.com/200" 
+    },
+    { 
+      id: 2,
+      name: "Mark Smith", 
+      age: 22, 
+      gender: "Male",
+      religion: "Jewish",
+      university: "Wilfrid Laurier University", 
+      year: "4th",
+      program: "Business Administration",
+      location: "Kitchener",
+      img: "https://via.placeholder.com/200" 
+    },
+    { 
+      id: 3,
+      name: "Sophia Lee", 
+      age: 20, 
+      gender: "Female",
+      religion: "Buddhist",
+      university: "University of Waterloo", 
+      year: "2nd",
+      program: "Biology",
+      location: "Waterloo",
+      img: "https://via.placeholder.com/200" 
+    }
   ];
 
   const [filters, setFilters] = useState({
@@ -15,7 +48,7 @@ const Roommates = () => {
     university: "",
     year: "",
     program: "",
-  })
+  });
 
   const filteredRoommates = roommatesData.filter((roommate) => 
     Object.entries(filters).every(([key, value]) => value === "" || roommate[key] === value)
@@ -29,7 +62,7 @@ const Roommates = () => {
   };
 
   const FilterDropdown = ({ label, options, value, onChange }) => (
-    <div>
+    <div className="filter-dropdown">
       <label>{label}:</label>
       <select value={value} onChange={onChange}>
         <option value="">Any {label}</option>
@@ -52,84 +85,87 @@ const Roommates = () => {
   };
 
   return (
-    <div className="roommate-finder">
-      <h1>Find Your Roommate</h1>
+    <div className="roommate-finder-container">
+      <h1 className="page-title">Find Your Roommate</h1>
 
-    <div className="filter-section">
-      <div>
-        <FilterDropdown 
-          label="Gender" 
-          options={["Male", "Female", "Other"]}
-          value={filters.gender} 
-          onChange={(e) => updateFilter("gender", e.target.value)}/>
-      </div>
+      <div className="filters-container">
+        <div className="filters-grid">
+          <FilterDropdown 
+            label="Gender" 
+            options={["Male", "Female", "Other"]}
+            value={filters.gender} 
+            onChange={(e) => updateFilter("gender", e.target.value)}
+          />
 
-      <div>
-        <FilterDropdown 
-          label = "Religion" 
-          options={["Christian", "Muslim", "Jewish", "Sikh", "Buddhist"]} 
-          value={filters.religion} 
-          onChange={(e) => updateFilter("religion", e.target.value)}/>
-      </div>
-    </div>
+          <FilterDropdown 
+            label="Religion" 
+            options={["Christian", "Muslim", "Jewish", "Sikh", "Buddhist"]} 
+            value={filters.religion} 
+            onChange={(e) => updateFilter("religion", e.target.value)}
+          />
 
-    <div>
-        <FilterDropdown 
-          label = "Location" 
-          options={["Waterloo", "Kitchener"]} 
-          value={filters.location} 
-          onChange={(e) => updateFilter("location", e.target.value)}/>
-    </div>
+          <FilterDropdown 
+            label="Location" 
+            options={["Waterloo", "Kitchener"]} 
+            value={filters.location} 
+            onChange={(e) => updateFilter("location", e.target.value)}
+          />
 
-    <div>
-      <FilterDropdown 
-          label = "University" 
-          options={["University of Waterloo", "Wilfrid Laurier University"]} 
-          value={filters.university} 
-          onChange={(e) => updateFilter("university", e.target.value)}/>
-    </div>
+          <FilterDropdown 
+            label="University" 
+            options={["University of Waterloo", "Wilfrid Laurier University"]} 
+            value={filters.university} 
+            onChange={(e) => updateFilter("university", e.target.value)}
+          />
 
-    <div>
-      <FilterDropdown 
-          label = "Year" 
-          options={["1st", "2nd", "3rd", "4th"]} 
-          value={filters.year} 
-          onChange={(e) => updateFilter("year", e.target.value)}/>
-    </div>
+          <FilterDropdown 
+            label="Year" 
+            options={["1st", "2nd", "3rd", "4th"]} 
+            value={filters.year} 
+            onChange={(e) => updateFilter("year", e.target.value)}
+          />
 
-    <div>
-      <FilterDropdown 
-          label = "Program" 
-          options={["Computer Science", "Business Administration", "Biology", "Engineering"]} 
-          value={filters.program} 
-          onChange={(e) => updateFilter("program", e.target.value)}/>
-    </div>
-
-    <button className="clear-filters-btn" 
-      onClick={clearFilters}>
-      Clear Filters
-    </button>
-    
-    <div className="roommates-list">
-      {filteredRoommates.length > 0 ? (
-      filteredRoommates.map((roommate) => (
-        <div key={roommate.id} className="roommate-card">
-          <h3>{roommate.name}</h3>
-          <p><strong>Gender:</strong> {roommate.gender}</p>
-          <p><strong>Religion:</strong> {roommate.religion}</p>
-          <p><strong>University:</strong> {roommate.university}</p>
-          <p><strong>Year:</strong> {roommate.year}</p>
-          <p><strong>Program:</strong> {roommate.program}</p>
-          <p><strong>Location:</strong> {roommate.location}</p>
-          <button>View Profile</button>
-          <button>Connect</button>
+          <FilterDropdown 
+            label="Program" 
+            options={["Computer Science", "Business Administration", "Biology", "Engineering"]} 
+            value={filters.program} 
+            onChange={(e) => updateFilter("program", e.target.value)}
+          />
         </div>
-      ))
-    ) : (
-      <p>No matches found. Try adjusting your preferences.</p>
-    )}
+
+        <button className="clear-filters-btn" onClick={clearFilters}>
+          Clear Filters
+        </button>
+      </div>
+      
+      <div className="roommates-grid">
+        {filteredRoommates.length > 0 ? (
+          filteredRoommates.map((roommate) => (
+            <div key={roommate.id} className="roommate-card">
+              <img src={roommate.img} alt={roommate.name} className="roommate-image" />
+              <div className="roommate-info">
+                <h3>{roommate.name}</h3>
+                <p><span className="info-label">Age:</span> {roommate.age}</p>
+                <p><span className="info-label">Gender:</span> {roommate.gender}</p>
+                <p><span className="info-label">Religion:</span> {roommate.religion}</p>
+                <p><span className="info-label">University:</span> {roommate.university}</p>
+                <p><span className="info-label">Year:</span> {roommate.year}</p>
+                <p><span className="info-label">Program:</span> {roommate.program}</p>
+                <p><span className="info-label">Location:</span> {roommate.location}</p>
+              </div>
+              <div className="roommate-actions">
+                <button className="profile-btn">View Profile</button>
+                <button className="connect-btn">Connect</button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-results">
+            <p>No matches found. Try adjusting your filters.</p>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

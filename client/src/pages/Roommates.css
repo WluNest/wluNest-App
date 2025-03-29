@@ -1,1 +1,154 @@
-/* Styling Attributes for Roommates.jsx */
+/* Main Container */
+.roommate-finder-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+/* Filters Section */
+.filters-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-dropdown {
+  margin-bottom: 10px;
+}
+
+.filter-dropdown label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.filter-dropdown select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.clear-filters-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 8px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.clear-filters-btn:hover {
+  background-color: #5a6268;
+}
+
+/* Roommates Grid */
+.roommates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.roommate-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.roommate-card:hover {
+  transform: translateY(-5px);
+}
+
+.roommate-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.roommate-info {
+  padding: 15px;
+}
+
+.roommate-info h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.roommate-info p {
+  margin: 8px 0;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #343a40;
+}
+
+.roommate-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px 15px;
+}
+
+.profile-btn, .connect-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.profile-btn {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.profile-btn:hover {
+  background-color: #dee2e6;
+}
+
+.connect-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.connect-btn:hover {
+  background-color: #0069d9;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
