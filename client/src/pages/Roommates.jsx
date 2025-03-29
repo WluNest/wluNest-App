@@ -1,161 +1,225 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Roommates.css";
 
-const Roommates = () => {
-  const roommatesData = [
-    { 
-      id: 1,
-      name: "Alice Johnson", 
-      age: 21, 
-      gender: "Female",
-      religion: "Christian",
-      university: "University of Waterloo", 
-      year: "3rd",
-      program: "Computer Science",
-      location: "Waterloo",
-      img: "https://via.placeholder.com/200" 
-    },
-    { 
-      id: 2,
-      name: "Mark Smith", 
-      age: 22, 
-      gender: "Male",
-      religion: "Jewish",
-      university: "Wilfrid Laurier University", 
-      year: "4th",
-      program: "Business Administration",
-      location: "Kitchener",
-      img: "https://via.placeholder.com/200" 
-    },
-    { 
-      id: 3,
-      name: "Sophia Lee", 
-      age: 20, 
-      gender: "Female",
-      religion: "Buddhist",
-      university: "University of Waterloo", 
-      year: "2nd",
-      program: "Biology",
-      location: "Waterloo",
-      img: "https://via.placeholder.com/200" 
-    }
-  ];
-
+function Roommates() {
+  // Filters
   const [filters, setFilters] = useState({
     gender: "",
     religion: "",
-    location: "",
-    university: "",
     year: "",
     program: "",
+    location: ""
   });
 
-  const filteredRoommates = roommatesData.filter((roommate) => 
-    Object.entries(filters).every(([key, value]) => value === "" || roommate[key] === value)
-  );
+  // Fetched roommates from the server
+  const [roommates, setRoommates] = useState([]);
 
-  const updateFilter = (key, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [key]: value, 
-    }));
+  // For "Connect" toggles (Request Sent)
+  const [connectStatus, setConnectStatus] = useState({});
+
+  // For "View Profile" modal
+  const [selectedRoommate, setSelectedRoommate] = useState(null);
+
+  // 1. Fetch Roommates Whenever Filters Change
+  useEffect(() => {
+    fetchRoommates();
+    // eslint-disable-next-line
+  }, [filters]);
+
+  const fetchRoommates = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      // Build query string from filters
+      const params = new URLSearchParams();
+      Object.entries(filters).forEach(([key, val]) => {
+        if (val) params.append(key, val);
+      });
+      const res = await axios.get(
+        `http://localhost:5001/api/roommates?${params.toString()}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setRoommates(res.data);
+    } catch (error) {
+      console.error("Failed to fetch roommates:", error);
+    }
   };
 
-  const FilterDropdown = ({ label, options, value, onChange }) => (
-    <div className="filter-dropdown">
-      <label>{label}:</label>
-      <select value={value} onChange={onChange}>
-        <option value="">Any {label}</option>
-        {options.map((option) => (
-          <option key={option} value={option}>{option}</option>
-        ))}
-      </select>
-    </div>
-  );
+  // 2. Update a specific filter
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
+  // 3. Clear all filters
   const clearFilters = () => {
     setFilters({
       gender: "",
       religion: "",
-      location: "",
-      university: "",
       year: "",
       program: "",
+      location: "",
     });
   };
 
+  // 4. Connect button toggles
+  const handleConnect = (userId) => {
+    setConnectStatus((prev) => ({
+      ...prev,
+      [userId]: !prev[userId],
+    }));
+  };
+
+  // 5. View Profile modal
+  const handleViewProfile = (roommate) => {
+    setSelectedRoommate(roommate);
+  };
+
+  const handleCloseProfile = () => {
+    setSelectedRoommate(null);
+  };
+
   return (
-    <div className="roommate-finder-container">
+    <div className="roommates-page">
       <h1 className="page-title">Find Your Roommate</h1>
 
+      {/* Filters Container */}
       <div className="filters-container">
         <div className="filters-grid">
-          <FilterDropdown 
-            label="Gender" 
-            options={["Male", "Female", "Other"]}
-            value={filters.gender} 
-            onChange={(e) => updateFilter("gender", e.target.value)}
-          />
+          {/* Gender Filter */}
+          <div className="filter-dropdown">
+            <label>Gender</label>
+            <select
+              value={filters.gender}
+              onChange={(e) => updateFilter("gender", e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
 
-          <FilterDropdown 
-            label="Religion" 
-            options={["Christian", "Muslim", "Jewish", "Sikh", "Buddhist"]} 
-            value={filters.religion} 
-            onChange={(e) => updateFilter("religion", e.target.value)}
-          />
+          {/* Religion Filter */}
+          <div className="filter-dropdown">
+            <label>Religion</label>
+            <select
+              value={filters.religion}
+              onChange={(e) => updateFilter("religion", e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="Christian">Christian</option>
+              <option value="Jewish">Jewish</option>
+              <option value="Muslim">Muslim</option>
+              <option value="Buddhist">Buddhist</option>
+              <option value="Sikh">Sikh</option>
+            </select>
+          </div>
 
-          <FilterDropdown 
-            label="Location" 
-            options={["Waterloo", "Kitchener"]} 
-            value={filters.location} 
-            onChange={(e) => updateFilter("location", e.target.value)}
-          />
+          {/* Year Filter */}
+          <div className="filter-dropdown">
+            <label>Year</label>
+            <select
+              value={filters.year}
+              onChange={(e) => updateFilter("year", e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="1st">1st</option>
+              <option value="2nd">2nd</option>
+              <option value="3rd">3rd</option>
+              <option value="4th">4th</option>
+            </select>
+          </div>
 
-          <FilterDropdown 
-            label="University" 
-            options={["University of Waterloo", "Wilfrid Laurier University"]} 
-            value={filters.university} 
-            onChange={(e) => updateFilter("university", e.target.value)}
-          />
+          {/* Program Filter */}
+          <div className="filter-dropdown">
+            <label>Program</label>
+            <select
+              value={filters.program}
+              onChange={(e) => updateFilter("program", e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Business Administration">Business Administration</option>
+              <option value="Biology">Biology</option>
+              <option value="Engineering">Engineering</option>
+            </select>
+          </div>
 
-          <FilterDropdown 
-            label="Year" 
-            options={["1st", "2nd", "3rd", "4th"]} 
-            value={filters.year} 
-            onChange={(e) => updateFilter("year", e.target.value)}
-          />
-
-          <FilterDropdown 
-            label="Program" 
-            options={["Computer Science", "Business Administration", "Biology", "Engineering"]} 
-            value={filters.program} 
-            onChange={(e) => updateFilter("program", e.target.value)}
-          />
+          {/* Location Filter */}
+          <div className="filter-dropdown">
+            <label>Location</label>
+            <select
+              value={filters.location}
+              onChange={(e) => updateFilter("location", e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="Waterloo">Waterloo</option>
+              <option value="Kitchener">Kitchener</option>
+            </select>
+          </div>
         </div>
-
         <button className="clear-filters-btn" onClick={clearFilters}>
           Clear Filters
         </button>
       </div>
-      
-      <div className="roommates-grid">
-        {filteredRoommates.length > 0 ? (
-          filteredRoommates.map((roommate) => (
-            <div key={roommate.id} className="roommate-card">
-              <img src={roommate.img} alt={roommate.name} className="roommate-image" />
+
+      {/* Display Roommates */}
+      <div className="roommates-row">
+        {roommates.length > 0 ? (
+          roommates.map((rm) => (
+            <div key={rm.users_id} className="roommate-card">
+              {/* The server doesn't store images in "users" table by default, 
+                  so you might add a default or placeholder. */}
+              <img
+                src="https://via.placeholder.com/200?text=User"
+                alt={rm.name}
+                className="roommate-image"
+              />
               <div className="roommate-info">
-                <h3>{roommate.name}</h3>
-                <p><span className="info-label">Age:</span> {roommate.age}</p>
-                <p><span className="info-label">Gender:</span> {roommate.gender}</p>
-                <p><span className="info-label">Religion:</span> {roommate.religion}</p>
-                <p><span className="info-label">University:</span> {roommate.university}</p>
-                <p><span className="info-label">Year:</span> {roommate.year}</p>
-                <p><span className="info-label">Program:</span> {roommate.program}</p>
-                <p><span className="info-label">Location:</span> {roommate.location}</p>
+                <h3>{rm.name}</h3>
+                <p>
+                  <span className="info-label">Age:</span> {rm.age || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">Gender:</span> {rm.gender || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">Religion:</span> {rm.religion || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">University:</span> {rm.university || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">Year:</span> {rm.year || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">Program:</span> {rm.program || "N/A"}
+                </p>
+                <p>
+                  <span className="info-label">About You:</span> {rm.about_you || ""}
+                </p>
+                <p>
+                  <span className="info-label">Location:</span> {rm.location || "N/A"}
+                </p>
               </div>
               <div className="roommate-actions">
-                <button className="profile-btn">View Profile</button>
-                <button className="connect-btn">Connect</button>
+                <button
+                  className="profile-btn"
+                  onClick={() => handleViewProfile(rm)}
+                >
+                  View Profile
+                </button>
+                <button
+                  className={
+                    connectStatus[rm.users_id]
+                      ? "connect-btn connected"
+                      : "connect-btn"
+                  }
+                  onClick={() => handleConnect(rm.users_id)}
+                >
+                  {connectStatus[rm.users_id] ? "Request Sent" : "Connect"}
+                </button>
               </div>
             </div>
           ))
@@ -165,8 +229,49 @@ const Roommates = () => {
           </div>
         )}
       </div>
+
+      {/* Profile Modal */}
+      {selectedRoommate && (
+        <div className="modal-overlay" onClick={handleCloseProfile}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={handleCloseProfile}>
+              ✕
+            </button>
+            <h2 className="modal-name">{selectedRoommate.name}</h2>
+            <p>
+              <span className="info-label">Age:</span> {selectedRoommate.age || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">Gender:</span> {selectedRoommate.gender || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">Religion:</span>{" "}
+              {selectedRoommate.religion || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">University:</span>{" "}
+              {selectedRoommate.university || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">Year:</span> {selectedRoommate.year || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">Program:</span>{" "}
+              {selectedRoommate.program || "N/A"}
+            </p>
+            <p>
+              <span className="info-label">About You:</span>{" "}
+              {selectedRoommate.about_you || ""}
+            </p>
+            <p>
+              <span className="info-label">Location:</span>{" "}
+              {selectedRoommate.location || "N/A"}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default Roommates;

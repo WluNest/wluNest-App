@@ -1,35 +1,41 @@
-/* Main Container */
-.roommate-finder-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+/* Main container with fixed gradient background */
+.roommates-page {
+  position: absolute;
+  top: 60px; /* ensures navbar doesn't cover top */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, #5b088f, #f38f21);
+  background-attachment: fixed; /* background stays still when scrolling */
+  overflow-y: auto; /* scroll if content is taller than window */
+  padding: 30px;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Title at the top */
 .page-title {
   text-align: center;
-  color: #2c3e50;
+  color: #fff; /* stands out on gradient */
   margin-bottom: 30px;
+  font-size: 2rem;
 }
 
-/* Filters Section */
+/* Filters Container */
 .filters-container {
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin: 0 auto 30px; /* center horizontally */
+  max-width: 900px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .filters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 15px;
   margin-bottom: 20px;
-}
-
-.filter-dropdown {
-  margin-bottom: 10px;
 }
 
 .filter-dropdown label {
@@ -65,19 +71,29 @@
   background-color: #5a6268;
 }
 
-/* Roommates Grid */
-.roommates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+/* Row of roommate cards (horizontal layout) */
+.roommates-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* wrap if screen is narrower */
 }
 
+/* Individual roommate card styling */
 .roommate-card {
   background-color: white;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   transition: transform 0.3s;
+  width: 280px; /* fixed width so 3 can align horizontally */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 20px; /* spacing for wrapping */
 }
 
 .roommate-card:hover {
@@ -92,6 +108,7 @@
 
 .roommate-info {
   padding: 15px;
+  text-align: left;
 }
 
 .roommate-info h3 {
@@ -101,7 +118,7 @@
 }
 
 .roommate-info p {
-  margin: 8px 0;
+  margin: 6px 0;
   color: #495057;
   font-size: 0.9rem;
 }
@@ -117,7 +134,8 @@
   padding: 0 15px 15px;
 }
 
-.profile-btn, .connect-btn {
+.profile-btn,
+.connect-btn {
   padding: 8px 15px;
   border: none;
   border-radius: 4px;
@@ -126,6 +144,7 @@
   transition: background-color 0.3s;
 }
 
+/* View Profile Button */
 .profile-btn {
   background-color: #e9ecef;
   color: #495057;
@@ -135,20 +154,91 @@
   background-color: #dee2e6;
 }
 
+/* Connect Button (default) */
 .connect-btn {
   background-color: #007bff;
   color: white;
 }
 
-.connect-btn:hover {
+/* Connect Button when clicked (Request Sent) */
+.connect-btn.connected {
+  background-color: #e9ecef; /* same as profile-btn */
+  color: #495057;
+}
+
+.connect-btn:hover:not(.connected) {
   background-color: #0069d9;
 }
 
 /* No Results */
 .no-results {
   text-align: center;
-  grid-column: 1 / -1;
   padding: 40px;
   color: #6c757d;
   font-size: 1.1rem;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal Content with black text */
+.modal-content {
+  position: relative;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-align: left;
+  color: #000; /* ensures text is black */
+}
+
+/* Modal Close Button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* Modal Image */
+.modal-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* Modal Name */
+.modal-name {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #000;
+}
+
+/* Utility class to force dark text if needed */
+.override-text {
+  color: #333 !important;
+}
+
+.modal-content,
+.modal-content * {
+  color: #000 !important;
 }
