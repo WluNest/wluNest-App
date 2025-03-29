@@ -7,6 +7,8 @@ const fs = require("fs");
 const { getCoordinates } = require("./coordinateLookup");
 
 
+
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -168,6 +170,10 @@ app.get("/", (req, res) => {
 });
 const listingsRoute = require("./routes/listings");
 app.use("/api/listings", listingsRoute);
+
+const settingsRoutes = require("./routes/userSettingsRoutes");
+app.use("/api/settings", settingsRoutes);
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
