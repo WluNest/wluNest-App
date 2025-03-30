@@ -233,12 +233,12 @@ function Settings() {
               </div>
 
               <div className="form-row checkbox-row">
-                <label htmlFor="roommate">Are you looking for a roommate?</label>
+                <label htmlFor="roommate">Would you like your profile to be visible on the roommates tab?</label>
                 <input
                   type="checkbox"
                   id="roommate"
-                  name="lookingForRoommate"
-                  checked={formData.lookingForRoommate}
+                  name="looking_for_roommate"
+                  checked={formData.looking_for_roommate}
                   onChange={handleChange}
                 />
               </div>
