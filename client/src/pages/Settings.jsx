@@ -6,6 +6,7 @@ function Settings() {
   const [activeTab, setActiveTab] = useState("personal");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   // Combined form state
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ function Settings() {
     university: "",
     year: "",
     program: "",
-    about_you: "", // Changed from 'description' to 'about_you'
+    about_you: "",
     looking_for_roommate: false,
     email: "",
     emailNotifications: true,
@@ -40,7 +41,7 @@ function Settings() {
           university: data.university || "",
           year: data.year || "",
           program: data.program || "",
-          about_you: data.about_you || "", // Changed from 'description' to 'about_you'
+          about_you: data.about_you || "",
           looking_for_roommate: data.looking_for_roommate || false,
           email: data.email || "",
           emailNotifications: data.emailNotifications || true
@@ -93,12 +94,18 @@ function Settings() {
         showMessage("Personal info updated successfully", "success");
       }
       else if (type === "email") {
-        await axios.put(baseUrl, { 
-          email: formData.email 
+        await axios.put(`${baseUrl}/email`, { 
+          email: formData.email,
+          currentPassword: formData.currentPassword 
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        showMessage("Email updated successfully", "success");
+        showMessage("Email updated successfully. Please log in again.", "success");
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.reload();
+        }, 2000);
       }
       else if (type === "password") {
         if (formData.newPassword !== formData.confirmPassword) {
@@ -110,16 +117,42 @@ function Settings() {
         }, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        showMessage("Password updated successfully", "success");
-        setFormData(prev => ({
-          ...prev,
-          currentPassword: "",
-          newPassword: "",
-          confirmPassword: ""
-        }));
+        showMessage("Password updated successfully. Please log in again.", "success");
+        setTimeout(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.reload();
+        }, 2000);
       }
     } catch (err) {
       showMessage(err.response?.data?.error || err.message || "Update failed", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const handleDeleteAccount = async () => {
+    if (!deleteConfirmation) {
+      setDeleteConfirmation(true);
+      return;
+    }
+  
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      await axios.delete("http://localhost:5001/api/settings", {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { currentPassword: formData.currentPassword }
+      });
+      showMessage("Account deleted successfully", "success");
+      setTimeout(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/";
+      }, 1500);
+    } catch (err) {
+      showMessage(err.response?.data?.error || "Failed to delete account", "error");
+      setDeleteConfirmation(false);
     } finally {
       setLoading(false);
     }
@@ -250,9 +283,8 @@ function Settings() {
               >
                 {loading ? "Saving..." : "Save Changes"}
               </button>
-            </form>
+              </form>
           )}
-
           {activeTab === "account" && (
             <div className="account-details">
               <h2>Account Details</h2>
@@ -264,6 +296,7 @@ function Settings() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    required
                   />
                   <button 
                     className="update-btn" 
@@ -321,32 +354,37 @@ function Settings() {
                 </button>
               </form>
 
-              <div className="form-row checkbox-row">
-                <label htmlFor="notifications">Email Notifications</label>
-                <input
-                  type="checkbox"
-                  id="notifications"
-                  name="emailNotifications"
-                  checked={formData.emailNotifications}
-                  onChange={handleChange}
-                />
-              </div>
-
               <div className="danger-zone">
-                <button 
-                  className="deactivate-btn" 
-                  onClick={() => alert("Account deactivated!")}
-                  disabled={loading}
-                >
-                  Deactivate My Account
-                </button>
-                <button 
-                  className="delete-btn" 
-                  onClick={() => alert("Account deleted!")}
-                  disabled={loading}
-                >
-                  Delete My Account
-                </button>
+                <h3>Danger Zone</h3>
+                {deleteConfirmation ? (
+                  <div className="delete-confirmation">
+                    <p>Are you sure you want to delete your account? This cannot be undone.</p>
+                    <div className="confirmation-buttons">
+                      <button 
+                        className="confirm-delete-btn" 
+                        onClick={handleDeleteAccount}
+                        disabled={loading}
+                      >
+                        {loading ? "Deleting..." : "Yes, Delete My Account"}
+                      </button>
+                      <button 
+                        className="cancel-delete-btn" 
+                        onClick={() => setDeleteConfirmation(false)}
+                        disabled={loading}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button 
+                    className="delete-btn" 
+                    onClick={() => setDeleteConfirmation(true)}
+                    disabled={loading}
+                  >
+                    Delete My Account
+                  </button>
+                )}
               </div>
             </div>
           )}

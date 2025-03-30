@@ -161,7 +161,84 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+app.patch("/api/roommates/:userId", authenticateToken, async (req, res) => {
+    try {
+      // Verify admin role
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ 
+          success: false,
+          message: "Unauthorized: Admin access required" 
+        });
+      }
   
+      const userId = req.params.userId;
+      const { looking_for_roommate } = req.body;
+  
+      // Verify the user exists
+      const [user] = await db.promise().query(
+        "SELECT * FROM users WHERE users_id = ?",
+        [userId]
+      );
+  
+      if (user.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found"
+        });
+      }
+  
+      // Update the roommate status
+      await db.promise().query(
+        "UPDATE users SET looking_for_roommate = ? WHERE users_id = ?",
+        [looking_for_roommate, userId]
+      );
+  
+      res.json({
+        success: true,
+        message: "User roommate status updated successfully"
+      });
+    } catch (err) {
+      console.error("Error updating roommate status:", err);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
+app.get("/api/roommates", authenticateToken, async (req, res) => {
+    try {
+    const [roommates] = await db.promise().query(`
+        SELECT 
+            u.users_id, 
+            u.first_name, 
+            u.last_name, 
+            u.email,
+            u.gender,  
+          u.religion,
+          u.university, 
+          u.year, 
+          u.program, 
+          u.about_you,
+          u.looking_for_roommate,
+          (
+            SELECT p.city 
+            FROM property p 
+            JOIN listings l ON p.listing_id = l.listing_id 
+            WHERE l.users_id = u.users_id 
+            LIMIT 1
+          ) AS city
+        FROM users u
+        WHERE u.looking_for_roommate = TRUE
+      `);
+      
+      res.json(roommates);
+    } catch (err) {
+      console.error("Error fetching roommates:", err);
+      res.status(500).json({ error: "Failed to fetch roommates" });
+    }
+  });
 
 app.get("/", (req, res) => {
     res.send("API is running...");
