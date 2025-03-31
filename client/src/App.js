@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Listings from "./components/Listings";
 import Account from "./pages/Account";
-import Landing from "./pages/Landing";
 import ListingCreate from "./pages/ListingCreate";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
@@ -46,8 +45,6 @@ function App() {
         <Login setCurrentPage={setCurrentPage} />
       ) : currentPage === "account" ? (
         <Account />
-      ) : currentPage === "Landing" ? (
-        <Landing />
       ) : currentPage === "ListingCreate" ? (
         <ListingCreate setCurrentPage={setCurrentPage} />
       ) : currentPage === "settings" ? (
