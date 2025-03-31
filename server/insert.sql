@@ -28,25 +28,33 @@ INSERT INTO listings (
     has_laundry, has_parking, has_gym, has_hvac, has_wifi,
     has_game_room, is_pet_friendly, is_accessible
 )
-VALUES
-    (@user_id, 'Unit 205', 'Modern 2 Bedroom Apartment',
+SELECT
+    user_id, 'Unit 205', 'Modern 2 Bedroom Apartment',
     'Spacious and bright 2-bedroom apartment near campus. Includes full amenities.',
     1650.00, 2, 1,
     'https://www.accommod8u.com/student-housing?lang=ko&gad_source=1&gclid=Cj0KCQjw16O_BhDNARIsAC3i2GDYhQGVTvz7rSgJmPbDw4Z6-s1wCKpyplUFmFEUt35LgSxylAweOBIaAvf3EALw_wcB',
-    'images/listings/NEW', 0,
+    'images/listings/205', 0,
     TRUE, TRUE, FALSE, TRUE, TRUE,
-    FALSE, TRUE, FALSE),
-
-    (@user_id, 'Unit 306', '2 Bedroom Apartment',
-     'Nice cozy 2-bedroom apartment with a balcony. Includes amentities within the room.',
-     2529.00,2,2,'https://www.vogueresidences.ca','images/listings/14/1', 0,
-     TRUE, TRUE, TRUE,TRUE, TRUE,
-     TRUE, TRUE, TRUE),
-
-    (@user_id, 'Unit 101', '4 Bedroom Apartment', 'Nice 4-bedroom apartments with ensuite bathrooms.',
-     1200.00, 4,4,'https://www.canadianstudentliving.com/properties/hespeler-house-2/', 'images/listings/15/1', 0,
-     TRUE, TRUE, TRUE,TRUE, TRUE,
-     TRUE, FALSE, FALSE);
+    FALSE, TRUE, FALSE
+FROM users WHERE username = 'Aryaman'
+UNION ALL
+SELECT
+    user_id, 'Unit 306', '2 Bedroom Apartment',
+    'Nice cozy 2-bedroom apartment with a balcony. Includes amenities within the room.',
+    2529.00, 2, 2,
+    'https://www.vogueresidences.ca', 'images/listings/306', 0,
+    TRUE, TRUE, TRUE, TRUE, TRUE,
+    TRUE, TRUE, TRUE
+FROM users WHERE username = 'Paarth'
+UNION ALL
+SELECT
+    user_id, 'Unit 101', '4 Bedroom Apartment',
+    'Nice 4-bedroom apartments with ensuite bathrooms.',
+    1200.00, 4, 4,
+    'https://www.canadianstudentliving.com/properties/hespeler-house-2/', 'images/listings/101', 0,
+    TRUE, TRUE, TRUE, TRUE, TRUE,
+    TRUE, FALSE, FALSE
+FROM users WHERE username = 'Otis';
 
 -- Get the ID of the newly inserted listing
 SET @listing_id = LAST_INSERT_ID();
