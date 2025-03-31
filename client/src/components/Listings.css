@@ -1,265 +1,465 @@
 
-/* The entire page, offset by the navbar height. Adjust 60px if your navbar is bigger. */
-.listings-page {
-  position: absolute;
-  top: 60px;  /* Same as navbar height */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  background: transparent;
-  overflow: hidden; /* No extra scroll here */
-  padding-bottom: 15px;
-
-}
-
-/* LEFT PANEL: 33% width, 100% height */
-.left-panel {
-  flex: 1.2;
-  min-width: 300px;
-  max-width: 580px;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 2;
-}
-
-.right-panel {
-  flex: 1.5;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 1;
-}
-
-/* Filter bar at the top of left panel */
-.filter-bar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.filter-bar select,
-.filter-bar .sort-button {
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-
-.sort-button {
-  background: #5b088f;
-  color: white;
-}
-
-/* Scrollable area for listings */
-.listings-scroll {
-  flex-grow: 1;
-  overflow-y: auto;
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   
-}
-
-
-/* Listing cards */
-.listing-card {
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-}
-
-.listing-card:hover {
-  transform: scale(1.02);
-}
-
-.listing-card img {
-  width: 70px;
-  height: 60px;
-  border-radius: 6px;
-  margin-right: 10px;
-}
-
-.listing-info {
-  flex-grow: 1;
-  text-align: left;
-}
-
-.listing-info h3 {
-  font-size: 1rem;
-  margin: 0 0 4px;
-  color: #333;
-}
-
-.listing-info p {
-  margin: 2px 0;
-  font-size: 0.85rem;
-  color: #666;
-}
-
-/* Favorite Star: hollow by default, gold when active */
-.favorite-star {
-  font-size: 1.4rem;
-  color: gray;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.favorite-star.active {
-  color: gold;
-}
-
-.right-panel .leaflet-container {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+  }
   
-}
-/* Modal overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
 
-/* Modal container */
-.modal-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  color: #111;
-  position: relative;
-}
+  .listings-page {
+    position: absolute;
+    top: 60px; /* Adjust if your navbar is taller or shorter */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    overflow: hidden;
+    padding-bottom: 15px;
+    background: transparent;
+  }
+  
+  /* Left Panel (Listings) */
+  .left-panel {
+    flex: 1.2;
+    min-width: 300px;
+    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: transparent;
+    z-index: 2;
+  }
+  
+  /* Right Panel (Map) */
+  .right-panel {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: transparent;
+    z-index: 1;
+  }
+  
 
-/* Modal image */
-.modal-image {
-  width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
+  .listings-scroll {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .listings-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .listings-scroll::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+  .listings-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
 
-/* Text styles */
-.modal-title {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
-  color: #111;
-}
+  .listing-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .listing-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .listing-card img {
+    width: 70px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  
+  .listing-info {
+    flex-grow: 1;
+    text-align: left;
+  }
+  
+  .listing-info h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .listing-info p {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  /* Favorite Star */
+  .favorite-star {
+    font-size: 1.4rem;
+    color: gray;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 5px;
+  }
+  
+  .favorite-star.active {
+    color: gold;
+  }
+  
 
-.modal-description {
-  font-size: 16px;
-  margin: 0.5rem 0 1rem 0;
-  color: #333;
-}
+  .right-panel .leaflet-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+  
 
-.modal-info {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 1rem;
-}
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 10px;
+  }
+  
+  .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    color: #111;
+    overflow-y: auto;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    width: 50px;                    
+    height: 40px; 
+    background: #ffffff;           
+    border: 1px solid #ccc;       
+    border-radius: 4px;           
+    padding: 4px 8px;             
+    font-size: 22px;
+    color: #333;
+    cursor: pointer;
+    z-index: 9999;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  }
+  
+  .close-button:hover {
+    background: #ffc107;         
+    border-color: #333;          
+    color: #fff;               
+  }
+  
 
-.modal-input,
-.modal-textarea {
-  width: 100%;
-  margin: 0.5rem 0;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  color: #111;
-}
+  .image-gallery-container {
+    margin-bottom: 20px;
+  }
+  
+  .main-image-view {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f2f2f2;
+    z-index: 1;
+  }
+  
+  .modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  /* Left / Right Navigation Buttons */
+  .image-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;                    
+    height: 36px;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;             
+    color: #333;                    
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  }
+  
+  .image-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .image-nav.prev {
+    left: 15px;
+  }
+  
+  .image-nav.next {
+    right: 15px;
+  }
+  
+  /* Image Counter (e.g., "1 / 10") */
+  .image-counter {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
 
-/* Buttons */
-.inquire-button,
-.edit-button,
-.delete-button,
-.save-button,
-.cancel-button {
-  padding: 10px 16px;
-  margin: 6px 4px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
+  .thumbnail-container {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 5px;
+    overflow-x: auto;
+  }
+  
+  .thumbnail-wrapper {
+    flex: 0 0 auto;
+  }
+  
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  
+  .thumbnail:hover {
+    opacity: 0.8;
+  }
+  
+  .thumbnail.active {
+    border-color: #007bff;
+  }
+  
 
-.inquire-button {
-  background-color: #007bff;
-  color: white;
-}
+  .modal-title {
+    font-size: 24px;
+    margin-bottom: 0.5rem;
+    color: #111;
+  }
+  
+  .modal-description {
+    font-size: 16px;
+    margin: 0.5rem 0 1rem;
+    color: #333;
+    text-align: left;
+  }
+  
+  .modal-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-stats {
+    font-size: 16px;
+    margin: 0.5rem 0;
+    font-weight: bold;
+  }
+  
+  /* Inputs & Textareas for Edit Mode */
+  .modal-input,
+  .modal-textarea {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .modal-input.small {
+    width: 30%;
+    margin-right: 1%;
+  }
+  
+  .modal-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
 
-.edit-button {
-  background-color: #6c757d;
-  color: white;
-}
+  .modal-amenities {
+    margin: 1rem 0;
+    text-align: left;
+  }
+  
+  .modal-amenities h4 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .modal-amenities ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .modal-amenities li {
+    background: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .amenities-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .amenities-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
 
-.delete-button {
-  background-color: #dc3545;
-  color: white;
-}
+  .inquire-button,
+  .edit-button,
+  .delete-button,
+  .save-button,
+  .cancel-button {
+    padding: 10px 16px;
+    margin: 6px 4px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  /* Inquire (Open external URL) */
+  .inquire-button {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .inquire-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Edit */
+  .edit-button {
+    background-color: #6c757d;
+    color: #fff;
+  }
+  
+  .edit-button:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Delete */
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  
+  /* Save */
+  .save-button {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  
+  /* Cancel */
+  .cancel-button {
+    background-color: #ffc107;
+    color: #000;
+  }
+  
+  .cancel-button:hover {
+    background-color: #e0a800;
+  }
+  
+  /* Edit Controls */
+  .edit-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  
 
-.save-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.cancel-button {
-  background-color: #ffc107;
-  color: black;
-}
-
-/* Close button */
-.close-button {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  font-size: 22px;
-  color: #333;
-  border: none;
-  cursor: pointer;
-}
-.modal-info p {
-  color: #111 !important; /* Or #333 for a softer black */
-}
-.modal-amenities {
-  margin-top: 1rem;
-  text-align: left;
-}
-
-.modal-amenities ul {
-  list-style: none;
-  padding-left: 0;
-  color: #111;
-}
-
-.modal-amenities li {
-  margin-bottom: 4px;
-}
-
-/* Adjust for smaller inputs */
-.modal-input.small {
-  width: 30%;
-  display: inline-block;
-  margin-right: 1%;
-}
+  @media (max-width: 768px) {
+    .listings-page {
+      flex-direction: column;
+    }
+  
+    .left-panel,
+    .right-panel {
+      max-width: 100%;
+      flex: 1;
+    }
+  
+    .main-image-view {
+      height: 250px;
+    }
+  
+    .thumbnail {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .modal-input.small {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+  

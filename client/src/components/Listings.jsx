@@ -63,7 +63,7 @@ function Listings() {
               }}
             >
               <img
-                src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
+                src={`http://localhost:5001/images/listings/${listing.listing_id}/1.jpg`}
                 alt={listing.title}
                 onError={(e) => (e.target.src = placeholder)}
               />
@@ -110,6 +110,7 @@ function Listings() {
 
 const ListingModal = ({ listing, onClose, onDelete, user }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [formData, setFormData] = useState({
     ...listing,
     has_laundry: !!listing.has_laundry,
@@ -122,7 +123,23 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
     is_accessible: !!listing.is_accessible,
   });
 
-  const isOwner = user && (parseInt(user.id) === parseInt(listing.users_id) || user.role === "admin");
+  // Generate image paths (1.jpg to 10.jpg)
+const imageCount = listing.imageCount || 10; // Default to 10 if not specified
+
+const imagePaths = Array.from({ length: imageCount }, (_, i) => 
+    `http://localhost:5001/images/listings/${listing.listing_id}/${i + 1}.jpg`
+);
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+        prev === imagePaths.length - 1 ? 0 : prev + 1
+    );
+};
+
+const prevImage = () => {
+    setCurrentImageIndex((prev) => 
+        prev === 0 ? imagePaths.length - 1 : prev - 1
+    );
+};
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -182,17 +199,63 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
     { label: "Accessible", key: "is_accessible" },
   ];
 
+  const isOwner = user && (parseInt(user.id) === parseInt(listing.users_id) || user.role === "admin");
+
   return (
     <div className="modal-overlay">
-      <div className="modal-content sleek-modal">
+      <div className="modal-content">
         <button className="close-button" onClick={onClose}>×</button>
 
-        <img
-          className="modal-image"
-          src={`http://localhost:5001/${listing.listing_image}/1.jpg`}
-          alt={listing.title}
-          onError={(e) => (e.target.src = placeholder)}
-        />
+        <div className="image-gallery-container">
+          <div className="main-image-view">
+            <img
+              className="modal-image"
+              src={imagePaths[currentImageIndex]}
+              alt={`${listing.title} - Image ${currentImageIndex + 1}`}
+              onError={(e) => {
+                e.target.src = placeholder;
+                e.target.style.display = 'none';
+              }}
+            />
+            
+            {imagePaths.length > 1 && (
+              <>
+                <button className="image-nav prev" onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}>‹</button>
+                
+                <button className="image-nav next" onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}>›</button>
+                
+                <div className="image-counter">
+                  {currentImageIndex + 1} / {imagePaths.length}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="thumbnail-container">
+            {imagePaths.map((img, index) => (
+              <div key={index} className="thumbnail-wrapper">
+                <img
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex(index);
+                  }}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
         {isEditing ? (
           <input className="modal-input" name="title" value={formData.title} onChange={handleChange} />
@@ -206,7 +269,7 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
           <p className="modal-description">{listing.description}</p>
         )}
 
-        <div className="modal-info sleek-info">
+        <div className="modal-info">
           {isEditing ? (
             <>
               <input className="modal-input small" name="price" value={formData.price} onChange={handleChange} />
