@@ -1,13 +1,3 @@
-/* 
-   NAV BAR NOTE:
-   Your navbar is presumably in another component with:
-     position: fixed;
-     top: 0;
-     left: 0;
-     right: 0;
-     height: 60px;  (or whatever your navbar height is)
-     z-index: 999;
-*/
 
 /* The entire page, offset by the navbar height. Adjust 60px if your navbar is bigger. */
 .listings-page {
@@ -131,6 +121,7 @@
   border-radius: 10px;
   
 }
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -139,79 +130,136 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
+  justify-content: center;
+  z-index: 999;
 }
 
+/* Modal container */
 .modal-content {
-  background: white;
+  background: #fff;
   padding: 2rem;
-  border-radius: 10px;
-  max-width: 600px;
+  border-radius: 12px;
   width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
+  max-width: 600px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #111;
   position: relative;
 }
 
-.modal-content img {
-  max-width: 100%;
+/* Modal image */
+.modal-image {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 1rem;
 }
 
-.close-button {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-}
+/* Text styles */
 .modal-title {
-  font-size: 1.75rem;
-  margin-top: 1rem;
+  font-size: 24px;
+  margin-bottom: 0.5rem;
+  color: #111;
 }
 
-.modal-price {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+.modal-description {
+  font-size: 16px;
+  margin: 0.5rem 0 1rem 0;
   color: #333;
 }
 
 .modal-info {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.modal-address {
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
+  font-size: 14px;
   color: #555;
+  margin-bottom: 1rem;
 }
 
-.modal-description {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #444;
-  margin-bottom: 1.5rem;
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #111;
+}
+
+/* Buttons */
+.inquire-button,
+.edit-button,
+.delete-button,
+.save-button,
+.cancel-button {
+  padding: 10px 16px;
+  margin: 6px 4px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .inquire-button {
   background-color: #007bff;
   color: white;
-  padding: 0.7rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.inquire-button:hover {
-  background-color: #0056b3;
+.edit-button {
+  background-color: #6c757d;
+  color: white;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.save-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+/* Close button */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  font-size: 22px;
+  color: #333;
+  border: none;
+  cursor: pointer;
+}
+.modal-info p {
+  color: #111 !important; /* Or #333 for a softer black */
+}
+.modal-amenities {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.modal-amenities ul {
+  list-style: none;
+  padding-left: 0;
+  color: #111;
+}
+
+.modal-amenities li {
+  margin-bottom: 4px;
+}
+
+/* Adjust for smaller inputs */
+.modal-input.small {
+  width: 30%;
+  display: inline-block;
+  margin-right: 1%;
 }
