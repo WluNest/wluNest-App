@@ -2,14 +2,14 @@ import React from "react";
 import "./Navbar.css";
 
 function Navbar({ setCurrentPage }) {
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setCurrentPage("home");
     alert("Logged out successfully!");
-    window.location.reload(); // Add this line to refresh the page
+    window.location.reload(); // Refresh to reset app state
   };
 
   const handleLogin = () => {
@@ -39,6 +39,12 @@ function Navbar({ setCurrentPage }) {
         {user && (
           <span className="nav-item" onClick={() => setCurrentPage("ListingCreate")}>
             Create Listing
+          </span>
+        )}
+        {/* Admin Dashboard link */}
+        {user?.role === "admin" && (
+          <span className="nav-item" onClick={() => setCurrentPage("admin")}>
+            Admin Dashboard
           </span>
         )}
       </div>

@@ -1,5 +1,12 @@
 CREATE DATABASE IF NOT EXISTS wluNest;
 USE wluNest;
+DROP TABLE IF EXISTS users_reviews;
+DROP TABLE IF EXISTS users_saves;
+DROP TABLE IF EXISTS users_listings;
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS property;
+DROP TABLE IF EXISTS listings;
+DROP TABLE IF EXISTS users;
 
 # Creates the users table
 CREATE TABLE users(
