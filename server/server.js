@@ -68,6 +68,7 @@ const upload = multer({
 });
 
 // Upload endpoint
+// Upload endpoint
 app.post("/upload", authenticateToken, upload.array("images", 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -126,6 +127,10 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+   
+
 
 // DELETE and PUT listing routes
 app.delete("/api/listings/:id", authenticateToken, deleteListing);
