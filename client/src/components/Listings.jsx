@@ -11,6 +11,13 @@ function Listings() {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState(null);
 
+  const [filters, setFilters] = useState({
+    bed: "",
+    bath: "",
+    max_price: "",
+    favoritesOnly: false,
+  })
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) setUser(storedUser);
@@ -26,6 +33,33 @@ function Listings() {
       ...prev,
       [id]: !prev[id],
     }));
+  };
+
+
+  const getFilteredListings = () => {
+    return listings.filter((listing) => {
+      const price = parseFloat(listing.price);
+      
+      // Bed filter
+      if (filters.bed) {
+        if (filters.bed === "3+" && listing.bed < 3) return false;
+        if (filters.bed !== "3+" && listing.bed !== parseInt(filters.bed)) return false;
+      }
+      
+      // Bath filter
+      if (filters.bath) {
+        if (filters.bath === "3+" && listing.bath < 3) return false;
+        if (filters.bath !== "3+" && listing.bath !== parseInt(filters.bath)) return false;
+      }
+      
+      // Price filter
+      if (filters.max_price && price > parseInt(filters.max_price)) return false;
+      
+      // Favorites filter
+      if (filters.favoritesOnly && !favorites[listing.listing_id]) return false;
+
+      return true;
+    });
   };
 
   const handleDelete = async (listingId) => {
@@ -48,49 +82,96 @@ function Listings() {
       alert("Failed to delete listing.");
     }
   };
+  const filteredListings = getFilteredListings();
+
 
   return (
     <div className="listings-page">
       <div className="left-panel">
+        <div className="filter-bar">
+          <select 
+            value={filters.bed}
+            onChange={(e) => setFilters({ ...filters, bed: e.target.value })}
+          >
+            <option value="">All Beds</option>
+            <option value="1">1 Bed</option>
+            <option value="2">2 Beds</option>
+            <option value="3+">3+ Beds</option>
+          </select>
+
+          <select 
+            value={filters.bath}
+            onChange={(e) => setFilters({ ...filters, bath: e.target.value })}
+          >
+            <option value="">All Baths</option>
+            <option value="1">1 Bath</option>
+            <option value="2">2 Baths</option>
+            <option value="3+">3+ Baths</option>
+          </select>
+
+          <select 
+            value={filters.max_price}
+            onChange={(e) => setFilters({ ...filters, max_price: e.target.value })}
+          >
+            <option value="">Any Price</option>
+            <option value="1000">Under $1000</option>
+            <option value="1500">Under $1500</option>
+            <option value="2000">Under $2000</option>
+            <option value="2500">Under $2500</option>
+          </select>
+
+          <select 
+            value={filters.favoritesOnly}
+            onChange={(e) => setFilters({ ...filters, favoritesOnly: e.target.value === "true" })}
+          >
+            <option value="false">All Listings</option>
+            <option value="true">Favorites Only</option>
+          </select>
+        </div>
+
         <div className="listings-scroll">
-          {listings.map((listing) => (
-            <div
-              key={listing.listing_id}
-              className="listing-card"
-              onClick={() => {
-                setSelectedListing(listing);
-                setShowModal(true);
-              }}
-            >
-              <img
-                src={`http://localhost:5001/images/listings/${listing.listing_id}/1.jpg`}
-                alt={listing.title}
-                onError={(e) => (e.target.src = placeholder)}
-              />
-              <div className="listing-info">
-                <h3>{listing.title}</h3>
-                <p>${listing.price}</p>
-                <p>🛏 {listing.bed} Bed | 🛁 {listing.bath} Bath</p>
-                <p className="text-sm text-gray-500">
-                  {listing.street_number} {listing.street_name}, {listing.city}, {listing.province} {listing.postal_code}
-                </p>
-              </div>
-              <span
-                className={`favorite-star ${favorites[listing.listing_id] ? "active" : ""}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFavorite(listing.listing_id);
+          {filteredListings.length === 0 ? (
+            <p>No listings match your filters.</p>
+          ) : (
+            filteredListings.map((listing) => (
+              <div
+                key={listing.listing_id}
+                className="listing-card"
+                onClick={() => {
+                  setSelectedListing(listing);
+                  setShowModal(true);
                 }}
               >
-                ★
-              </span>
-            </div>
-          ))}
+                <img
+                  src={`http://localhost:5001/images/listings/${listing.listing_id}/1.jpg`}
+                  alt={listing.title}
+                  onError={(e) => (e.target.src = placeholder)}
+                />
+                <div className="listing-info">
+                  <h3>{listing.title}</h3>
+                  <p>${listing.price}</p>
+                  <p>🛏 {listing.bed} Bed | 🛁 {listing.bath} Bath</p>
+                  <p className="text-sm text-gray-500">
+                    {listing.street_number} {listing.street_name}, {listing.city}, {listing.province} {listing.postal_code}
+                  </p>
+                </div>
+                <span
+                  className={`favorite-star ${favorites[listing.listing_id] ? "active" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(listing.listing_id);
+                  }}
+                >
+                  ★
+                </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
       <div className="right-panel">
-        <MapView listings={listings} />
+        <MapView listings={filteredListings} />
       </div>
 
       {showModal && (
