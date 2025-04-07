@@ -5,103 +5,132 @@
  * It provides methods to:
  *   - Delete a listing (with authorization check)
  *   - Update a listing (with user ownership or admin override)
+ *   - Get listings with filters
+ *   - Get a single listing
+ *   - Create a new listing
  *
  * Features:
+ *   - Uses service layer for business logic and data access
  *   - Ensures only the listing owner or an admin can modify or delete a listing
- *   - Converts boolean feature flags to integers (0 or 1) for database storage
  *   - Handles invalid or unauthorized access with appropriate HTTP status codes
- *
- * Assumptions:
- *   - `req.user.id` and `req.user.role` are populated by authentication middleware
- *   - Listing existence is verified before performing updates/deletion
- *   - Listing fields (title, price, etc.) are provided via `req.body` and assumed validated beforehand
+ *   - Supports filtering and pagination of listings
  *
  * Dependencies:
- *   - MySQL database connection (`db`) using promise-based query interface
+ *   - ListingService for all database operations and business logic
  *
  * Author: [Your Name or Team Name]
  * Created: [Date]
+ * Updated: [Current Date] - Refactored to use OOP with services layer
  */
-const db = require("../db");
+
+const ListingService = require('../services/ListingService');
+const listingService = new ListingService();
 
 class ListingController {
-  async deleteListing(req, res) {
-    const listingId = req.params.id;
-    const userId = req.user.id;
+    async deleteListing(req, res) {
+        const listingId = req.params.id;
+        const userId = req.user.id;
 
-    try {
-      const [rows] = await db.promise().query(
-        "SELECT users_id FROM listings WHERE listing_id = ?",
-        [listingId]
-      );
+        try {
+            const listing = await listingService.getListingById(listingId);
+            if (!listing) {
+                return res.status(404).json({ error: "Listing not found" });
+            }
 
-      if (rows.length === 0) {
-        return res.status(404).json({ error: "Listing not found" });
-      }
+            if (listing.users_id !== userId) {
+                return res.status(403).json({ error: "You are not authorized to delete this listing." });
+            }
 
-      if (rows[0].users_id !== userId) {
-        return res.status(403).json({ error: "You are not authorized to delete this listing." });
-      }
-
-      await db.promise().query("DELETE FROM listings WHERE listing_id = ?", [listingId]);
-      res.json({ message: "Listing deleted successfully." });
-    } catch (error) {
-      console.error("Delete listing error:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+            await listingService.deleteListing(listingId);
+            res.json({ message: "Listing deleted successfully." });
+        } catch (error) {
+            console.error("Delete listing error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
     }
-  }
 
-  async updateListing(req, res) {
-    const listingId = parseInt(req.params.id);
-    const userId = parseInt(req.user.id);
-    const isAdmin = req.user.role === "admin";
+    async updateListing(req, res) {
+        const listingId = parseInt(req.params.id);
+        const userId = parseInt(req.user.id);
+        const isAdmin = req.user.role === "admin";
+        const {
+            title, description, price, bed, bath, url,
+            has_laundry, has_parking, has_gym, has_hvac,
+            has_wifi, has_game_room, is_pet_friendly, is_accessible
+        } = req.body;
 
-    const {
-      title, description, price, bed, bath, url,
-      has_laundry, has_parking, has_gym, has_hvac,
-      has_wifi, has_game_room, is_pet_friendly, is_accessible
-    } = req.body;
+        try {
+            const listing = await listingService.getListingById(listingId);
+            if (!listing) {
+                return res.status(404).json({ error: "Listing not found" });
+            }
 
-    try {
-      const [rows] = await db.promise().query(
-        "SELECT users_id FROM listings WHERE listing_id = ?",
-        [listingId]
-      );
+            if (!isAdmin && listing.users_id !== userId) {
+                return res.status(403).json({ error: "You are not authorized to update this listing." });
+            }
 
-      if (rows.length === 0) {
-        return res.status(404).json({ error: "Listing not found" });
-      }
+            await listingService.updateListing(listingId, {
+                title, description, price, bed, bath, url,
+                has_laundry, has_parking, has_gym, has_hvac,
+                has_wifi, has_game_room, is_pet_friendly, is_accessible
+            });
 
-      if (!isAdmin && rows[0].users_id !== userId) {
-        return res.status(403).json({ error: "You are not authorized to update this listing." });
-      }
-
-      await db.promise().query(
-        `UPDATE listings SET 
-          title = ?, description = ?, price = ?, bed = ?, bath = ?, url = ?,
-          has_laundry = ?, has_parking = ?, has_gym = ?, has_hvac = ?, has_wifi = ?,
-          has_game_room = ?, is_pet_friendly = ?, is_accessible = ?
-        WHERE listing_id = ?`,
-        [
-          title, description, price, bed, bath, url,
-          has_laundry ? 1 : 0,
-          has_parking ? 1 : 0,
-          has_gym ? 1 : 0,
-          has_hvac ? 1 : 0,
-          has_wifi ? 1 : 0,
-          has_game_room ? 1 : 0,
-          is_pet_friendly ? 1 : 0,
-          is_accessible ? 1 : 0,
-          listingId
-        ]
-      );
-
-      res.json({ message: "Listing updated successfully." });
-    } catch (error) {
-      console.error("Update listing error:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+            res.json({ message: "Listing updated successfully." });
+        } catch (error) {
+            console.error("Update listing error:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
     }
-  }
+
+    async getListings(req, res) {
+        try {
+            const filters = {
+                minPrice: req.query.minPrice,
+                maxPrice: req.query.maxPrice,
+                beds: req.query.beds,
+                baths: req.query.baths
+            };
+            
+            const listings = await listingService.getListings(filters);
+            res.json(listings);
+        } catch (error) {
+            console.error('Error in getListings:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    async getListingById(req, res) {
+        try {
+            const listing = await listingService.getListingById(req.params.id);
+            if (!listing) {
+                return res.status(404).json({ error: 'Listing not found' });
+            }
+            res.json(listing);
+        } catch (error) {
+            console.error('Error in getListingById:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    async createListing(req, res) {
+        try {
+            const listing = await listingService.createListing(req.body);
+            res.status(201).json(listing);
+        } catch (error) {
+            console.error('Error in createListing:', error);
+            res.status(500).json({ error: error.message });
+        }
+    }
 }
 
-module.exports = new ListingController();
+// Create a singleton instance
+const listingController = new ListingController();
+
+// Export controller methods
+module.exports = {
+    deleteListing: listingController.deleteListing.bind(listingController),
+    updateListing: listingController.updateListing.bind(listingController),
+    getListings: listingController.getListings.bind(listingController),
+    getListingById: listingController.getListingById.bind(listingController),
+    createListing: listingController.createListing.bind(listingController)
+};
