@@ -1,30 +1,76 @@
+@import "../styles/shared.css";
+
 .admin-dashboard {
-    padding: 2rem;
-  }
-  
-  .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
-  .admin-table th,
-  .admin-table td {
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .delete-btn {
-    background-color: crimson;
-    color: white;
-    padding: 0.4rem 0.8rem;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .delete-btn:hover {
-    background-color: darkred;
-  }
-  
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 80px auto 0;
+}
+
+.admin-dashboard h1 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.table-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: var(--background);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.admin-table tr:hover {
+  background-color: var(--background);
+}
+
+.delete-btn {
+  background-color: var(--error);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #dc2626;
+}
+

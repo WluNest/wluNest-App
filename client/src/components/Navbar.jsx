@@ -1,20 +1,52 @@
-import React from "react";
-import "./Navbar.css";
+/**
+ * Navbar Component
+ *
+ * This component renders the navigation bar for the application, allowing users to navigate
+ * between different pages such as Listings, Roommates, Settings, and Create Listing. It also 
+ * provides login and logout functionality, along with special admin access to the Admin Dashboard.
+ * 
+ * Key Features:
+ *   - Displays a logo and clickable navigation items.
+ *   - Conditionally renders navigation links based on the user’s authentication status.
+ *   - Allows users to navigate between pages (Listings, Roommates, Settings, Create Listing, etc.).
+ *   - Provides login and logout functionality, with logout refreshing the app state.
+ *   - Admin users see an additional link to the Admin Dashboard.
+ *
+ * Dependencies:
+ *   - React
+ *   - authService (for managing user authentication)
+ *
+ * Props:
+ *   - `setCurrentPage` (function): A function to update the current page state in the parent component.
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
+"use client"
+
+import { useState, useEffect } from "react"
+import "./Navbar.css"
+import authService from "../services/AuthService"
 
 function Navbar({ setCurrentPage }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    // Get current user from auth service
+    const currentUser = authService.getCurrentUser()
+    setUser(currentUser)
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setCurrentPage("home");
-    alert("Logged out successfully!");
-    window.location.reload(); // Refresh to reset app state
-  };
+    authService.logout()
+    setCurrentPage("home")
+    alert("Logged out successfully!")
+    window.location.reload() // Refresh to reset app state
+  }
 
   const handleLogin = () => {
-    setCurrentPage("login");
-  };
+    setCurrentPage("login")
+  }
 
   return (
     <div className="navbar">
@@ -42,7 +74,7 @@ function Navbar({ setCurrentPage }) {
           </span>
         )}
         {/* Admin Dashboard link */}
-        {user?.role === "admin" && (
+        {user && user.isAdmin() && (
           <span className="nav-item" onClick={() => setCurrentPage("admin")}>
             Admin Dashboard
           </span>
@@ -62,7 +94,8 @@ function Navbar({ setCurrentPage }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
+
