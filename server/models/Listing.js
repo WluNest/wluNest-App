@@ -73,7 +73,16 @@ class Listing extends BaseModel {
             has_gym: data.has_gym,
             has_hvac: data.has_hvac,
             has_wifi: data.has_wifi,
-            created_at: data.created_at
+            created_at: data.created_at,
+
+            street_name: data.street_name,
+            street_number: data.street_number,
+            city: data.city,
+            province: data.province,
+            postal_code: data.postal_code,
+            latitude: parseFloat(data.latitude),
+            longitude: parseFloat(data.longitude)
+        
         });
     }
 }
