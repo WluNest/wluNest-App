@@ -1,3 +1,33 @@
+/**
+ * wluNest - A Student Housing Platform for Wilfrid Laurier University
+ *
+ * This React application serves as the front-end for the wluNest platform,
+ * designed to help students find affordable housing options near Wilfrid Laurier University.
+ * The app allows users to browse housing listings, connect with roommates, and manage their accounts.
+ *
+ * Key Features:
+ * - View and browse available housing listings.
+ * - Create and manage user accounts.
+ * - Admin dashboard for managing platform content.
+ * - Search and filter roommates based on preferences.
+ * - Update user settings (email, password, etc.).
+ *
+ * User Authentication:
+ * The app supports user login, signup, and role-based access control.
+ * Users can authenticate using their credentials, and admins have additional management privileges.
+ *
+ * Navigation:
+ * The app dynamically renders different pages based on the `currentPage` state.
+ * Pages include Home, Listings, Account, Login, Settings, and Admin Dashboard.
+ *
+ * Developer Notes:
+ * - The app relies on localStorage to persist user data and authentication token.
+ * - The app structure is designed for scalability and flexibility, allowing easy expansion of features.
+ * 
+ * Author [Your Name]
+ * Created: [Date]
+ * Date [Current Date]
+ */
 "use client"
 
 import "./App.css"
