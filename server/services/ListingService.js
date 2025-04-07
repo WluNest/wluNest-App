@@ -1,5 +1,5 @@
-const BaseService = require('./BaseService');
-const Listing = require('../models/Listing');
+const BaseService = require('./BaseService.js');
+const Listing = require('../models/Listing.js');
 
 class ListingService extends BaseService {
     async getListings(filters = {}) {
@@ -56,13 +56,14 @@ class ListingService extends BaseService {
 
     async updateListing(id, data) {
         try {
-            const query = `UPDATE listings SET 
+            // Update the listing
+            const listingQuery = `UPDATE listings SET 
                 title = ?, description = ?, price = ?, bed = ?, bath = ?, url = ?,
                 has_laundry = ?, has_parking = ?, has_gym = ?, has_hvac = ?, has_wifi = ?,
                 has_game_room = ?, is_pet_friendly = ?, is_accessible = ?
                 WHERE listing_id = ?`;
             
-            const params = [
+            const listingParams = [
                 data.title, data.description, data.price, data.bed, data.bath, data.url,
                 data.has_laundry ? 1 : 0,
                 data.has_parking ? 1 : 0,
@@ -75,7 +76,26 @@ class ListingService extends BaseService {
                 id
             ];
 
-            await this.query(query, params);
+            await this.query(listingQuery, listingParams);
+
+            // Update the property
+            if (data.property) {
+                const propertyQuery = `UPDATE property SET 
+                    street_name = ?, street_number = ?, city = ?, province = ?, postal_code = ?
+                    WHERE listing_id = ?`;
+                
+                const propertyParams = [
+                    data.property.street_name,
+                    data.property.street_number,
+                    data.property.city,
+                    data.property.province,
+                    data.property.postal_code,
+                    id
+                ];
+
+                await this.query(propertyQuery, propertyParams);
+            }
+
             return this.getListingById(id);
         } catch (error) {
             this.handleError(error);

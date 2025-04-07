@@ -15,3 +15,5 @@ class BaseModel {
         return true; // Override in child classes
     }
 }
+
+module.exports = BaseModel;

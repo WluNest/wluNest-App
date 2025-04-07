@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const db = require('../db');
+const db = require('../db.js');
 
 class BaseService {
     constructor() {
@@ -13,7 +13,7 @@ class BaseService {
 
     async query(sql, params = []) {
         try {
-            const [results] = await this.db.execute(sql, params);
+            const [results] = await this.db.query(sql, params);
             return results;
         } catch (error) {
             this.handleError(error);

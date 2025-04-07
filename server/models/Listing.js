@@ -1,4 +1,4 @@
-const BaseModel = require('./BaseModel');
+const BaseModel = require('./BaseModel.js');
 
 class Listing extends BaseModel {
     constructor(data = {}) {
