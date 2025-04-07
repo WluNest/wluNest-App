@@ -53,10 +53,15 @@ class ListingController {
         const listingId = parseInt(req.params.id);
         const userId = parseInt(req.user.id);
         const isAdmin = req.user.role === "admin";
+
         const {
+            // listings table
             title, description, price, bed, bath, url,
             has_laundry, has_parking, has_gym, has_hvac,
-            has_wifi, has_game_room, is_pet_friendly, is_accessible
+            has_wifi, has_game_room, is_pet_friendly, is_accessible,
+
+            // property table
+            street_number, street_name, city, province, postal_code
         } = req.body;
 
         try {
@@ -72,7 +77,14 @@ class ListingController {
             await listingService.updateListing(listingId, {
                 title, description, price, bed, bath, url,
                 has_laundry, has_parking, has_gym, has_hvac,
-                has_wifi, has_game_room, is_pet_friendly, is_accessible
+                has_wifi, has_game_room, is_pet_friendly, is_accessible,
+                property: {
+                    street_number,
+                    street_name,
+                    city,
+                    province,
+                    postal_code
+                }
             });
 
             res.json({ message: "Listing updated successfully." });
