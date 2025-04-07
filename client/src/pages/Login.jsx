@@ -45,12 +45,12 @@ const Login = ({ setCurrentPage }) => {
           return
         }
 
-        await authService.login(identifier, password)
-        alert("Login successful")
-        setCurrentPage("listings")
+        const user = await authService.login(identifier, password)
+        // Force a page reload to update all components with new auth state
+        window.location.href = '/listings'
       }
-    } catch (err) {
-      setError(err.message || "Authentication failed")
+    } catch (error) {
+      setError(error.message || "An error occurred")
     } finally {
       setIsLoading(false)
     }
@@ -126,11 +126,10 @@ const Login = ({ setCurrentPage }) => {
           </p>
         </div>
 
-        <div className="login-footer">© {new Date().getFullYear()} wluNest - Student Housing Made Simple</div>
+        <div className="login-footer"> {new Date().getFullYear()} wluNest - Student Housing Made Simple</div>
       </div>
     </div>
   )
 }
 
 export default Login
-
