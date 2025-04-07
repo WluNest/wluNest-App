@@ -1,3 +1,25 @@
+/**
+ * Settings Component
+ *
+ * This component provides a user interface for users to manage their account settings, including personal information and account details.
+ * It supports editing personal information (religion, gender, university, year, program, and about you), as well as updating email and password.
+ * Users can also toggle email notifications, manage their roommate profile visibility, and delete their account with a confirmation process.
+ * The component handles asynchronous API requests to update or retrieve the settings data, displaying success or error messages as feedback.
+ * 
+ * Key Features:
+ *   - Update personal information (religion, gender, university, year, program, about you).
+ *   - Toggle visibility of the roommate profile via a checkbox.
+ *   - Update account details such as email and password.
+ *   - Email update requires re-authentication with the current password and logs out the user after success.
+ *   - Password change allows users to change their password with confirmation, requiring re-login after successful update.
+ *   - Option to delete the account, with a confirmation step to prevent accidental deletions.
+ *   - Displays feedback messages based on the success or failure of API calls.
+ *   - Responsive form layout with real-time data binding and loading indicators.
+ * 
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Settings.css";
