@@ -1,76 +1,70 @@
-import React, { useState } from "react";
-import "./Login.css";
-import axios from "axios";
+"use client"
+
+import { useState } from "react"
+import "./Login.css"
+import authService from "../services/AuthService"
 
 const Login = ({ setCurrentPage }) => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [identifier, setIdentifier] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [error, setError] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [identifier, setIdentifier] = useState("")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [first_name, setFirstName] = useState("")
+  const [last_name, setLastName] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+    e.preventDefault()
+    setError("")
+    setIsLoading(true)
 
     try {
       if (isSignUp) {
         if (!username || !first_name || !last_name || !email || !password) {
-          return setError("Please fill in all fields.");
+          setError("Please fill in all fields.")
+          setIsLoading(false)
+          return
         }
-  
-        const res = await axios.post("http://localhost:5001/api/signup", {
+
+        const response = await authService.signup({
           username,
           first_name,
           last_name,
           email,
           password,
-        });
-  
-        alert(res.data.message);
-        setIsSignUp(false);
-        setCurrentPage("listings");
+        })
+
+        alert(response.message)
+        setIsSignUp(false)
       } else {
         if (!identifier || !password) {
-          return setError("Please enter your username/email and password.");
+          setError("Please enter your username/email and password.")
+          setIsLoading(false)
+          return
         }
-  
-        const res = await axios.post("http://localhost:5001/api/login", {
-          identifier,
-          password,
-        });
-        alert(res.data.message);
-        localStorage.setItem("token", res.data.token); 
-        localStorage.setItem("user", JSON.stringify({ ...res.data.user, token: res.data.token }));
 
-        setCurrentPage("listings");
-  
-
+        const user = await authService.login(identifier, password)
+        // Force a page reload to update all components with new auth state
+        window.location.href = '/listings'
       }
+    } catch (error) {
+      setError(error.message || "An error occurred")
+    } finally {
+      setIsLoading(false)
     }
-    catch (err) {
-      console.error("Failed to authenticate:", err);
-      setError(err.response.data.message);
-
-      if (err.response && err.response.data) {
-        setError(err.response.data.message);
-      } else if (err.request) {
-        setError("Cannot reach server. Please make sure the backend is running.");
-      } else {
-        setError("An unexpected error occurred.");
-      }
-      
-    }
-
-  };
+  }
 
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1>{isSignUp ? "Sign up" : "Login"} to wluNest</h1>
+        <div className="login-logo">wluNest</div>
+        <p className="login-subtitle">
+          {isSignUp
+            ? "Create your account to find your perfect student housing"
+            : "Welcome back! Log in to continue your housing search"}
+        </p>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -79,40 +73,19 @@ const Login = ({ setCurrentPage }) => {
             <>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
+                <input id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="first_name">First Name</label>
-                <input
-                  id="first_name"
-                  value={first_name}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
+                <input id="first_name" value={first_name} onChange={(e) => setFirstName(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="last_name">Last Name</label>
-                <input
-                  id="last_name"
-                  value={last_name}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
+                <input id="last_name" value={last_name} onChange={(e) => setLastName(e.target.value)} required />
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </div>
             </>
           ) : (
@@ -139,8 +112,8 @@ const Login = ({ setCurrentPage }) => {
             />
           </div>
 
-          <button type="submit" className="submit-btn">
-            {isSignUp ? "Sign up" : "Login"}
+          <button type="submit" className="submit-btn" disabled={isLoading}>
+            {isLoading ? "Processing..." : isSignUp ? "Sign up" : "Login"}
           </button>
         </form>
 
@@ -152,8 +125,11 @@ const Login = ({ setCurrentPage }) => {
             </button>
           </p>
         </div>
+
+        <div className="login-footer"> {new Date().getFullYear()} wluNest - Student Housing Made Simple</div>
       </div>
     </div>
-  );
-};
-export default Login;
+  )
+}
+
+export default Login
