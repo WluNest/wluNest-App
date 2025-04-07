@@ -1,106 +1,132 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useMemo } from "react";
+// Update this line at the top of Settings.jsx
+import settingsService from "../services/SettingsService";
 import "./Settings.css";
+
+class SettingsFormData {
+  constructor() {
+    this.religion = "";
+    this.gender = "";
+    this.university = "";
+    this.year = "";
+    this.program = "";
+    this.about_you = "";
+    this.looking_for_roommate = false;
+    this.email = "";
+    this.emailNotifications = true;
+    this.currentPassword = "";
+    this.newPassword = "";
+    this.confirmPassword = "";
+  }
+
+  updateFromUser(user) {
+    this.religion = user.religion || "";
+    this.gender = user.gender || "";
+    this.university = user.university || "";
+    this.year = user.year || "";
+    this.program = user.program || "";
+    this.about_you = user.about_you || "";
+    this.looking_for_roommate = user.looking_for_roommate || false;
+    this.email = user.email || "";
+    this.emailNotifications = user.emailNotifications !== false;
+  }
+
+  getPersonalData() {
+    return {
+      religion: this.religion,
+      gender: this.gender,
+      university: this.university,
+      year: this.year,
+      program: this.program,
+      about_you: this.about_you,
+      looking_for_roommate: this.looking_for_roommate
+    };
+  }
+
+  getEmailData() {
+    return {
+      email: this.email,
+      currentPassword: this.currentPassword
+    };
+  }
+
+  getPasswordData() {
+    return {
+      currentPassword: this.currentPassword,
+      newPassword: this.newPassword
+    };
+  }
+}
+
+class MessageHandler {
+  constructor(setMessage) {
+    this.setMessage = setMessage;
+  }
+
+  show(text, type) {
+    this.setMessage({ text, type });
+    setTimeout(() => this.setMessage({ text: "", type: "" }), 5000);
+  }
+
+  showError(error) {
+    const message = error.message || "Operation failed";
+    this.show(message, "error");
+  }
+}
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("personal");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [formData, setFormData] = useState(new SettingsFormData());
 
-  // Combined form state
-  const [formData, setFormData] = useState({
-    religion: "",
-    gender: "",
-    university: "",
-    year: "",
-    program: "",
-    about_you: "",
-    looking_for_roommate: false,
-    email: "",
-    emailNotifications: true,
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
-  });
+  const messageHandler = useMemo(() => new MessageHandler(setMessage), []);
 
-  // Fetch user data on mount
   useEffect(() => {
     const fetchSettings = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem("token");
-        const { data } = await axios.get("http://localhost:5001/api/settings", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const user = await settingsService.getUserSettings();
         
-        setFormData(prev => ({
-          ...prev,
-          religion: data.religion || "",
-          gender: data.gender || "",
-          university: data.university || "",
-          year: data.year || "",
-          program: data.program || "",
-          about_you: data.about_you || "",
-          looking_for_roommate: data.looking_for_roommate || false,
-          email: data.email || "",
-          emailNotifications: data.emailNotifications || true
-        }));
-      } catch (err) {
-        setMessage({
-          text: err.response?.data?.error || "Failed to load settings",
-          type: "error"
-        });
+        const newFormData = new SettingsFormData();
+        newFormData.updateFromUser(user);
+        setFormData(newFormData);
+      } catch (error) {
+        messageHandler.showError(error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchSettings();
-  }, []);
-
-  const showMessage = (text, type) => {
-    setMessage({ text, type });
-    setTimeout(() => setMessage({ text: "", type: "" }), 5000);
-  };
+  }, [messageHandler]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value
-    }));
+    setFormData(prev => {
+      const newData = new SettingsFormData();
+      Object.assign(newData, prev);
+      newData[name] = type === "checkbox" ? checked : value;
+      return newData;
+    });
   };
 
   const handleSubmit = async (type, e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
-      const baseUrl = "http://localhost:5001/api/settings";
       
       if (type === "personal") {
-        await axios.put(baseUrl, {
-          religion: formData.religion,
-          gender: formData.gender,
-          university: formData.university,
-          year: formData.year,
-          program: formData.program,
-          about_you: formData.about_you, // Changed from 'description' to 'about_you'
-          looking_for_roommate: formData.looking_for_roommate
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        showMessage("Personal info updated successfully", "success");
+        await settingsService.updateUserSettings(formData.getPersonalData());
+        messageHandler.show("Personal info updated successfully", "success");
       }
       else if (type === "email") {
-        await axios.put(`${baseUrl}/email`, { 
-          email: formData.email,
-          currentPassword: formData.currentPassword 
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        showMessage("Email updated successfully. Please log in again.", "success");
+        await settingsService.updateEmail(
+          formData.email,
+          formData.currentPassword
+        );
+        messageHandler.show("Email updated successfully. Please log in again.", "success");
         setTimeout(() => {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
@@ -111,21 +137,19 @@ function Settings() {
         if (formData.newPassword !== formData.confirmPassword) {
           throw new Error("Passwords don't match");
         }
-        await axios.put(`${baseUrl}/password`, {
-          currentPassword: formData.currentPassword,
-          newPassword: formData.newPassword
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        showMessage("Password updated successfully. Please log in again.", "success");
+        await settingsService.updatePassword(
+          formData.currentPassword,
+          formData.newPassword
+        );
+        messageHandler.show("Password updated successfully. Please log in again.", "success");
         setTimeout(() => {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           window.location.reload();
         }, 2000);
       }
-    } catch (err) {
-      showMessage(err.response?.data?.error || err.message || "Update failed", "error");
+    } catch (error) {
+      messageHandler.showError(error);
     } finally {
       setLoading(false);
     }
@@ -139,19 +163,15 @@ function Settings() {
   
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
-      await axios.delete("http://localhost:5001/api/settings", {
-        headers: { Authorization: `Bearer ${token}` },
-        data: { currentPassword: formData.currentPassword }
-      });
-      showMessage("Account deleted successfully", "success");
+      await settingsService.deleteAccount(formData.currentPassword);
+      messageHandler.show("Account deleted successfully", "success");
       setTimeout(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         window.location.href = "/";
       }, 1500);
-    } catch (err) {
-      showMessage(err.response?.data?.error || "Failed to delete account", "error");
+    } catch (error) {
+      messageHandler.showError(error);
       setDeleteConfirmation(false);
     } finally {
       setLoading(false);
@@ -161,7 +181,6 @@ function Settings() {
   return (
     <div className="settings-page">
       <div className="settings-container">
-        {/* Left Panel: Tabs */}
         <div className="settings-tabs">
           <div
             className={`tab-item ${activeTab === "personal" ? "active" : ""}`}
@@ -177,7 +196,6 @@ function Settings() {
           </div>
         </div>
 
-        {/* Right Panel: Tab Content */}
         <div className="settings-content">
           {message.text && (
             <div className={`alert ${message.type}`}>{message.text}</div>
@@ -259,8 +277,8 @@ function Settings() {
                 <label>About you:</label>
                 <textarea
                   rows="4"
-                  name="about_you" // Changed from 'description' to 'about_you'
-                  value={formData.about_you} // Changed from 'description' to 'about_you'
+                  name="about_you"
+                  value={formData.about_you}
                   onChange={handleChange}
                 />
               </div>
@@ -283,8 +301,9 @@ function Settings() {
               >
                 {loading ? "Saving..." : "Save Changes"}
               </button>
-              </form>
+            </form>
           )}
+          
           {activeTab === "account" && (
             <div className="account-details">
               <h2>Account Details</h2>

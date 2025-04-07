@@ -88,4 +88,3 @@ class SettingsService extends BaseService {
 // Create singleton instance
 const settingsService = new SettingsService()
 export default settingsService
-

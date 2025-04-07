@@ -1,39 +1,115 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import listingService from "../services/ListingService"
 import "./ListingCreate.css"
-import axios from "axios"
+
+class FormValidator {
+  static validate(formData) {
+    const errors = {}
+    const requiredFields = [
+      "title",
+      "description",
+      "price",
+      "bed",
+      "bath",
+      "street_name",
+      "street_number",
+      "city",
+      "province",
+      "postal_code",
+    ]
+
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        errors[field] = "This field is required"
+      }
+    })
+
+    if (formData.price && (isNaN(formData.price) || formData.price <= 0)) {
+      errors.price = "Price must be a number greater than 0"
+    }
+
+    if (formData.bed && (isNaN(formData.bed) || formData.bed <= 0 || !Number.isInteger(Number(formData.bed)))) {
+      errors.bed = "Bedrooms must be a whole number greater than 0"
+    }
+
+    if (formData.bath && (isNaN(formData.bath) || formData.bath <= 0 || !Number.isInteger(Number(formData.bath)))) {
+      errors.bath = "Bathrooms must be a whole number greater than 0"
+    }
+
+    if (formData.postal_code && !/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(formData.postal_code)) {
+      errors.postal_code = "Please enter a valid postal code (e.g. A1A 1A1)"
+    }
+
+    return errors
+  }
+}
+
+class ListingData {
+  constructor() {
+    this.title = ""
+    this.description = ""
+    this.price = ""
+    this.bed = ""
+    this.bath = ""
+    this.street_name = ""
+    this.street_number = ""
+    this.city = ""
+    this.province = ""
+    this.postal_code = ""
+    this.url = ""
+    this.has_laundry = false
+    this.has_parking = false
+    this.has_gym = false
+    this.has_hvac = false
+    this.has_wifi = false
+    this.has_game_room = false
+    this.is_pet_friendly = false
+    this.is_accessible = false
+  }
+}
+
+class ImageManager {
+  constructor() {
+    this.files = []
+    this.previewUrls = []
+  }
+
+  addFiles(newFiles) {
+    const validFiles = newFiles.filter(
+      (file) => file.type === "image/jpeg" && file.size <= 1 * 1024 * 1024
+    )
+    
+    if (this.files.length + validFiles.length > 10) {
+      throw new Error(`Maximum of 10 images allowed. You can add ${10 - this.files.length} more.`)
+    }
+    
+    this.files = [...this.files, ...validFiles]
+    this.previewUrls = [...this.previewUrls, ...validFiles.map((file) => URL.createObjectURL(file))]
+  }
+
+  removeImage(index) {
+    URL.revokeObjectURL(this.previewUrls[index])
+    this.files = this.files.filter((_, i) => i !== index)
+    this.previewUrls = this.previewUrls.filter((_, i) => i !== index)
+  }
+
+  clear() {
+    this.previewUrls.forEach((url) => URL.revokeObjectURL(url))
+    this.files = []
+    this.previewUrls = []
+  }
+}
 
 const ListingCreate = ({ setCurrentPage }) => {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
-
   const [errors, setErrors] = useState({})
-  const [files, setFiles] = useState([])
-  const [previewUrls, setPreviewUrls] = useState([])
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    bed: "",
-    bath: "",
-    street_name: "",
-    street_number: "",
-    city: "",
-    province: "",
-    postal_code: "",
-    url: "",
-    has_laundry: false,
-    has_parking: false,
-    has_gym: false,
-    has_hvac: false,
-    has_wifi: false,
-    has_game_room: false,
-    is_pet_friendly: false,
-    is_accessible: false,
-  })
-
+  const [listingData, setListingData] = useState(new ListingData())
+  const imageManagerRef = useRef(new ImageManager())
   const hasRedirected = useRef(false)
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     const user = localStorage.getItem("user")
@@ -51,131 +127,75 @@ const ListingCreate = ({ setCurrentPage }) => {
   }, [setCurrentPage])
 
   useEffect(() => {
+    // Store the current imageManager in a variable
+    const imageManager = imageManagerRef.current
+
     return () => {
-      previewUrls.forEach((url) => URL.revokeObjectURL(url))
+      // Use the stored variable in cleanup
+      if (imageManager) {
+        imageManager.clear()
+      }
     }
-  }, [previewUrls])
+  }, [])
 
   const validateForm = () => {
-    const newErrors = {}
-    const requiredFields = [
-      "title",
-      "description",
-      "price",
-      "bed",
-      "bath",
-      "street_name",
-      "street_number",
-      "city",
-      "province",
-      "postal_code",
-    ]
-
-    // Check required fields
-    requiredFields.forEach((field) => {
-      if (!formData[field]) {
-        newErrors[field] = "This field is required"
-      }
-    })
-
-    // Validate numeric fields
-    if (formData.price && (isNaN(formData.price) || formData.price <= 0)) {
-      newErrors.price = "Price must be a number greater than 0"
-    }
-
-    if (formData.bed && (isNaN(formData.bed) || formData.bed <= 0 || !Number.isInteger(Number(formData.bed)))) {
-      newErrors.bed = "Bedrooms must be a whole number greater than 0"
-    }
-
-    if (formData.bath && (isNaN(formData.bath) || formData.bath <= 0 || !Number.isInteger(Number(formData.bath)))) {
-      newErrors.bath = "Bathrooms must be a whole number greater than 0"
-    }
-
-    // Validate postal code format (basic Canadian format)
-    if (formData.postal_code && !/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(formData.postal_code)) {
-      newErrors.postal_code = "Please enter a valid postal code (e.g. A1A 1A1)"
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const errors = FormValidator.validate(listingData)
+    setErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   const handleUpload = async () => {
-    // First validate the form
     if (!validateForm()) {
       alert("Please fix the errors in the form before submitting")
       return
     }
 
-    const user = JSON.parse(localStorage.getItem("user"))
-    const token = localStorage.getItem("token")
-    if (!user || !token) {
-      alert("Login required")
-      setCurrentPage("login")
-      return
-    }
-
-    const uploadData = new FormData()
-    files.forEach((file) => {
-      uploadData.append("images", file)
-    })
-
-    Object.keys(formData).forEach((key) => {
-      uploadData.append(key, formData[key])
-    })
-
-    uploadData.append("users_id", user.users_id)
-
     try {
       setIsUploading(true)
-      await axios.post("http://localhost:5001/upload", uploadData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      alert("Upload successful")
+      await listingService.createListing(listingData, imageManagerRef.current.files)
+      alert("Listing created successfully")
       setCurrentPage("listings")
     } catch (error) {
-      console.error("Upload failed", error)
-      alert("Upload failed")
+      alert(error.message)
+      if (error.message.includes("Login")) {
+        setCurrentPage("login")
+      }
     } finally {
       setIsUploading(false)
     }
   }
 
-  if (!isAuthorized) return null
-
   const handleFileChange = (event) => {
-    const selectedFiles = Array.from(event.target.files)
-
-    const validFiles = selectedFiles.filter((file) => file.type === "image/jpeg" && file.size <= 1 * 1024 * 1024)
-
-    if (files.length + validFiles.length > 10) {
-      alert("Maximum of 10 images allowed. You can add " + (10 - files.length) + " more.")
-      return
+    try {
+      imageManagerRef.current.addFiles(Array.from(event.target.files))
+      // Force re-render by updating state
+      setListingData(new ListingData({ ...listingData }))
+    } catch (error) {
+      alert(error.message)
     }
-
-    setFiles((prevFiles) => [...prevFiles, ...validFiles])
-    const newPreviewUrls = validFiles.map((file) => URL.createObjectURL(file))
-    setPreviewUrls((prevUrls) => [...prevUrls, ...newPreviewUrls])
   }
 
   const removeImage = (index) => {
-    URL.revokeObjectURL(previewUrls[index])
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index))
-    setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index))
+    imageManagerRef.current.removeImage(index)
+    // Force re-render by updating state
+    setListingData(new ListingData({ ...listingData }))
   }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setFormData({ ...formData, [name]: value })
+    setListingData(new ListingData({ ...listingData, [name]: value }))
   }
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target
-    setFormData({ ...formData, [name]: checked })
+    setListingData(new ListingData({ ...listingData, [name]: checked }))
   }
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click()
+  }
+
+  if (!isAuthorized) return null
 
   return (
     <div className="page">
@@ -188,7 +208,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="title"
-              value={formData.title}
+              value={listingData.title}
               onChange={handleInputChange}
               className={errors.title ? "form-control error" : "form-control"}
             />
@@ -199,7 +219,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <label>Description</label>
             <textarea
               name="description"
-              value={formData.description}
+              value={listingData.description}
               onChange={handleInputChange}
               rows="4"
               className={errors.description ? "form-control error" : "form-control"}
@@ -212,7 +232,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="number"
               name="price"
-              value={formData.price}
+              value={listingData.price}
               onChange={handleInputChange}
               className={errors.price ? "form-control error" : "form-control"}
             />
@@ -224,7 +244,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="number"
               name="bed"
-              value={formData.bed}
+              value={listingData.bed}
               onChange={handleInputChange}
               className={errors.bed ? "form-control error" : "form-control"}
             />
@@ -236,7 +256,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="number"
               name="bath"
-              value={formData.bath}
+              value={listingData.bath}
               onChange={handleInputChange}
               className={errors.bath ? "form-control error" : "form-control"}
             />
@@ -248,7 +268,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="street_number"
-              value={formData.street_number}
+              value={listingData.street_number}
               onChange={handleInputChange}
               className={errors.street_number ? "form-control error" : "form-control"}
             />
@@ -260,7 +280,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="street_name"
-              value={formData.street_name}
+              value={listingData.street_name}
               onChange={handleInputChange}
               className={errors.street_name ? "form-control error" : "form-control"}
             />
@@ -272,7 +292,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="city"
-              value={formData.city}
+              value={listingData.city}
               onChange={handleInputChange}
               className={errors.city ? "form-control error" : "form-control"}
             />
@@ -284,7 +304,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="province"
-              value={formData.province}
+              value={listingData.province}
               onChange={handleInputChange}
               className={errors.province ? "form-control error" : "form-control"}
             />
@@ -296,7 +316,7 @@ const ListingCreate = ({ setCurrentPage }) => {
             <input
               type="text"
               name="postal_code"
-              value={formData.postal_code}
+              value={listingData.postal_code}
               onChange={handleInputChange}
               className={errors.postal_code ? "form-control error" : "form-control"}
             />
@@ -305,7 +325,13 @@ const ListingCreate = ({ setCurrentPage }) => {
 
           <div className="form-row">
             <label>Listing URL</label>
-            <input type="text" name="url" value={formData.url} onChange={handleInputChange} className="form-control" />
+            <input
+              type="text"
+              name="url"
+              value={listingData.url}
+              onChange={handleInputChange}
+              className="form-control"
+            />
           </div>
 
           <h3 className="section-title">Amenities</h3>
@@ -316,7 +342,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_laundry"
                 name="has_laundry"
-                checked={formData.has_laundry}
+                checked={listingData.has_laundry}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_laundry">Laundry</label>
@@ -327,7 +353,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_parking"
                 name="has_parking"
-                checked={formData.has_parking}
+                checked={listingData.has_parking}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_parking">Parking</label>
@@ -338,7 +364,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_gym"
                 name="has_gym"
-                checked={formData.has_gym}
+                checked={listingData.has_gym}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_gym">Gym</label>
@@ -349,7 +375,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_hvac"
                 name="has_hvac"
-                checked={formData.has_hvac}
+                checked={listingData.has_hvac}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_hvac">HVAC</label>
@@ -360,7 +386,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_wifi"
                 name="has_wifi"
-                checked={formData.has_wifi}
+                checked={listingData.has_wifi}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_wifi">WiFi</label>
@@ -371,7 +397,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="has_game_room"
                 name="has_game_room"
-                checked={formData.has_game_room}
+                checked={listingData.has_game_room}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="has_game_room">Game Room</label>
@@ -382,7 +408,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="is_pet_friendly"
                 name="is_pet_friendly"
-                checked={formData.is_pet_friendly}
+                checked={listingData.is_pet_friendly}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="is_pet_friendly">Pet Friendly</label>
@@ -393,7 +419,7 @@ const ListingCreate = ({ setCurrentPage }) => {
                 type="checkbox"
                 id="is_accessible"
                 name="is_accessible"
-                checked={formData.is_accessible}
+                checked={listingData.is_accessible}
                 onChange={handleCheckboxChange}
               />
               <label htmlFor="is_accessible">Accessible</label>
@@ -403,13 +429,28 @@ const ListingCreate = ({ setCurrentPage }) => {
           <div className="form-row image-upload-row">
             <label>Images (Max 10)</label>
             <div className="file-upload-container">
-              <input type="file" accept="image/jpeg" onChange={handleFileChange} multiple className="file-input" />
-              <p className="file-count">{files.length} / 10 images selected</p>
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                accept="image/jpeg" 
+                onChange={handleFileChange} 
+                multiple 
+                className="file-input" 
+                style={{ display: 'none' }}
+              />
+              <button 
+                type="button" 
+                onClick={triggerFileInput}
+                className="upload-button"
+              >
+                Select Images
+              </button>
+              <p className="file-count">{imageManagerRef.current.files.length} / 10 images selected</p>
             </div>
           </div>
 
           <div className="image-preview">
-            {previewUrls.map((url, index) => (
+            {imageManagerRef.current.previewUrls.map((url, index) => (
               <div key={index} className="image-preview-item">
                 <img src={url || "/placeholder.svg"} alt="Preview" />
                 <button onClick={() => removeImage(index)} className="remove-image-btn">
@@ -429,4 +470,3 @@ const ListingCreate = ({ setCurrentPage }) => {
 }
 
 export default ListingCreate
-
