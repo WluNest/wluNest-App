@@ -1,3 +1,27 @@
+/**
+ * ListingController
+ *
+ * This controller manages operations related to rental or roommate listings.
+ * It provides methods to:
+ *   - Delete a listing (with authorization check)
+ *   - Update a listing (with user ownership or admin override)
+ *
+ * Features:
+ *   - Ensures only the listing owner or an admin can modify or delete a listing
+ *   - Converts boolean feature flags to integers (0 or 1) for database storage
+ *   - Handles invalid or unauthorized access with appropriate HTTP status codes
+ *
+ * Assumptions:
+ *   - `req.user.id` and `req.user.role` are populated by authentication middleware
+ *   - Listing existence is verified before performing updates/deletion
+ *   - Listing fields (title, price, etc.) are provided via `req.body` and assumed validated beforehand
+ *
+ * Dependencies:
+ *   - MySQL database connection (`db`) using promise-based query interface
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 const db = require("../db");
 
 class ListingController {
