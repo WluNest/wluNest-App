@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import "./Login.css"
-import axios from "axios"
+import authService from "../services/AuthService"
 
 const Login = ({ setCurrentPage }) => {
   const [isSignUp, setIsSignUp] = useState(false)
@@ -13,18 +13,22 @@ const Login = ({ setCurrentPage }) => {
   const [first_name, setFirstName] = useState("")
   const [last_name, setLastName] = useState("")
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
+    setIsLoading(true)
 
     try {
       if (isSignUp) {
         if (!username || !first_name || !last_name || !email || !password) {
-          return setError("Please fill in all fields.")
+          setError("Please fill in all fields.")
+          setIsLoading(false)
+          return
         }
 
-        const res = await axios.post("http://localhost:5001/api/signup", {
+        const response = await authService.signup({
           username,
           first_name,
           last_name,
@@ -32,35 +36,23 @@ const Login = ({ setCurrentPage }) => {
           password,
         })
 
-        alert(res.data.message)
+        alert(response.message)
         setIsSignUp(false)
-        setCurrentPage("listings")
       } else {
         if (!identifier || !password) {
-          return setError("Please enter your username/email and password.")
+          setError("Please enter your username/email and password.")
+          setIsLoading(false)
+          return
         }
 
-        const res = await axios.post("http://localhost:5001/api/login", {
-          identifier,
-          password,
-        })
-        alert(res.data.message)
-        localStorage.setItem("token", res.data.token)
-        localStorage.setItem("user", JSON.stringify({ ...res.data.user, token: res.data.token }))
-
+        await authService.login(identifier, password)
+        alert("Login successful")
         setCurrentPage("listings")
       }
     } catch (err) {
-      console.error("Failed to authenticate:", err)
-      setError(err.response.data.message)
-
-      if (err.response && err.response.data) {
-        setError(err.response.data.message)
-      } else if (err.request) {
-        setError("Cannot reach server. Please make sure the backend is running.")
-      } else {
-        setError("An unexpected error occurred.")
-      }
+      setError(err.message || "Authentication failed")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -120,8 +112,8 @@ const Login = ({ setCurrentPage }) => {
             />
           </div>
 
-          <button type="submit" className="submit-btn">
-            {isSignUp ? "Sign up" : "Login"}
+          <button type="submit" className="submit-btn" disabled={isLoading}>
+            {isLoading ? "Processing..." : isSignUp ? "Sign up" : "Login"}
           </button>
         </form>
 
