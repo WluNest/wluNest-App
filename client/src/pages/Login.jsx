@@ -1,3 +1,25 @@
+/**
+ * Login Component
+ *
+ * This component handles the user authentication process, supporting both login and sign-up functionality. 
+ * It allows users to either sign up for a new account or log in with their existing credentials, 
+ * providing real-time feedback based on their inputs.
+ *
+ * Key Features:
+ *   - Allows users to sign up with a username, first name, last name, email, and password.
+ *   - Enables existing users to log in using either their username or email and password.
+ *   - Displays error messages when required fields are missing or incorrect.
+ *   - Provides a loading state while the authentication request is being processed.
+ *   - Automatically toggles between login and sign-up forms based on user selection.
+ *   - Alerts users upon successful login or sign-up.
+ *   - Includes footer with copyright information.
+ *
+ * Props:
+ *   - `setCurrentPage` (function): A function that updates the current page in the app (e.g., to navigate to the listings page upon successful login).
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 "use client"
 
 import { useState } from "react"
