@@ -1,6 +1,5 @@
 
 const BaseModel = require('./BaseModel');
-
 class Listing extends BaseModel {
     constructor(data = {}) {
         super(data);
