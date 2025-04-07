@@ -1,3 +1,24 @@
+/**
+ * ListingCreate Component
+ *
+ * This component allows users to create and upload a new listing for a property, including details like title, description,
+ * price, address, amenities, and images. It provides form validation, image upload functionality, and various checks before
+ * submitting the form data.
+ *
+ * Key Features:
+ *   - Form validation for required fields and numeric fields (price, bedrooms, bathrooms).
+ *   - Option to add up to 10 images, with file size validation (JPEG files only, max size 1MB each).
+ *   - User authentication check; redirects to login if the user is not authenticated.
+ *   - Support for dynamic updates of form values and real-time image previews.
+ *   - Submits the form data and images to a backend server (via an axios POST request).
+ *   - Displays an "Uploading..." button state while the form is being submitted.
+ *
+ * Props:
+ *   - `setCurrentPage` (function): A function to update the current page in the application (e.g., navigating to the listings page).
+ * 
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 "use client"
 
 import { useState, useEffect, useRef } from "react"

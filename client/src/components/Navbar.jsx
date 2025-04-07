@@ -1,3 +1,27 @@
+/**
+ * Navbar Component
+ *
+ * This component renders the navigation bar for the application, allowing users to navigate
+ * between different pages such as Listings, Roommates, Settings, and Create Listing. It also 
+ * provides login and logout functionality, along with special admin access to the Admin Dashboard.
+ * 
+ * Key Features:
+ *   - Displays a logo and clickable navigation items.
+ *   - Conditionally renders navigation links based on the user’s authentication status.
+ *   - Allows users to navigate between pages (Listings, Roommates, Settings, Create Listing, etc.).
+ *   - Provides login and logout functionality, with logout refreshing the app state.
+ *   - Admin users see an additional link to the Admin Dashboard.
+ *
+ * Dependencies:
+ *   - React
+ *   - authService (for managing user authentication)
+ *
+ * Props:
+ *   - `setCurrentPage` (function): A function to update the current page state in the parent component.
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 "use client"
 
 import { useState, useEffect } from "react"

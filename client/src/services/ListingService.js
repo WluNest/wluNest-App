@@ -1,3 +1,32 @@
+/**
+ * ListingService Class
+ *
+ * This service class handles all operations related to listings in the application. It extends the `BaseService`
+ * class and provides methods for interacting with the listings API, including fetching, creating, updating, and deleting
+ * listings. It also includes functionality to handle images when creating new listings.
+ *
+ * Key Features:
+ *   - `getListings`: Fetch all listings from the backend, with optional filters.
+ *   - `getListingById`: Fetch a single listing by its ID.
+ *   - `createListing`: Create a new listing with image files attached using `FormData`.
+ *   - `updateListing`: Update an existing listing.
+ *   - `deleteListing`: Delete a listing by its ID.
+ *
+ * Usage:
+ *   - Use the methods of this service to perform CRUD operations on listings.
+ *   - The `axios` instance from the `BaseService` class is used for making API calls, ensuring that authentication tokens
+ *     are automatically added to requests.
+ *
+ * Example Usage:
+ *   const listings = await listingService.getListings({ price: { $gte: 1000 } })
+ *   const listing = await listingService.getListingById(1)
+ *   const newListing = await listingService.createListing({ title: 'My Listing', price: 2000 }, [imageFile])
+ *   const updatedListing = await listingService.updateListing(1, { price: 2500 })
+ *   const deletedResponse = await listingService.deleteListing(1)
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 import BaseService from "./BaseService"
 import Listing from "../models/Listing"
 

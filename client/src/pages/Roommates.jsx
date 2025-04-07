@@ -1,3 +1,23 @@
+/**
+ * Roommates Component
+ *
+ * This component allows users to view and manage a list of roommates, with various filter options such as gender, religion, university, year, and program. 
+ * It also allows users to email roommates directly if their email is available. 
+ * Admin users have additional privileges, such as the ability to remove roommates from the list.
+ *
+ * Key Features:
+ *   - Displays a list of roommates with detailed information (name, gender, religion, university, year, program, city, and a short description).
+ *   - Allows filtering of roommates by gender, religion, university, year, and program.
+ *   - Dynamic filtering based on the selected criteria.
+ *   - Admin users can remove roommates from the list with a confirmation prompt.
+ *   - Users can email roommates directly by clicking the "Email" button if the email address is provided.
+ *   - Clear filters button to reset all filters to their default state.
+ *   - Displays a loading state while roommates data is being fetched and handles errors gracefully.
+ *   - Provides a no-results message if no roommates match the filter criteria.
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 "use client"
 
 import { useState, useEffect } from "react"

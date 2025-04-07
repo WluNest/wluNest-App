@@ -1,3 +1,34 @@
+/**
+ * SettingsService Class
+ *
+ * This service class provides methods for handling user settings operations. It extends from 
+ * the `BaseService` class and includes functionality for getting and updating user settings,
+ * updating email and password, as well as deleting the user's account. The class utilizes 
+ * the `User` model to represent the user data and handles all interactions with the backend API.
+ *
+ * Key Features:
+ *   - `getUserSettings`: Fetches the current user's settings from the backend.
+ *   - `updateUserSettings`: Updates the user's settings with new data.
+ *   - `updateEmail`: Allows the user to update their email after verifying with their current password.
+ *   - `updatePassword`: Allows the user to update their password after verifying with their current password.
+ *   - `deleteAccount`: Deletes the user's account after confirming the current password.
+ *
+ * Usage:
+ *   - This service can be used to interact with the user's settings and personal information stored in the backend.
+ *   - It provides methods to fetch, update, and delete user settings, as well as change the user's email and password.
+ *   - The `axios` instance from the `BaseService` class is used for making API calls, which automatically handles 
+ *     authentication tokens.
+ *
+ * Example Usage:
+ *   const userSettings = await settingsService.getUserSettings()
+ *   const updatedSettings = await settingsService.updateUserSettings({ theme: 'dark' })
+ *   const updatedEmail = await settingsService.updateEmail('newemail@example.com', 'currentPassword')
+ *   const updatedPassword = await settingsService.updatePassword('currentPassword', 'newPassword')
+ *   const deletedAccount = await settingsService.deleteAccount('currentPassword')
+ *
+ * Author: [Your Name or Team Name]
+ * Created: [Date]
+ */
 import BaseService from "./BaseService"
 import User from "../models/User"
 
