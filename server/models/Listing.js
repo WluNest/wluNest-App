@@ -1,9 +1,9 @@
 /**
  * Listing Class
  *
- * This class represents a listing in the system. It extends the `BaseModel` class, 
- * inheriting common functionality like data initialization, conversion to JSON, and 
- * validation. It provides custom validation logic for the listing data and a static method 
+ * This class represents a listing in the system. It extends the `BaseModel` class,
+ * inheriting common functionality like data initialization, conversion to JSON, and
+ * validation. It provides custom validation logic for the listing data and a static method
  * to create a `Listing` object from raw database data.
  *
  * Key Features:
@@ -12,7 +12,7 @@
  *   - fromDatabase: A static method that maps raw database data to a `Listing` instance.
  *
  * Usage:
- *   - Use this class to represent a listing in your application. The `validate()` method should be used 
+ *   - Use this class to represent a listing in your application. The `validate()` method should be used
  *     to ensure the listing data is correct before saving it to the database or performing other operations.
  *   - The `fromDatabase()` method is useful for mapping rows from a database query result into `Listing` objects.
  *
@@ -40,51 +40,53 @@
  * Author: [Your Name or Team Name]
  * Created: [Date]
  */
-const BaseModel = require('./BaseModel');
-
+const BaseModel = require("./BaseModel")
 
 class Listing extends BaseModel {
-    constructor(data = {}) {
-        super(data);
-    }
+  constructor(data = {}) {
+    super(data)
+  }
 
-    validate() {
-        if (!this.title || !this.description || !this.price) {
-            throw new Error('Missing required fields');
-        }
-        if (this.price < 0) {
-            throw new Error('Price cannot be negative');
-        }
-        return true;
+  validate() {
+    if (!this.title || !this.description || !this.price) {
+      throw new Error("Missing required fields")
     }
-
-    static fromDatabase(data) {
-        return new Listing({
-            listing_id: data.listing_id,
-            users_id: data.users_id,
-            title: data.title,
-            description: data.description,
-            price: data.price,
-            bed: data.bed,
-            bath: data.bath,
-            listing_image: data.listing_image,
-            has_laundry: data.has_laundry,
-            has_parking: data.has_parking,
-            has_gym: data.has_gym,
-            has_hvac: data.has_hvac,
-            has_wifi: data.has_wifi,
-            created_at: data.created_at,
-
-            street_name: data.street_name,
-            street_number: data.street_number,
-            city: data.city,
-            province: data.province,
-            postal_code: data.postal_code,
-            latitude: parseFloat(data.latitude),
-            longitude: parseFloat(data.longitude)
-        
-        });
+    if (this.price < 0) {
+      throw new Error("Price cannot be negative")
     }
+    return true
+  }
+
+  static fromDatabase(data) {
+    return new Listing({
+      listing_id: data.listing_id,
+      users_id: data.users_id,
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      bed: data.bed,
+      bath: data.bath,
+      listing_image: data.listing_image,
+      url: data.url, // Make sure url is included here
+      has_laundry: data.has_laundry,
+      has_parking: data.has_parking,
+      has_gym: data.has_gym,
+      has_hvac: data.has_hvac,
+      has_wifi: data.has_wifi,
+      has_game_room: data.has_game_room,
+      is_pet_friendly: data.is_pet_friendly,
+      is_accessible: data.is_accessible,
+      created_at: data.created_at,
+
+      street_name: data.street_name,
+      street_number: data.street_number,
+      city: data.city,
+      province: data.province,
+      postal_code: data.postal_code,
+      latitude: Number.parseFloat(data.latitude),
+      longitude: Number.parseFloat(data.longitude),
+    })
+  }
 }
 
-module.exports = Listing;
+module.exports = Listing

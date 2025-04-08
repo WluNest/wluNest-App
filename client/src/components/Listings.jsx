@@ -1,9 +1,9 @@
 /**
  * Listings Component
  *
- * This component displays a list of real estate listings and provides functionality 
- * for users to filter, view, and interact with the listings. It also includes 
- * features for managing favorites, viewing details of a selected listing in a modal, 
+ * This component displays a list of real estate listings and provides functionality
+ * for users to filter, view, and interact with the listings. It also includes
+ * features for managing favorites, viewing details of a selected listing in a modal,
  * and interacting with a map view to see listing locations.
  *
  * Key Features:
@@ -21,7 +21,7 @@
  *   - `toggleFavorite`: Toggles the favorite status of a listing.
  *   - `handleDelete`: Deletes a listing after user confirmation.
  *   - `ListingModal`: A modal for viewing and editing the selected listing.
- * 
+ *
  * Dependencies:
  *   - React (useState, useEffect)
  *   - listingService (API calls for listings)
@@ -281,21 +281,46 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
         has_game_room: formData.has_game_room ? 1 : 0,
         is_pet_friendly: formData.is_pet_friendly ? 1 : 0,
         is_accessible: formData.is_accessible ? 1 : 0,
+        street_name: formData.street_name,
+        street_number: formData.street_number,
+        city: formData.city,
+        province: formData.province,
+        postal_code: formData.postal_code,
       }
 
+      console.log("Sending update with data:", updatedData)
       await listingService.updateListing(listing.listing_id, updatedData)
 
       alert("Listing updated successfully.")
       window.location.reload()
     } catch (err) {
       console.error("Update failed:", err)
-      alert("Update failed.")
+      alert("Update failed: " + (err.message || "Unknown error"))
     }
   }
 
   const amenities = listing.getAmenities()
 
   const isOwner = user && (Number.parseInt(user.id) === Number.parseInt(listing.users_id) || user.isAdmin())
+
+  const handleInquireClick = () => {
+    console.log("Listing URL:", listing.url)
+
+    // More robust check for URL existence
+    if (!listing.url || listing.url.trim() === "") {
+      alert("No URL provided for this listing")
+      return
+    }
+
+    // Ensure URL has proper protocol
+    let formattedUrl = listing.url.trim()
+    if (!formattedUrl.startsWith("http://") && !formattedUrl.startsWith("https://")) {
+      formattedUrl = `https://${formattedUrl}`
+    }
+
+    console.log("Opening URL:", formattedUrl)
+    window.open(formattedUrl, "_blank")
+  }
 
   return (
     <div className="modal-overlay">
@@ -420,13 +445,7 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
         {isEditing ? (
           <input className="modal-input" name="url" value={formData.url} onChange={handleChange} />
         ) : (
-          <button
-            className="inquire-button"
-            onClick={() => {
-              const formattedUrl = listing.url?.startsWith("http") ? listing.url : `https://${listing.url}`
-              window.open(formattedUrl, "_blank")
-            }}
-          >
+          <button className="inquire-button" onClick={handleInquireClick}>
             Inquire
           </button>
         )}
@@ -459,4 +478,3 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
 }
 
 export default Listings
-

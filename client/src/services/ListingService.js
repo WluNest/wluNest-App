@@ -102,9 +102,12 @@ class ListingService extends BaseService {
    */
   async updateListing(id, listingData) {
     try {
+      console.log("Updating listing", id, "with data:", listingData)
       const response = await this.axios.put(`/api/listings/${id}`, listingData)
+      console.log("Update response:", response.data)
       return response.data
     } catch (error) {
+      console.error("Error updating listing:", error.response?.data || error.message)
       throw this.handleError(error)
     }
   }
@@ -127,4 +130,3 @@ class ListingService extends BaseService {
 // Create singleton instance
 const listingService = new ListingService()
 export default listingService
-

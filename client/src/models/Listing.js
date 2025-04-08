@@ -14,7 +14,7 @@ class Listing extends BaseModel {
     this.listing_image = data.listing_image || ""
     this.bed = data.bed || 0
     this.bath = data.bath || 0
-    this.url = data.url || ""
+    this.url = data.url || "" // Ensure url is initialized properly
     this.has_laundry = !!data.has_laundry
     this.has_parking = !!data.has_parking
     this.has_gym = !!data.has_gym
@@ -80,4 +80,3 @@ class Listing extends BaseModel {
 }
 
 export default Listing
-
