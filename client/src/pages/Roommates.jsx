@@ -6,7 +6,7 @@
  * Admin users have additional privileges, such as the ability to remove roommates from the list.
  *
  * Key Features:
- *   - Displays a list of roommates with detailed information (name, gender, religion, university, year, program, city, and a short description).
+ *   - Displays a list of roommates with detailed information (name, gender, religion, university, year, program, and a short description).
  *   - Allows filtering of roommates by gender, religion, university, year, and program.
  *   - Dynamic filtering based on the selected criteria.
  *   - Admin users can remove roommates from the list with a confirmation prompt.
@@ -210,9 +210,6 @@ const Roommates = () => {
                       </p>
                       <p>
                         <span className="info-label">Program:</span> {roommate.program || "Not specified"}
-                      </p>
-                      <p>
-                        <span className="info-label">Location:</span> {roommate.city || "Not specified"}
                       </p>
                     </div>
                   </div>
