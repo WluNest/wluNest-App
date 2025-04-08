@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Buildings.css";
 
-// 1. Carousel Class - Handles image navigation logic immutably
+//Carousel Class 
 class Carousel {
   constructor(images = [], currentIndex = 0) {
     this.images = [...images]; // Create defensive copy
@@ -31,7 +31,7 @@ class Carousel {
   }
 }
 
-// 2. Building Class - Encapsulates building data and behavior
+//Building Class 
 class Building {
   constructor({ id, name, images = [], price, description }) {
     this.id = id;
@@ -41,7 +41,7 @@ class Building {
     this.description = description;
   }
 
-  // Returns a snapshot of current building details
+  //Returns a snapshot of current building details
   getDetails() {
     return {
       id: this.id,
@@ -53,7 +53,7 @@ class Building {
     };
   }
 
-  // Returns new Building instance with updated carousel state
+  //Returns new Building instance with updated carousel state
   navigateToNextImage() {
     const newBuilding = new Building({
       id: this.id,
@@ -66,7 +66,7 @@ class Building {
     return newBuilding;
   }
 
-  // Returns new Building instance with updated carousel state
+  //Returns new Building instance with updated carousel state
   navigateToPrevImage() {
     const newBuilding = new Building({
       id: this.id,
@@ -80,7 +80,7 @@ class Building {
   }
 }
 
-// 3. Building Factory - Creates consistent building instances
+//Building Factory 
 const createBuilding = (buildingData) => {
   return new Building({
     id: buildingData.id,
@@ -92,7 +92,7 @@ const createBuilding = (buildingData) => {
 };
 
 
-// BuildingList - Pure presentational component
+//BuildingList 
 const BuildingList = ({ buildings, selectedId, onSelect }) => (
   <div className="building-list">
     <h2>Available Buildings</h2>
@@ -112,7 +112,7 @@ const BuildingList = ({ buildings, selectedId, onSelect }) => (
   </div>
 );
 
-// BuildingDetails 
+//BuildingDetails 
 const BuildingDetails = ({ building, onPrev, onNext }) => {
   const details = building.getDetails();
   return (
@@ -153,9 +153,9 @@ const BuildingDetails = ({ building, onPrev, onNext }) => {
   );
 };
 
-// 5. Main Buildings Component
+//Main Buildings Component
 function Buildings() {
-  // Initialize building objects using factory
+  //Initialize building objects using factory
   const initialBuildings = [
     createBuilding({
       id: 1,
@@ -192,14 +192,14 @@ function Buildings() {
     }),
   ];
 
-  // State management
+  //State management
   const [buildings, setBuildings] = useState(initialBuildings);
   const [selectedBuildingId, setSelectedBuildingId] = useState(initialBuildings[0].id);
 
-  // Find the currently selected building
+  //Find the currently selected building
   const selectedBuilding = buildings.find(b => b.id === selectedBuildingId);
 
-  // Event handlers
+  //Event handlers
   const handleSelectBuilding = (id) => {
     setSelectedBuildingId(id);
   };

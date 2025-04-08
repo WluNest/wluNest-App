@@ -1,9 +1,8 @@
 import BaseService from "./BaseService"
 import User from "../models/User"
 
-/**
- * Service for authentication operations
- */
+//Service for authentication operations
+ 
 class AuthService extends BaseService {
   constructor() {
     super()
@@ -11,9 +10,7 @@ class AuthService extends BaseService {
     this.loadUserFromStorage()
   }
 
-  /**
-   * Load user from local storage
-   */
+  // Load user from local storage
   loadUserFromStorage() {
     const storedUser = localStorage.getItem("user")
     if (storedUser) {
@@ -61,16 +58,16 @@ class AuthService extends BaseService {
       const response = await this.axios.post("/api/login", { identifier, password })
       const userData = response.data
 
-      // Store token and user data
+      //Store token and user data
       localStorage.setItem("token", userData.token)
 
-      // Create user model
+      //Create user model
       this.currentUser = new User({
         ...userData.user,
         token: userData.token,
       })
 
-      // Store user in local storage
+      //Store user in local storage
       localStorage.setItem("user", JSON.stringify(this.currentUser))
 
       return this.currentUser
@@ -93,9 +90,8 @@ class AuthService extends BaseService {
     }
   }
 
-  /**
-   * Logout user
-   */
+  //Logout user
+   
   logout() {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
@@ -103,7 +99,7 @@ class AuthService extends BaseService {
   }
 }
 
-// Create singleton instance
+//Create singleton instance
 const authService = new AuthService()
 export default authService
 

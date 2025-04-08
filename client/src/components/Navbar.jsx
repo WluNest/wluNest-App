@@ -8,7 +8,7 @@ function Navbar({ setCurrentPage }) {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Get current user from auth service
+    //Get current user from auth service
     const currentUser = authService.getCurrentUser()
     setUser(currentUser)
   }, [])
@@ -17,7 +17,7 @@ function Navbar({ setCurrentPage }) {
     authService.logout()
     setCurrentPage("home")
     alert("Logged out successfully!")
-    window.location.reload() // Refresh to reset app state
+    window.location.reload() //Refresh to reset app state
   }
 
   const handleLogin = () => {

@@ -12,11 +12,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Auth routes
+//Auth routes
 const { router: authRoutes, authenticateToken } = require("./routes/auth");
 app.use("/api", authRoutes);
 
-// Static file serving
+//Static file serving
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   "/images",
@@ -26,11 +26,11 @@ app.use(
   })
 );
 
-// Settings routes
+//Settings routes
 const userSettingsRoutes = require('./routes/userSettingsRoutes');
 app.use('/api/settings', userSettingsRoutes);
 
-// Multer config for file uploads
+//Multer config for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -51,10 +51,10 @@ const upload = multer({
       cb(new Error("Only .jpg images are allowed!"), false);
     }
   },
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
-// Upload endpoint
+//Upload endpoint
 app.post("/upload", authenticateToken, upload.array("images", 10), async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
@@ -87,7 +87,7 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
   }
 });
 
-// Roommate PATCH and GET endpoints
+//Roommate PATCH and GET endpoints
 app.patch("/api/roommates/:userId", authenticateToken, async (req, res) => {
   try {
     if (req.user.role !== 'admin') {
@@ -127,27 +127,27 @@ app.get("/api/roommates", authenticateToken, async (req, res) => {
   }
 });
 
-// DELETE and PUT listing routes
+//DELETE and PUT listing routes
 app.delete("/api/listings/:id", authenticateToken, deleteListing);
 app.put("/api/listings/:id", authenticateToken, updateListing);
 
-// Admin routes
+//Admin routes
 const adminRoutes = require("./routes/admin");
 app.use("/api/admin", adminRoutes);
 
-// Listings routes
+//Listings routes
 const listingsRoute = require("./routes/listings");
 app.use("/api/listings", listingsRoute);
 
-// Settings routes
+//ettings routes
 const settingsRoutes = require("./routes/userSettingsRoutes");
 app.use("/api/settings", settingsRoutes);
 
-// Health check
+//Health check
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// Start server
+//Start server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

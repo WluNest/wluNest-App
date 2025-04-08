@@ -1,24 +1,5 @@
-/**
- * UserSettingsController
- *
- * This controller handles operations related to user settings and account management.
- * It interfaces with the database to:
- *   - Retrieve and update user profile settings
- *   - Change user passwords (with current password validation)
- *   - Update user email addresses (with uniqueness check and password confirmation)
- *   - Permanently delete user accounts (with password confirmation)
- *
- * Dependencies:
- *   - bcrypt: for securely hashing and comparing passwords
- *   - db: a configured MySQL database connection using promise-based queries
- *
- * Assumes that:
- *   - `req.user.id` contains the authenticated user's ID (populated by authentication middleware)
- *   - Inputs are received via `req.body` and are expected to be validated by the client or middleware
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//UserSettings Controller
+
 const BaseService = require('../services/BaseService');
 const bcrypt = require('bcrypt');
 
@@ -205,5 +186,4 @@ class UserSettingsController {
   }
 }
 
-// Export as a ready-to-use instance
 module.exports = new UserSettingsController();

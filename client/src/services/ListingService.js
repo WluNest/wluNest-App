@@ -1,9 +1,8 @@
 import BaseService from "./BaseService"
 import Listing from "../models/Listing"
 
-/**
- * Service for listing operations
- */
+//Service for listing operations
+ 
 class ListingService extends BaseService {
   /**
    * Get all listings with optional filters
@@ -43,12 +42,12 @@ class ListingService extends BaseService {
     try {
       const formData = new FormData()
 
-      // Add listing data
+      //Add listing data
       Object.keys(listingData).forEach((key) => {
         formData.append(key, listingData[key])
       })
 
-      // Add image files
+      //Addd image files
       imageFiles.forEach((file) => {
         formData.append("images", file)
       })
@@ -95,7 +94,7 @@ class ListingService extends BaseService {
   }
 }
 
-// Create singleton instance
+//create singleton instance
 const listingService = new ListingService()
 export default listingService
 

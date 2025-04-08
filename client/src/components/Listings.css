@@ -30,7 +30,7 @@
   z-index: 2;
 }
 
-/* Right Panel (Map) */
+/*Right Panel (Map) */
 .right-panel {
   flex: 1.5;
   display: flex;
@@ -223,7 +223,7 @@
   z-index: 1;
 }
 
-/* Left / Right Navigation Buttons */
+/* Left/Right Navigation Buttons */
 .image-nav {
   position: absolute;
   top: 50%;

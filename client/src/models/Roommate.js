@@ -1,8 +1,8 @@
 import BaseModel from "./BaseModel"
 
-/**
- * Roommate model representing a user looking for roommates
- */
+
+//Roommate model representing a user looking for roommates
+ 
 class Roommate extends BaseModel {
   constructor(data = {}) {
     super(data)

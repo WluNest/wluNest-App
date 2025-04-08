@@ -30,7 +30,7 @@
   border: 1px solid var(--border);
 }
 
-/* LEFT PANEL - SETTINGS TABS */
+/* Left Panel - Settings Tabs */
 .settings-tabs {
   width: 220px;
   background: var(--background);
@@ -59,7 +59,7 @@
   font-weight: 600;
 }
 
-/* RIGHT PANEL - SETTINGS CONTENT */
+/* Right Panel - Settings Content */
 .settings-content {
   flex: 1;
   padding: 1.5rem 2rem;
@@ -73,7 +73,7 @@
   padding-bottom: 0.5rem;
 }
 
-/* FORM ROWS */
+/* Form Rows */
 .form-row {
   margin-bottom: 1rem;
   display: flex;
@@ -108,7 +108,7 @@
   background: white;
 }
 
-/* CHECKBOX ROW */
+/* Checkbox Row */
 .checkbox-row {
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@
   width: auto;
 }
 
-/* DANGER ZONE - BUTTONS */
+/* Danger Zone - Buttons */
 .danger-zone {
   margin-top: 2rem;
   padding-top: 1rem;
@@ -232,7 +232,7 @@
   color: #b91c1c;
 }
 
-/* RESPONSIVE DESIGN */
+/* Responsive Design */
 @media (max-width: 768px) {
   .settings-container {
     flex-direction: column;

@@ -1,8 +1,8 @@
 import BaseModel from "./BaseModel"
 
-/**
- * Listing model representing a property listing
- */
+
+//Listing model representing a property listing
+ 
 class Listing extends BaseModel {
   constructor(data = {}) {
     super(data)

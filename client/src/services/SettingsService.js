@@ -1,9 +1,8 @@
 import BaseService from "./BaseService"
 import User from "../models/User"
 
-/**
- * Service for user settings operations
- */
+//Service for user settings operations
+ 
 class SettingsService extends BaseService {
   /**
    * Get user settings
@@ -85,6 +84,6 @@ class SettingsService extends BaseService {
   }
 }
 
-// Create singleton instance
+//Create singleton instance
 const settingsService = new SettingsService()
 export default settingsService

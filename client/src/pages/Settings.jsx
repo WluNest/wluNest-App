@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-// Update this line at the top of Settings.jsx
 import settingsService from "../services/SettingsService";
 import "./Settings.css";
 

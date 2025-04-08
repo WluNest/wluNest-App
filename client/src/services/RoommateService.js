@@ -1,9 +1,8 @@
 import BaseService from "./BaseService"
 import Roommate from "../models/Roommate"
 
-/**
- * Service for roommate operations
- */
+//Service for roommate operations
+
 class RoommateService extends BaseService {
   /**
    * Get all roommates
@@ -67,7 +66,7 @@ class RoommateService extends BaseService {
   }
 }
 
-// Create singleton instance
+//create singleton instance
 const roommateService = new RoommateService()
 export default roommateService
 

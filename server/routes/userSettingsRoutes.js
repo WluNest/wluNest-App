@@ -1,4 +1,4 @@
-// server/routes/userSettingsRoutes.js
+//server/routes/userSettingsRoutes.js
 const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require('./auth');

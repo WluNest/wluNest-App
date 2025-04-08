@@ -1,8 +1,8 @@
 import BaseModel from "./BaseModel"
 
-/**
- * User model representing a user in the system
- */
+
+//User model representing a user in the system
+ 
 class User extends BaseModel {
   constructor(data = {}) {
     super(data)

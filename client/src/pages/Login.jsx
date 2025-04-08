@@ -46,7 +46,7 @@ const Login = ({ setCurrentPage }) => {
         }
 
         const user = await authService.login(identifier, password)
-        // Force a page reload to update all components with new auth state
+        //Force a page reload to update all components with new auth state
         window.location.href = '/listings'
       }
     } catch (error) {

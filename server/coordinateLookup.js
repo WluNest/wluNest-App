@@ -2,13 +2,13 @@ const fs = require("fs");
 const path = require("path");
 const csv = require("csv-parser");
 
-// Function to format postal code into "XXXXXX"
+//Function to format postal code into "XXXXXX"
 function formatPostalCode(postalCode) {
     if (!postalCode) return null;
     return postalCode.replace(/\s+/g, "").toUpperCase();
 }
 
-// Function to get coordinates as a Promise
+//Function to get coordinates as a Promise
 function getCoordinates(postalCode) {
     return new Promise((resolve, reject) => {
         if (!postalCode) {
@@ -21,7 +21,7 @@ function getCoordinates(postalCode) {
         let found = false;
 
         fs.createReadStream(filePath)
-            .pipe(csv(["postalcode", "longitude", "latitude"])) // Define headers manually
+            .pipe(csv(["postalcode", "longitude", "latitude"]))
             .on("data", (row) => {
                 if (!row.postalcode || !row.latitude || !row.longitude) {
                     console.warn("Skipping malformed row:", row);

@@ -144,12 +144,12 @@ const ListingCreate = ({ setCurrentPage }) => {
 
 
  useEffect(() => {
-   // Store the current imageManager in a variable
+   //Store the current imageManager in a variable
    const imageManager = imageManagerRef.current
 
 
    return () => {
-     // Use the stored variable in cleanup
+     //Use the stored variable in cleanup
      if (imageManager) {
        imageManager.clear()
      }
@@ -190,7 +190,7 @@ const ListingCreate = ({ setCurrentPage }) => {
  const handleFileChange = (event) => {
    try {
      imageManagerRef.current.addFiles(Array.from(event.target.files))
-     // Force re-render by updating state
+     //Force re-render by updating state
      setListingData({...listingData})
    } catch (error) {
      alert(error.message)
@@ -200,7 +200,7 @@ const ListingCreate = ({ setCurrentPage }) => {
 
  const removeImage = (index) => {
    imageManagerRef.current.removeImage(index)
-   // Force re-render by updating state
+   //force re-render by updating state
    setListingData({...listingData})
  }
 

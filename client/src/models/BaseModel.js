@@ -1,6 +1,5 @@
-/**
- * Base model class that all other models will extend
- */
+//Base model class that all other models will extend
+ 
 class BaseModel {
   constructor(data = {}) {
     this.initFromData(data)
