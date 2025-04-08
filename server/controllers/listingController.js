@@ -1,27 +1,5 @@
-/**
- * ListingController
- *
- * This controller manages operations related to rental or roommate listings.
- * It provides methods to:
- *   - Delete a listing (with authorization check)
- *   - Update a listing (with user ownership or admin override)
- *   - Get listings with filters
- *   - Get a single listing
- *   - Create a new listing
- *
- * Features:
- *   - Uses service layer for business logic and data access
- *   - Ensures only the listing owner or an admin can modify or delete a listing
- *   - Handles invalid or unauthorized access with appropriate HTTP status codes
- *   - Supports filtering and pagination of listings
- *
- * Dependencies:
- *   - ListingService for all database operations and business logic
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- * Updated: [Current Date] - Refactored to use OOP with services layer
- */
+//ListingController
+
 
 const ListingService = require('../services/ListingService');
 const listingService = new ListingService();

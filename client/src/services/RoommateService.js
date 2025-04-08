@@ -1,37 +1,8 @@
-/**
- * RoommateService Class
- *
- * This service class provides methods to manage and interact with roommates in the application. It extends from 
- * the `BaseService` class and includes methods to fetch, update, filter, and retrieve unique options for roommates.
- * The class also leverages the `Roommate` model to handle data related to individual roommates.
- *
- * Key Features:
- *   - `getRoommates`: Fetches all roommates from the backend.
- *   - `updateRoommateStatus`: Updates a roommate's status, specifically whether they are looking for a roommate.
- *   - `filterRoommates`: Filters a list of roommates based on specified criteria.
- *   - `getUniqueOptions`: Retrieves unique options for a specific field (e.g., gender, interests) among roommates.
- *
- * Usage:
- *   - This service can be used to interact with the roommates' data stored in the backend.
- *   - It provides methods to fetch, update, and filter roommates as well as obtain unique options for various fields.
- *   - The `axios` instance from the `BaseService` class is used for making API calls, which automatically handles 
- *     authentication tokens.
- *
- * Example Usage:
- *   const roommates = await roommateService.getRoommates()
- *   const updatedStatus = await roommateService.updateRoommateStatus(1, true)
- *   const filteredRoommates = roommateService.filterRoommates(roommates, { gender: 'Female' })
- *   const uniqueGenders = roommateService.getUniqueOptions(roommates, 'gender')
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//RoommateService Class
+
 import BaseService from "./BaseService"
 import Roommate from "../models/Roommate"
 
-/**
- * Service for roommate operations
- */
 class RoommateService extends BaseService {
   /**
    * Get all roommates
@@ -95,7 +66,7 @@ class RoommateService extends BaseService {
   }
 }
 
-// Create singleton instance
+//create singleton instance
 const roommateService = new RoommateService()
 export default roommateService
 

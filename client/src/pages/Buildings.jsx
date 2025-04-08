@@ -1,20 +1,5 @@
-/**
- * Buildings Component
- *
- * This component displays a list of available buildings, allowing users to view details of each building and navigate through a carousel of images for the selected building.
- * Users can click on a building name to select it, and the details such as the building name, price range, and description will update accordingly. 
- * Additionally, users can navigate through the images of the selected building using left and right arrow buttons in the carousel.
- *
- * Key Features:
- *   - Displays a list of building names that users can click to view more details.
- *   - A carousel to view multiple images of the selected building with navigation buttons (left and right arrows).
- *   - Each building has a name, price range, and description displayed below the carousel.
- *   - State management for tracking the selected building and the current image in the carousel.
- *   - Ensures the carousel loops through images (previous and next).
- * 
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//Buildings Component
+ 
 
 import React, { useState } from "react";
 import "./Buildings.css";

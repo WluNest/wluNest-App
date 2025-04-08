@@ -1,27 +1,5 @@
-/**
- * Navbar Component
- *
- * This component renders the navigation bar for the application, allowing users to navigate
- * between different pages such as Listings, Roommates, Settings, and Create Listing. It also 
- * provides login and logout functionality, along with special admin access to the Admin Dashboard.
- * 
- * Key Features:
- *   - Displays a logo and clickable navigation items.
- *   - Conditionally renders navigation links based on the user’s authentication status.
- *   - Allows users to navigate between pages (Listings, Roommates, Settings, Create Listing, etc.).
- *   - Provides login and logout functionality, with logout refreshing the app state.
- *   - Admin users see an additional link to the Admin Dashboard.
- *
- * Dependencies:
- *   - React
- *   - authService (for managing user authentication)
- *
- * Props:
- *   - `setCurrentPage` (function): A function to update the current page state in the parent component.
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+// navbar component
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -32,7 +10,7 @@ function Navbar({ setCurrentPage }) {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Get current user from auth service
+    //get current user from auth service
     const currentUser = authService.getCurrentUser()
     setUser(currentUser)
   }, [])
@@ -41,7 +19,7 @@ function Navbar({ setCurrentPage }) {
     authService.logout()
     setCurrentPage("home")
     alert("Logged out successfully!")
-    window.location.reload() // Refresh to reset app state
+    window.location.reload() // refresh to reset app state
   }
 
   const handleLogin = () => {
@@ -50,12 +28,12 @@ function Navbar({ setCurrentPage }) {
 
   return (
     <div className="navbar">
-      {/* Left Section: Logo */}
+      {/* left section */}
       <div className="nav-left" onClick={() => setCurrentPage("home")}>
         <span className="logo">wluNest</span>
       </div>
 
-      {/* Center Section: Nav Links */}
+      {/* center section */}
       <div className="nav-center">
         <span className="nav-item" onClick={() => setCurrentPage("listings")}>
           Listings
@@ -73,7 +51,7 @@ function Navbar({ setCurrentPage }) {
             Create Listing
           </span>
         )}
-        {/* Admin Dashboard link */}
+        {/* admin dashboard link */}
         {user && user.isAdmin() && (
           <span className="nav-item" onClick={() => setCurrentPage("admin")}>
             Admin Dashboard
@@ -81,7 +59,7 @@ function Navbar({ setCurrentPage }) {
         )}
       </div>
 
-      {/* Right Section: Auth */}
+      {/* right section: auth */}
       <div className="nav-right">
         {user ? (
           <span className="nav-item logout-item" onClick={handleLogout}>

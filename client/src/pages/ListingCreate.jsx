@@ -1,24 +1,5 @@
-/**
- * ListingCreate Component
- *
- * This component allows users to create and upload a new listing for a property, including details like title, description,
- * price, address, amenities, and images. It provides form validation, image upload functionality, and various checks before
- * submitting the form data.
- *
- * Key Features:
- *   - Form validation for required fields and numeric fields (price, bedrooms, bathrooms).
- *   - Option to add up to 10 images, with file size validation (JPEG files only, max size 1MB each).
- *   - User authentication check; redirects to login if the user is not authenticated.
- *   - Support for dynamic updates of form values and real-time image previews.
- *   - Submits the form data and images to a backend server (via an axios POST request).
- *   - Displays an "Uploading..." button state while the form is being submitted.
- *
- * Props:
- *   - `setCurrentPage` (function): A function to update the current page in the application (e.g., navigating to the listings page).
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//listingcreate component
+
 "use client"
 
 import { useState, useEffect, useRef } from "react"
@@ -92,14 +73,14 @@ const ListingCreate = ({ setCurrentPage }) => {
       "postal_code",
     ]
 
-    // Check required fields
+    //Check required fields
     requiredFields.forEach((field) => {
       if (!formData[field]) {
         newErrors[field] = "This field is required"
       }
     })
 
-    // Validate numeric fields
+    //Validate numeric fields
     if (formData.price && (isNaN(formData.price) || formData.price <= 0)) {
       newErrors.price = "Price must be a number greater than 0"
     }
@@ -112,7 +93,7 @@ const ListingCreate = ({ setCurrentPage }) => {
       newErrors.bath = "Bathrooms must be a whole number greater than 0"
     }
 
-    // Validate postal code format (basic Canadian format)
+    //validate postal code format (basic Canadian format)
     if (formData.postal_code && !/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(formData.postal_code)) {
       newErrors.postal_code = "Please enter a valid postal code (e.g. A1A 1A1)"
     }
@@ -122,7 +103,7 @@ const ListingCreate = ({ setCurrentPage }) => {
   }
 
   const handleUpload = async () => {
-    // First validate the form
+    //First validate the form
     if (!validateForm()) {
       alert("Please fix the errors in the form before submitting")
       return
@@ -139,10 +120,10 @@ const ListingCreate = ({ setCurrentPage }) => {
     try {
       setIsUploading(true)
 
-      // Create FormData object
+      //create FormData object
       const uploadData = new FormData()
 
-      // Add all form fields
+      //Add all form fields
       Object.keys(formData).forEach((key) => {
         // Convert boolean values to 0/1 for the server
         if (typeof formData[key] === "boolean") {
@@ -152,15 +133,15 @@ const ListingCreate = ({ setCurrentPage }) => {
         }
       })
 
-      // Add all image files
+      //add all image filess
       files.forEach((file) => {
         uploadData.append("images", file)
       })
 
-      // Get the token directly from localStorage
+
       const token = localStorage.getItem("token")
 
-      // Make the request with proper headers
+
       const response = await axios.post("http://localhost:5001/upload", uploadData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -173,7 +154,6 @@ const ListingCreate = ({ setCurrentPage }) => {
       setCurrentPage("listings")
     } catch (error) {
       console.error("Upload failed", error)
-      // More detailed error message
       if (error.response) {
         console.error("Error response:", error.response.data)
         alert(`Upload failed: ${error.response.data.error || "Server error"}`)

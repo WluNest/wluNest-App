@@ -1,24 +1,5 @@
-/**
- * Settings Component
- *
- * This component provides a user interface for users to manage their account settings, including personal information and account details.
- * It supports editing personal information (religion, gender, university, year, program, and about you), as well as updating email and password.
- * Users can also toggle email notifications, manage their roommate profile visibility, and delete their account with a confirmation process.
- * The component handles asynchronous API requests to update or retrieve the settings data, displaying success or error messages as feedback.
- * 
- * Key Features:
- *   - Update personal information (religion, gender, university, year, program, about you).
- *   - Toggle visibility of the roommate profile via a checkbox.
- *   - Update account details such as email and password.
- *   - Email update requires re-authentication with the current password and logs out the user after success.
- *   - Password change allows users to change their password with confirmation, requiring re-login after successful update.
- *   - Option to delete the account, with a confirmation step to prevent accidental deletions.
- *   - Displays feedback messages based on the success or failure of API calls.
- *   - Responsive form layout with real-time data binding and loading indicators.
- * 
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+// Settings Component
+
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -30,7 +11,6 @@ function Settings() {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
-  // Combined form state
   const [formData, setFormData] = useState({
     religion: "",
     gender: "",
@@ -46,7 +26,7 @@ function Settings() {
     confirmPassword: ""
   });
 
-  // Fetch user data on mount
+  //Fetch user data on mount
   useEffect(() => {
     const fetchSettings = async () => {
       try {
@@ -108,7 +88,7 @@ function Settings() {
           university: formData.university,
           year: formData.year,
           program: formData.program,
-          about_you: formData.about_you, // Changed from 'description' to 'about_you'
+          about_you: formData.about_you,
           looking_for_roommate: formData.looking_for_roommate
         }, {
           headers: { Authorization: `Bearer ${token}` }
@@ -281,8 +261,8 @@ function Settings() {
                 <label>About you:</label>
                 <textarea
                   rows="4"
-                  name="about_you" // Changed from 'description' to 'about_you'
-                  value={formData.about_you} // Changed from 'description' to 'about_you'
+                  name="about_you"
+                  value={formData.about_you} 
                   onChange={handleChange}
                 />
               </div>

@@ -1,37 +1,5 @@
-/**
- * Listings Component
- *
- * This component displays a list of real estate listings and provides functionality
- * for users to filter, view, and interact with the listings. It also includes
- * features for managing favorites, viewing details of a selected listing in a modal,
- * and interacting with a map view to see listing locations.
- *
- * Key Features:
- *   - Fetches and displays listings from an external API.
- *   - Allows users to filter listings by number of beds, baths, price, and favorites.
- *   - Displays listing information like title, price, and address.
- *   - Supports adding/removing listings to/from favorites.
- *   - Clicking a listing opens a modal with more detailed information.
- *   - In the modal, users can view images, description, and amenities.
- *   - Authenticated users can edit or delete their own listings.
- *   - Displays a map view of the filtered listings on the right panel.
- *
- * Functionality:
- *   - `getFilteredListings`: Filters the listings based on user-selected filters.
- *   - `toggleFavorite`: Toggles the favorite status of a listing.
- *   - `handleDelete`: Deletes a listing after user confirmation.
- *   - `ListingModal`: A modal for viewing and editing the selected listing.
- *
- * Dependencies:
- *   - React (useState, useEffect)
- *   - listingService (API calls for listings)
- *   - authService (User authentication and session management)
- *   - MapView (A component that displays listings on a map)
- *   - CSS for styling (`Listings.css`)
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//Listings Component
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -244,8 +212,8 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
     is_accessible: !!listing.is_accessible,
   })
 
-  // Generate image paths
-  const imageCount = listing.imageCount || 10 // Default to 10 if not specified
+  //Generate image paths
+  const imageCount = listing.imageCount || 10 //Default to 10 if not specified
   const imagePaths = listing.getImagePaths(imageCount)
 
   const nextImage = () => {
@@ -306,13 +274,13 @@ const ListingModal = ({ listing, onClose, onDelete, user }) => {
   const handleInquireClick = () => {
     console.log("Listing URL:", listing.url)
 
-    // More robust check for URL existence
+    //More robust check for URL existence
     if (!listing.url || listing.url.trim() === "") {
       alert("No URL provided for this listing")
       return
     }
 
-    // Ensure URL has proper protocol
+    //Ensure URL has proper protocol
     let formattedUrl = listing.url.trim()
     if (!formattedUrl.startsWith("http://") && !formattedUrl.startsWith("https://")) {
       formattedUrl = `https://${formattedUrl}`

@@ -1,8 +1,7 @@
 import BaseModel from "./BaseModel"
 
-/**
- * Listing model representing a property listing
- */
+// listing model representing a property listing
+ 
 class Listing extends BaseModel {
   constructor(data = {}) {
     super(data)
@@ -14,7 +13,7 @@ class Listing extends BaseModel {
     this.listing_image = data.listing_image || ""
     this.bed = data.bed || 0
     this.bath = data.bath || 0
-    this.url = data.url || "" // Ensure url is initialized properly
+    this.url = data.url || "" 
     this.has_laundry = !!data.has_laundry
     this.has_parking = !!data.has_parking
     this.has_gym = !!data.has_gym

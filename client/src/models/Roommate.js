@@ -1,8 +1,7 @@
 import BaseModel from "./BaseModel"
 
-/**
- * Roommate model representing a user looking for roommates
- */
+//roommate model representing a user looking for roommates
+
 class Roommate extends BaseModel {
   constructor(data = {}) {
     super(data)
@@ -21,7 +20,7 @@ class Roommate extends BaseModel {
   }
 
   /**
-   * Get full name of roommate
+   * get full name of roommate
    * @returns {string} Full name
    */
   get fullName() {
@@ -29,7 +28,7 @@ class Roommate extends BaseModel {
   }
 
   /**
-   * Get details as key-value pairs
+   * get details as key-value pairs
    * @returns {Array} Array of detail objects
    */
   getDetails() {

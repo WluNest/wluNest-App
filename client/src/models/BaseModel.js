@@ -1,6 +1,5 @@
-/**
- * Base model class that all other models will extend
- */
+//base model class that all other models will extend
+ 
 class BaseModel {
   constructor(data = {}) {
     this.initFromData(data)
@@ -16,7 +15,7 @@ class BaseModel {
 
   /**
    * Convert model to plain object
-   * @returns {Object} Plain object representation
+   * @returns {Object} 
    */
   toJSON() {
     return { ...this }

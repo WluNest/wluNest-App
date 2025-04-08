@@ -1,29 +1,5 @@
-/**
- * AdminDashboard
- *
- * This component provides the admin interface to manage listings in the application.
- * It fetches all the listings from the backend and displays them in a table format.
- * Admin users can:
- *   - Search listings by title or username
- *   - Delete listings (with a confirmation prompt before deletion)
- *
- * Key Features:
- *   - Fetches listings from the backend API (via axios) on mount using the 'useEffect' hook.
- *   - Implements a search feature that allows filtering by title or username.
- *   - Provides a delete button for each listing, which calls the backend API to remove the listing from the database.
- *   - Updates the state dynamically after a listing is deleted to reflect the change in the UI.
- *
- * Assumptions:
- *   - Admin user information (including authorization token) is stored in `localStorage`.
- *   - The backend API supports endpoints for fetching (`GET /api/admin/listings`) and deleting (`DELETE /api/listings/:id`) listings.
- *
- * Dependencies:
- *   - React, axios
- *   - Custom CSS for styling the admin dashboard (`AdminDashboard.css`)
- *
- * Author: [Your Name or Team Name]
- * Created: [Date]
- */
+//AdminDashboard
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
