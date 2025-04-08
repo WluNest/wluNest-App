@@ -15,7 +15,7 @@
  *
  * Props:
  *   - `setCurrentPage` (function): A function to update the current page in the application (e.g., navigating to the listings page).
- * 
+ *
  * Author: [Your Name or Team Name]
  * Created: [Date]
  */
@@ -136,30 +136,52 @@ const ListingCreate = ({ setCurrentPage }) => {
       return
     }
 
-    const uploadData = new FormData()
-    files.forEach((file) => {
-      uploadData.append("images", file)
-    })
-
-    Object.keys(formData).forEach((key) => {
-      uploadData.append(key, formData[key])
-    })
-
-    uploadData.append("users_id", user.users_id)
-
     try {
       setIsUploading(true)
-      await axios.post("http://localhost:5001/upload", uploadData, {
+
+      // Create FormData object
+      const uploadData = new FormData()
+
+      // Add all form fields
+      Object.keys(formData).forEach((key) => {
+        // Convert boolean values to 0/1 for the server
+        if (typeof formData[key] === "boolean") {
+          uploadData.append(key, formData[key] ? 1 : 0)
+        } else {
+          uploadData.append(key, formData[key])
+        }
+      })
+
+      // Add all image files
+      files.forEach((file) => {
+        uploadData.append("images", file)
+      })
+
+      // Get the token directly from localStorage
+      const token = localStorage.getItem("token")
+
+      // Make the request with proper headers
+      const response = await axios.post("http://localhost:5001/upload", uploadData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })
+
+      console.log("Upload response:", response.data)
       alert("Upload successful")
       setCurrentPage("listings")
     } catch (error) {
       console.error("Upload failed", error)
-      alert("Upload failed")
+      // More detailed error message
+      if (error.response) {
+        console.error("Error response:", error.response.data)
+        alert(`Upload failed: ${error.response.data.error || "Server error"}`)
+      } else if (error.request) {
+        alert("Upload failed: No response from server")
+      } else {
+        alert(`Upload failed: ${error.message}`)
+      }
     } finally {
       setIsUploading(false)
     }
@@ -450,4 +472,3 @@ const ListingCreate = ({ setCurrentPage }) => {
 }
 
 export default ListingCreate
-

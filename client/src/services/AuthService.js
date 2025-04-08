@@ -99,9 +99,10 @@ class AuthService extends BaseService {
       // Store token and user data
       localStorage.setItem("token", userData.token)
 
-      // Create user model
+      // Create user model and ensure users_id is mapped to id
       this.currentUser = new User({
         ...userData.user,
+        id: userData.user.users_id, // Ensure id is set from users_id
         token: userData.token,
       })
 
@@ -141,4 +142,3 @@ class AuthService extends BaseService {
 // Create singleton instance
 const authService = new AuthService()
 export default authService
-
