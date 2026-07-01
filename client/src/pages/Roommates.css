@@ -1,74 +1,177 @@
+@import "../styles/shared.css";
+
+.roommate-finder-container {
+  max-width: 1200px;
+  margin: 80px auto 20px;
+  padding: 1.5rem;
+  font-family: var(--font-sans);
+}
+
+.page-title {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Filters Section */
+.filters-container {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-dropdown {
+  margin-bottom: 0.5rem;
+}
+
+.filter-dropdown label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-weight: 500;
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.filter-dropdown select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: white;
+  font-size: 0.875rem;
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.filter-dropdown select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 76, 255, 0.2);
+}
+
+.clear-filters-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.clear-filters-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Vertical Scroll Container */
 .vertical-scroll-container {
   width: 100%;
   height: 60vh;
   overflow-y: auto;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.vertical-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vertical-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+}
+
+.vertical-scroll-container::-webkit-scrollbar-track {
+  background: var(--background);
 }
 
 /* Horizontal Row Layout */
 .roommates-horizontal-rows {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .horizontal-roommate-row {
   display: flex;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 20px;
-  min-height: 200px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.horizontal-roommate-row:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
 }
 
 .roommate-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Prevent flex overflow */
+  min-width: 0;
 }
 
 .roommate-header {
   display: flex;
-  gap: 20px;
+  gap: 1.5rem;
   align-items: flex-start;
 }
 
 .roommate-name {
   margin: 0;
-  color: #2c3e50;
-  font-size: 1.2rem;
-  min-width: 150px; /* Fixed width for name */
+  color: var(--primary);
+  font-size: 1.25rem;
+  min-width: 150px;
 }
 
 .roommate-details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px 20px;
+  gap: 0.5rem 1.25rem;
   flex: 1;
 }
 
 .info-label {
   font-weight: 600;
-  color: #343a40;
+  color: var(--text);
   display: inline-block;
   min-width: 80px;
 }
 
 /* About You Section */
 .about-you-container {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 
 .about-you {
   margin: 0;
-  color: #495057;
+  color: var(--text-light);
   font-size: 0.9rem;
   line-height: 1.5;
   word-wrap: break-word;
@@ -81,259 +184,78 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
-  padding-left: 20px;
-  border-left: 1px solid #eee;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border);
   min-width: 150px;
 }
 
-.profile-btn, .email-btn {
-  padding: 8px 12px;
-  border-radius: 4px;
+.profile-btn,
+.email-btn,
+.connect-btn {
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
   border: none;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   width: 100%;
   text-align: center;
-}
-
-/* Main Container */
-.roommate-finder-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.page-title {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 30px;
-}
-
-/* Filters Section */
-.filters-container {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.filter-dropdown {
-  margin-bottom: 10px;
-}
-
-.filter-dropdown label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #495057;
-}
-
-.filter-dropdown select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 14px;
-}
-
-.clear-filters-btn {
-  display: block;
-  margin: 0 auto;
-  padding: 8px 20px;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s;
-}
-
-.clear-filters-btn:hover {
-  background-color: #5a6268;
-}
-
-/* Roommates Grid */
-.roommates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
-}
-
-.roommate-card {
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
-}
-
-.roommate-card:hover {
-  transform: translateY(-5px);
-}
-
-.horizontal-scroll-container {
-  width: 100%;
-  overflow-x: auto;
-  padding: 20px 0;
-  margin-top: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-}
-
-.roommates-horizontal-grid {
-  display: flex;
-  gap: 20px;
-  padding: 0 20px;
-  min-width: max-content;
-}
-
-.horizontal-roommate-card {
-  min-width: 300px;
-  max-width: 350px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.roommate-info {
-  margin-bottom: 15px;
-}
-
-.roommate-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.profile-btn, .email-btn {
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-  transition: background-color 0.3s;
 }
 
 .profile-btn {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--background);
+  color: var(--text);
 }
 
 .profile-btn:hover {
-  background-color: #0069d9;
+  background-color: var(--border);
+  transform: translateY(-2px);
 }
 
-.email-btn {
-  background-color: #28a745;
+.email-btn,
+.connect-btn {
+  background-color: var(--primary);
   color: white;
 }
 
-.email-btn:hover {
-  background-color: #218838;
-}
-
-.roommate-info h3 {
-  margin-top: 0;
-  color: #2c3e50;
-  font-size: 1.2rem;
-}
-
-.roommate-info p {
-  margin: 8px 0;
-  color: #495057;
-  font-size: 0.9rem;
-}
-
-p {
-  color: #2c3e50;
-}
-
-.info-label {
-  font-weight: 600;
-  color: #343a40;
+.email-btn:hover,
+.connect-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .delete-btn {
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-  background-color: #dc3545;
+  background-color: var(--error);
   color: white;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
   width: 100%;
+  text-align: center;
 }
 
 .delete-btn:hover {
-  background-color: #c82333;
-}
-
-.roommate-actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  padding-left: 20px;
-  border-left: 1px solid #eee;
-  min-width: 150px;
-}
-
-.profile-btn, .connect-btn {
-  padding: 8px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s;
-}
-
-.profile-btn {
-  background-color: #e9ecef;
-  color: #495057;
-}
-
-.profile-btn:hover {
-  background-color: #dee2e6;
-}
-
-.connect-btn {
-  background-color: #007bff;
-  color: white;
-}
-
-.connect-btn:hover {
-  background-color: #0069d9;
+  background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* No Results */
 .no-results {
   text-align: center;
-  grid-column: 1 / -1;
-  padding: 40px;
-  color: #6c757d;
+  padding: 2.5rem;
+  color: var(--text-light);
   font-size: 1.1rem;
 }
 
-/* Add to your Roommates.css */
+/* Loading and Error States */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -347,122 +269,45 @@ p {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border-left-color: #09f;
+  border-left-color: var(--primary);
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error-container {
   text-align: center;
   padding: 2rem;
-  background: #ffeeee;
-  border-radius: 8px;
+  background: #fee2e2;
+  border-radius: var(--radius);
   margin: 2rem auto;
   max-width: 600px;
 }
 
 .retry-btn {
-  background: #09f;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
   margin-top: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .retry-btn:hover {
-  background: #07d;
-}
-
-.debug-info {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 1rem;
-}
-
-/* Vertical Scroll Container */
-.vertical-scroll-container {
-  width: 100%;
-  height: 60vh;
-  overflow-y: auto;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-}
-
-/* Horizontal Row Layout */
-.roommates-horizontal-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.horizontal-roommate-row {
-  display: flex;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 20px;
-  min-height: 200px;
-}
-
-.roommate-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.roommate-actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  padding-left: 20px;
-  border-left: 1px solid #eee;
-  min-width: 150px;
-}
-
-/* Keep existing button styles */
-.profile-btn, .email-btn {
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  border: none;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.profile-btn {
-  background-color: #007bff;
-  color: white;
-}
-
-.profile-btn:hover {
-  background-color: #0069d9;
-}
-
-.email-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.email-btn:hover {
-  background-color: #218838;
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Responsive adjustments */
@@ -470,26 +315,27 @@ p {
   .horizontal-roommate-row {
     flex-direction: column;
   }
-  
+
   .roommate-header {
     flex-direction: column;
-    gap: 10px;
+    gap: 0.75rem;
   }
-  
+
   .roommate-details {
     grid-template-columns: 1fr;
   }
-  
+
   .roommate-actions {
     flex-direction: row;
     padding-left: 0;
     border-left: none;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-    margin-top: 15px;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 1rem;
   }
-  
+
   .roommate-name {
     min-width: 100%;
   }
 }
+

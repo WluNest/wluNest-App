@@ -1,141 +1,246 @@
-/* SETTINGS PAGE STYLES */
+@import "../styles/shared.css";
+
 .page {
-    position: absolute;
-    top: 60px; /* Adjust if needed based on navbar */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to right, #5b088f, #f38f21);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 40px;
-  }
-  
-  /* SETTINGS CONTAINER */
-  .container {
-    width: 90%;
-    max-width: 900px;
-    background: white;
-    display: flex;
-    flex-wrap: wrap; /* Allows stacking on smaller screens */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* LEFT PANEL - SETTINGS TABS */
-  .tabs {
-    width: 220px;
-    background: #f8f8f8;
-    border-right: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .tab-item {
-    padding: 15px 20px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    transition: background 0.3s, color 0.3s, transform 0.2s ease-in-out;
-  }
-  
-  .tab-item:hover {
-    background: #ddd;
-    transform: scale(1.02);
-  }
-  
-  .tab-item.active {
-    background: linear-gradient(to right, #5b088f, #b94dff);
-    color: white;
-    font-weight: bold;
-    transition: background 0.4s ease-in-out;
-  }
-  
-  /* RIGHT PANEL - SETTINGS CONTENT */
-  .content {
-    flex: 1;
-    padding: 20px 30px;
-  }
-  
-  .content h2 {
-    margin-bottom: 20px;
-    color: #5b088f;
-    font-size: 1.4rem;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-  }
-  
-  /* FORM ROWS */
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1rem;
+  overflow-y: auto;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border);
+}
+
+.content {
+  padding: 2rem;
+}
+
+.content h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.form-row {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-row label {
+  width: 150px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-row input,
+.form-row textarea,
+.form-row select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: var(--text);
+  background: var(--background);
+  transition: all 0.3s ease;
+}
+
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 76, 255, 0.2);
+  background: white;
+}
+
+.form-row input.error,
+.form-row textarea.error,
+.form-row select.error {
+  border-color: var(--error);
+  background-color: #fef2f2;
+}
+
+.error-text {
+  color: var(--error);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  margin-left: 150px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-row input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.checkbox-row label {
+  width: auto;
+  font-weight: normal;
+}
+
+.section-title {
+  color: var(--primary);
+  margin: 1.5rem 0 1rem;
+  font-size: 1.2rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Image upload section */
+.image-upload-row {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.file-upload-container {
+  width: 100%;
+  padding: 1rem;
+  border: 2px dashed var(--border-dark);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.file-upload-container:hover {
+  border-color: var(--primary);
+  background-color: rgba(91, 76, 255, 0.05);
+}
+
+.file-input {
+  width: 100%;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.file-count {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* Image preview section */
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1rem 0;
+}
+
+.image-preview-item {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.image-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* Submit button */
+.submit-button {
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.submit-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.submit-button:disabled {
+  background: var(--text-lighter);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .form-row {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
   .form-row label {
-    width: 150px;
-    font-weight: 600;
-    color: #444;
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
-  
+
   .form-row input,
   .form-row textarea,
   .form-row select {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    background: #f9f9f9;
-    transition: all 0.3s ease-in-out;
-    outline: none;
+    width: 100%;
   }
-  
-  .form-row input:focus,
-  .form-row textarea:focus,
-  .form-row select:focus {
-    border-color: #5b088f;
-    box-shadow: 0 0 5px rgba(91, 8, 143, 0.3);
-    background: white;
+
+  .error-text {
+    margin-left: 0;
   }
-  
-  /* CHECKBOX ROW */
-  .checkbox-row {
-    display: flex;
-    align-items: center;
+
+  .amenities-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
-  
-  .checkbox-row label {
-    margin-left: 5px;
-    width: auto;
-  }
-  
-  /* RESPONSIVE DESIGN */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      width: 95%;
-    }
-  
-    .form-row {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .form-row label {
-      width: 100%;
-      margin-bottom: 5px;
-    }
-  
-    .form-row input,
-    .form-row textarea,
-    .form-row select {
-      width: 100%;
-    }
-  }
-  
+}
+

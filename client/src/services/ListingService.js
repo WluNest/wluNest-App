@@ -1,0 +1,101 @@
+import BaseService from "./BaseService"
+import Listing from "../models/Listing"
+
+/**
+ * Service for listing operations
+ */
+class ListingService extends BaseService {
+  /**
+   * Get all listings with optional filters
+   * @param {Object} filters - Filter criteria
+   * @returns {Promise<Array<Listing>>} Array of listings
+   */
+  async getListings(filters = {}) {
+    try {
+      const response = await this.axios.get("/api/listings", { params: filters })
+      return response.data.map((listing) => new Listing(listing))
+    } catch (error) {
+      throw this.handleError(error)
+    }
+  }
+
+  /**
+   * Get listing by ID
+   * @param {number} id - Listing ID
+   * @returns {Promise<Listing>} Listing
+   */
+  async getListingById(id) {
+    try {
+      const response = await this.axios.get(`/api/listings/${id}`)
+      return new Listing(response.data)
+    } catch (error) {
+      throw this.handleError(error)
+    }
+  }
+
+  /**
+   * Create new listing
+   * @param {Object} listingData - Listing data
+   * @param {Array} imageFiles - Image files
+   * @returns {Promise<Object>} Response data
+   */
+  async createListing(listingData, imageFiles) {
+    try {
+      const formData = new FormData()
+
+      // Add listing data
+      Object.keys(listingData).forEach((key) => {
+        formData.append(key, listingData[key])
+      })
+
+      // Add image files
+      imageFiles.forEach((file) => {
+        formData.append("images", file)
+      })
+
+      const response = await this.axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+
+      return response.data
+    } catch (error) {
+      throw this.handleError(error)
+    }
+  }
+
+  /**
+   * Update listing
+   * @param {number} id - Listing ID
+   * @param {Object} listingData - Updated listing data
+   * @returns {Promise<Object>} Response data
+   */
+  async updateListing(id, listingData) {
+    try {
+      const response = await this.axios.put(`/api/listings/${id}`, listingData)
+      return response.data
+    } catch (error) {
+      throw this.handleError(error)
+    }
+  }
+
+  /**
+   * Delete listing
+   * @param {number} id - Listing ID
+   * @returns {Promise<Object>} Response data
+   */
+  async deleteListing(id) {
+    try {
+      const response = await this.axios.delete(`/api/listings/${id}`)
+      return response.data
+    } catch (error) {
+      throw this.handleError(error)
+    }
+  }
+}
+
+// Create singleton instance
+const listingService = new ListingService()
+export default listingService
+

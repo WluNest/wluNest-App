@@ -1,20 +1,28 @@
-import React from "react";
-import "./Navbar.css";
+"use client"
+
+import { useState, useEffect } from "react"
+import "./Navbar.css"
+import authService from "../services/AuthService"
 
 function Navbar({ setCurrentPage }) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    // Get current user from auth service
+    const currentUser = authService.getCurrentUser()
+    setUser(currentUser)
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setCurrentPage("home");
-    alert("Logged out successfully!");
-    window.location.reload(); // Refresh to reset app state
-  };
+    authService.logout()
+    setCurrentPage("home")
+    alert("Logged out successfully!")
+    window.location.reload() // Refresh to reset app state
+  }
 
   const handleLogin = () => {
-    setCurrentPage("login");
-  };
+    setCurrentPage("login")
+  }
 
   return (
     <div className="navbar">
@@ -42,7 +50,7 @@ function Navbar({ setCurrentPage }) {
           </span>
         )}
         {/* Admin Dashboard link */}
-        {user?.role === "admin" && (
+        {user && user.isAdmin() && (
           <span className="nav-item" onClick={() => setCurrentPage("admin")}>
             Admin Dashboard
           </span>
@@ -62,7 +70,8 @@ function Navbar({ setCurrentPage }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
+
