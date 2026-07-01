@@ -1,15 +1,19 @@
+@import "../styles/shared.css";
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px; /* Adjust if you want a taller or shorter navbar */
-  background-color: #5b088f;
+  height: 60px;
+  /* Adjust if you want a taller or shorter navbar */
+  background-color: var(--primary);
   color: white;
   display: flex;
   align-items: center;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 999; /* Ensures navbar stays on top */
+  box-shadow: var(--shadow-md);
+  z-index: 999;
+  /* Ensures navbar stays on top */
 }
 
 /* Left, center, right sections */
@@ -34,7 +38,7 @@
 }
 
 .logo:hover {
-  color: #f9a825;
+  color: var(--accent);
 }
 
 /* Center items are spaced out */
@@ -46,12 +50,16 @@
 
 .nav-item {
   cursor: pointer;
-  transition: color 0.3s ease;
-  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
 }
 
 .nav-item:hover {
-  color: #f9a825;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
 }
 
 /* Right side: logout link */
@@ -65,8 +73,43 @@
   align-items: center;
 }
 
+.login-item {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  background-color: var(--accent);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+}
+
+.login-item:hover {
+  background-color: var(--accent-dark);
+}
+
 /* Ensures text doesn't wrap and stays horizontally aligned */
 .nav-item,
 .logout-item {
   white-space: nowrap;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-center {
+    gap: 1rem;
+  }
+
+  .nav-left {
+    margin-left: 1rem;
+  }
+
+  .nav-right {
+    margin-right: 1rem;
+  }
+
+  .nav-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+

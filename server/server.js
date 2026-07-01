@@ -1,10 +1,10 @@
 const express = require("express");
 const multer = require("multer");
-const mysql = require("mysql2");
 const path = require("path");
 const cors = require("cors");
 const fs = require("fs");
 const { getCoordinates } = require("./coordinateLookup");
+const db = require('./db');
 const { deleteListing, updateListing } = require("./controllers/listingController");
 
 const app = express();
@@ -26,22 +26,9 @@ app.use(
   })
 );
 
-// Database connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  multipleStatements: true,
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-    return;
-  }
-  console.log("Connected to database");
-});
+// Settings routes
+const userSettingsRoutes = require('./routes/userSettingsRoutes');
+app.use('/api/settings', userSettingsRoutes);
 
 // Multer config for file uploads
 const storage = multer.diskStorage({
@@ -81,46 +68,19 @@ app.post("/upload", authenticateToken, upload.array("images", 10), async (req, r
       street_name, street_number, city, province, postal_code
     } = req.body;
 
-    const toBool = (val) => (val === "true" || val === true ? 1 : 0);
-    const userId = req.user.id;
-
-    const [result] = await db.promise().query(`
-      INSERT INTO listings (
-        users_id, title, description, price, listing_image, bed, bath, url,
+    const listingUploadService = new ListingUploadService();
+    const result = await listingUploadService.createListingWithImages(
+      req.user.id,
+      {
+        title, description, price, bed, bath, url,
         has_laundry, has_parking, has_gym, has_hvac, has_wifi,
-        has_game_room, is_pet_friendly, is_accessible
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      userId, title, description, price, "", bed, bath, url,
-      toBool(has_laundry), toBool(has_parking), toBool(has_gym), toBool(has_hvac),
-      toBool(has_wifi), toBool(has_game_room), toBool(is_pet_friendly), toBool(is_accessible)
-    ]);
+        has_game_room, is_pet_friendly, is_accessible,
+        street_name, street_number, city, province, postal_code
+      },
+      req.files
+    );
 
-    const listingId = result.insertId;
-    const listingDir = path.join("images", "listings", listingId.toString());
-    if (!fs.existsSync(listingDir)) fs.mkdirSync(listingDir, { recursive: true });
-
-    req.files.forEach((file, index) => {
-      const newFileName = `${index + 1}${path.extname(file.originalname)}`;
-      const newPath = path.join(listingDir, newFileName);
-      if (fs.existsSync(file.path)) fs.renameSync(file.path, newPath);
-    });
-
-    const relativeImagePath = `images/listings/${listingId}`;
-    await db.promise().query("UPDATE listings SET listing_image = ? WHERE listing_id = ?", [
-      relativeImagePath, listingId
-    ]);
-
-    const coords = await getCoordinates(postal_code);
-    await db.promise().query(`
-      INSERT INTO property (
-        listing_id, street_name, street_number, city, province, postal_code, latitude, longitude
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      listingId, street_name, street_number, city, province, postal_code, coords.latitude, coords.longitude
-    ]);
-
-    res.json({ message: "Upload successful", listingId });
+    res.json({ message: "Upload successful", listingId: result.listingId });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -137,65 +97,29 @@ app.patch("/api/roommates/:userId", authenticateToken, async (req, res) => {
       });
     }
 
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId);
     const { looking_for_roommate } = req.body;
 
-    const [user] = await db.promise().query(
-      "SELECT * FROM users WHERE users_id = ?",
-      [userId]
-    );
-
-    if (user.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
-      });
-    }
-
-    await db.promise().query(
-      "UPDATE users SET looking_for_roommate = ? WHERE users_id = ?",
-      [looking_for_roommate, userId]
-    );
+    await roommateService.updateRoommateStatus(userId, looking_for_roommate);
 
     res.json({
       success: true,
       message: "User roommate status updated successfully"
     });
-  } catch (err) {
-    console.error("Error updating roommate status:", err);
+  } catch (error) {
+    console.error("Error updating roommate status:", error);
     res.status(500).json({
       success: false,
-      message: "Internal server error"
+      message: error.message || "Internal server error"
     });
   }
 });
 
+const roommateService = require('./services/RoommateService');
+
 app.get("/api/roommates", authenticateToken, async (req, res) => {
   try {
-    const [roommates] = await db.promise().query(`
-      SELECT 
-        u.users_id, 
-        u.first_name, 
-        u.last_name, 
-        u.email,
-        u.gender,  
-        u.religion,
-        u.university, 
-        u.year, 
-        u.program, 
-        u.about_you,
-        u.looking_for_roommate,
-        (
-          SELECT p.city 
-          FROM property p 
-          JOIN listings l ON p.listing_id = l.listing_id 
-          WHERE l.users_id = u.users_id 
-          LIMIT 1
-        ) AS city
-      FROM users u
-      WHERE u.looking_for_roommate = TRUE
-    `);
-
+    const roommates = await roommateService.getRoommates();
     res.json(roommates);
   } catch (err) {
     console.error("Error fetching roommates:", err);

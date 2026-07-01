@@ -1,91 +1,134 @@
+@import "../styles/shared.css";
+
 .login-page {
-    margin-top: 80px; /* Adjust as needed for your navbar */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 80px);
-  }
-  
-  .login-card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .login-card h1 {
-    margin-bottom: 20px;
-    font-size: 2rem;
-    color: #5b088f;
-  }
-  
-  .error-message {
-    background-color: #ffe5e5;
-    color: #b30000;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 15px;
-    font-weight: bold;
-  }
-  
-  .login-signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-  }
-  
-  .form-group label {
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .form-group input {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
-  
-  .submit-btn {
-    background: #5b088f;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .submit-btn:hover {
-    background: #4a0072;
-  }
-  
-  .toggle-form p {
-    font-size: 0.95rem;
-    color: #333;
-    margin: 0;
-  }
-  
-  .toggle-form button {
-    background: none;
-    border: none;
-    color: #5b088f;
-    cursor: pointer;
-    font-weight: 600;
-    margin-left: 5px;
-    font-size: 0.95rem;
-    text-decoration: underline;
-  }
-  
+  margin-top: 80px;
+  /* Adjust as needed for your navbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background: white;
+  padding: 1rem;
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.login-card h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  color: var(--primary);
+}
+
+.login-logo {
+  font-size: 2rem;
+  color: var(--wlu-blue);
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.login-subtitle {
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  margin-bottom: 0.375rem;
+  font-weight: 500;
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(91, 76, 255, 0.2);
+}
+
+.submit-btn {
+  background: var(--primary);
+  color: white;
+  padding: 0.875rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.submit-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.toggle-form p {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.toggle-form button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+  margin-left: 5px;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.toggle-form button:hover {
+  color: var(--primary-dark);
+}
+
+.login-footer {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--text-lighter);
+}
+
